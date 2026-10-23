@@ -4,8 +4,9 @@
 
 The public site for **Wintris**, a 12-team H2H 9-category fantasy basketball league on Fantrax
 (league id `f29oe0zdmv5gs7rl`, season 2026–27, 19 regular-season weeks, top 6 make the playoffs).
-It shows all-play records, a luck index, close categories ("hjartasár"), playoff odds, team pages
-and a weekly recap card. Live at https://oddurgf.github.io/Wintris/.
+It shows all-play records, a luck index, power rankings, close categories ("hjartasár"), playoff
+odds (and their history), team pages (category heatmap, punt detector, "hvað vantaði?"), a league
+tab (schedule swap, record book, yo-yo index) and a weekly recap card, with team logos. Live at https://oddurgf.github.io/Wintris/.
 
 **This repo is the master copy.** The earlier claude.ai dashboard is archived and no longer
 updated. Make all changes here. There is one site and one data pipeline.
@@ -13,13 +14,16 @@ updated. Make all changes here. There is one site and one data pipeline.
 ## Files and data flow
 
 ```
-Fantrax ──scripts/fetch_weeks.py──▶ data/weekly_stats.json ──scripts/build_data.py──▶ data.js ──▶ index.html (site)
+Fantrax ──scripts/fetch_weeks.py──▶ data/weekly_stats.json ─┐
+Fantrax ──scripts/fetch_logos.py──▶ data/logos.json ─────────┴─scripts/build_data.py──▶ data.js ──▶ index.html (site)
 ```
 
 | File | Role |
 |---|---|
 | `index.html` | The whole site: layout, CSS, the calculations and charts (d3 v7 from cdnjs). Its first `<script>` is a small engine that stands in for the old dashboard runtime (`window.dash`: `data`, `calc`, `onData`, `params`/`setParams`, `setLink`, `colors`), serving data from `data.js` and running each `dash.calc` in the browser. |
-| `data.js` | `window.WINTRIS_DATA = {teams, schedule, weekly_stats, sample_stats, updated}`. Generated. |
+| `data.js` | `window.WINTRIS_DATA = {teams, schedule, weekly_stats, sample_stats, logos, updated}`. Generated. |
+| `data/logos.json` | `{teamId, logo}` rows, logo = base64 data URL of the 128px Fantrax logo (the site can't load images from other hosts reliably, and a missing logo falls back to an initials badge). |
+| `scripts/fetch_logos.py` | Downloads the logos (`getFantasyTeams` + fantraximg.com). Runs in the workflow with `continue-on-error`, so a logo failure never blocks the stats. |
 | `data/teams.json`, `data/schedule.json` | Fixed league facts (team ids/names/short names; weeks 1–19 matchups). |
 | `data/weekly_stats.json` | One row per team per finished week: `week, teamId, PTS, REB, AST, ST, BLK, TPM, TO, FGP, FTP, GP`. Written by `fetch_weeks.py`. |
 | `data/sample_stats.json` | Made-up weeks 1–6, used only while `weekly_stats.json` has no real weeks (the site then shows a yellow "Sýnigögn" banner). |

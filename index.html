@@ -93,7 +93,7 @@ body #dash-root .dash-skeleton { position: relative; min-height: 6rem; border-ra
 (function () {
   var D = window.WINTRIS_DATA || {};
   var store = {};
-  ['teams', 'schedule', 'weekly_stats', 'sample_stats'].forEach(function (id) {
+  ['teams', 'schedule', 'weekly_stats', 'sample_stats', 'logos'].forEach(function (id) {
     var rows = Array.isArray(D[id]) ? D[id] : [];
     store[id] = { status: 'ok', data: rows, rows: rows, columns: rows.length ? Object.keys(rows[0]) : [], refreshing: false, meta: [] };
   });
@@ -164,6 +164,8 @@ body #dash-root .dash-skeleton { position: relative; min-height: 6rem; border-ra
 #dash-root .wx-t th, #dash-root .wx-t td { padding: var(--cds-pad-xs) var(--cds-pad-sm); text-align: right; border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
 #dash-root .wx-t th { color: var(--color-fg-muted); font-weight: var(--cds-font-weight-medium); position: sticky; top: 0; background: var(--color-panel); }
 #dash-root .wx-t th:nth-child(-n+2), #dash-root .wx-t td:nth-child(-n+2) { text-align: left; }
+#dash-root #wx-flipt td:last-child { white-space: normal; text-align: left; min-width: 16rem; }
+#dash-root #wx-flipt th:last-child { text-align: left; }
 #dash-root .wx-t.wx-t1 th:nth-child(2), #dash-root .wx-t.wx-t1 td:nth-child(2) { text-align: right; }
 #dash-root .wx-pos { color: var(--color-ok); }
 #dash-root .wx-neg { color: var(--color-bad); }
@@ -200,6 +202,31 @@ body #dash-root .dash-skeleton { position: relative; min-height: 6rem; border-ra
 #dash-root .wx-res.W { background: color-mix(in srgb, var(--color-ok) 22%, transparent); }
 #dash-root .wx-res.L { background: color-mix(in srgb, var(--color-bad) 18%, transparent); }
 #dash-root .wx-res.T { background: color-mix(in srgb, var(--color-warn) 22%, transparent); }
+#dash-root .wx-tn { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+#dash-root .wx-logo { width: var(--sz, 22px); height: var(--sz, 22px); border-radius: 50%; object-fit: cover; flex: none; background: #0d1626; }
+#dash-root .wx-badge { width: var(--sz, 22px); height: var(--sz, 22px); border-radius: 50%; flex: none; display: inline-flex; align-items: center; justify-content: center; font-size: calc(var(--sz, 22px) * .42); font-weight: 600; color: var(--color-fg); background: var(--cds-chart-muted); }
+#dash-root .wx-heat { display: grid; gap: 2px; font-size: var(--cds-font-size-caption); min-width: 24rem; }
+#dash-root .wx-heat .wx-m { padding: 4px 2px; }
+#dash-root .wx-chips { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs); }
+#dash-root .wx-chipp { font-size: var(--cds-font-size-caption); border: 1px solid var(--color-border-line); border-radius: 999px; padding: 2px 10px; }
+#dash-root .wx-chipp.bad { border-color: var(--color-bad); color: var(--color-bad); }
+#dash-root .wx-move { display: inline-block; min-width: 2.2rem; font-size: var(--cds-font-size-caption); }
+#dash-root .wx-mu { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--cds-gap-sm); padding: var(--cds-pad-sm) 0; border-bottom: 1px solid var(--color-border-line); font-size: var(--cds-font-size-caption); }
+#dash-root .wx-mu:last-child { border-bottom: 0; }
+#dash-root .wx-mu .r { justify-content: flex-end; text-align: right; }
+#dash-root .wx-mu-bar { display: flex; width: min(9rem, 28vw); height: .5rem; border-radius: 4px; overflow: hidden; background: var(--cds-chart-muted); }
+#dash-root .wx-mu-bar span { background: var(--ice, #7cc4ff); }
+#dash-root .wx-mu-mid { display: flex; flex-direction: column; align-items: center; gap: 2px; color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+#dash-root .wx-mu.feat { background: color-mix(in srgb, var(--color-warn) 8%, transparent); border-radius: 8px; padding-inline: var(--cds-pad-sm); }
+#dash-root .wx-feat-tag { font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; color: var(--color-warn); }
+#dash-root .wx-recs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: var(--cds-gap-md); }
+#dash-root .wx-rec { border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md); display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+#dash-root .wx-rec-k { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+#dash-root .wx-rec-v { font-family: var(--font-anthropic-serif); font-size: 1.5rem; }
+#dash-root .wx-rec-n { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+#dash-root .wx-swap { display: grid; gap: 2px; font-size: .72rem; min-width: 46rem; }
+#dash-root .wx-swap .wx-m { padding: 4px 1px; }
+#dash-root .wx-swap .wx-m.diag { outline: 2px solid var(--color-fg); outline-offset: -2px; font-weight: 600; }
 #dash-root [data-dash-source-state=empty] { color: transparent; }
 #dash-root [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 </style>
@@ -218,6 +245,7 @@ body #dash-root .dash-skeleton { position: relative; min-height: 6rem; border-ra
     <div class="wx-tabs" role="tablist" aria-label="Síður">
       <button class="wx-tab" role="tab" data-tab="yfirlit">Yfirlit</button>
       <button class="wx-tab" role="tab" data-tab="lid">Liðið</button>
+      <button class="wx-tab" role="tab" data-tab="deildin">Deildin</button>
       <button class="wx-tab" role="tab" data-tab="heppni">Heppni</button>
       <button class="wx-tab" role="tab" data-tab="vikan">Vikan</button>
       <button class="wx-tab" role="tab" data-tab="hjartasar">Hjartasár</button>
@@ -233,6 +261,22 @@ body #dash-root .dash-skeleton { position: relative; min-height: 6rem; border-ra
       <div class="wx-card">
         <h3 id="wx-aw-h">Verðlaun vikunnar</h3>
         <div class="wx-awards" id="wx-awards" data-source="awards"></div>
+      </div>
+      <div class="wx-card" id="power-card">
+        <h3 id="wx-pw-h">Kraftröðun</h3>
+        <p class="wx-note">Einkunn: 50 % allir-við-alla hlutfall tímabilsins, 35 % síðustu 3 vikna og 15 % jafnvægi (hve marga af 9 flokkum liðið vinnur oftar en ekki). Örin sýnir breytingu frá vikunni á undan.</p>
+        <div class="wx-scroll">
+          <table class="wx-t wx-click" id="wx-power" data-source="power" data-row-key="key">
+            <thead><tr><th data-field="rank">#</th><th data-field="team">Lið</th><th data-field="move">Breyting</th><th data-field="score">Einkunn</th><th data-field="season">AvA tímabil</th><th data-field="recent">Síðustu 3</th><th data-field="balance">Jafnvægi</th><th data-field="weekRecord">AvA vikunnar</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="wx-card" id="next-card">
+        <h3 id="wx-nw-h">Leikir næstu viku</h3>
+        <p class="wx-note">Sigurlíkur úr sama líkani og spáin um úrslitakeppnina. Jafnasti leikurinn er leikur vikunnar.</p>
+        <div id="wx-next-week" data-source="next_week"></div>
+        <p class="wx-empty" id="wx-next-week-empty" hidden>Deildarkeppninni er lokið.</p>
       </div>
       <div class="wx-card" id="luck-card">
         <h3>Heppnisvísitala tímabilsins</h3>
@@ -262,6 +306,30 @@ body #dash-root .dash-skeleton { position: relative; min-height: 6rem; border-ra
         </div>
       </div>
     </div>
+    <div class="wx-grid" style="grid-template-columns: 1fr; margin-top: var(--cds-gap-md);">
+      <div class="wx-card">
+        <h3>Sæti í flokkum eftir vikum</h3>
+        <p class="wx-note">Sæti liðsins (1–12) í hverjum flokki hverja viku. Grænt er efst, rautt neðst.</p>
+        <div class="wx-chips" id="wx-punts" data-source="punts"></div>
+        <div class="wx-scroll"><div class="wx-heat" id="wx-heat" data-source="cat_ranks"></div></div>
+      </div>
+      <div class="wx-card">
+        <h3>Hvað vantaði?</h3>
+        <p class="wx-note">Fyrir hvert tap og jafntefli: minnsta breyting sem hefði snúið leiknum. „Minnst“ miðast við hversu algengur munurinn er í deildinni, svo 2 ST teljast meira en 2 PTS.</p>
+        <div class="wx-scroll">
+          <table class="wx-t" id="wx-flipt" data-source="flips" data-row-key="key">
+            <thead><tr><th data-field="week">Vika</th><th data-field="opp">Mótherji</th><th data-field="score">Flokkar</th><th data-field="text">Vantaði</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p class="wx-empty" id="wx-flipt-empty" hidden>Ekkert tap eða jafntefli enn.</p>
+      </div>
+      <div class="wx-card">
+        <h3>Líkur á úrslitakeppni yfir tímann</h3>
+        <p class="wx-note">Líkurnar eins og þær voru eftir hverja viku. Gráu línurnar eru hin liðin.</p>
+        <div class="wx-chart" id="wx-oddshist" data-source="odds_history" style="min-height: 15rem;"></div>
+      </div>
+    </div>
     <div class="wx-grid" style="margin-top: var(--cds-gap-md);">
       <div class="wx-card">
         <h3>Styrkleikar og veikleikar</h3>
@@ -289,6 +357,32 @@ body #dash-root .dash-skeleton { position: relative; min-height: 6rem; border-ra
           </table>
         </div>
         <p class="wx-empty" id="wx-teamflips-empty" hidden>Engir tæpir flokkar enn.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deildin -->
+  <section class="wx-page" id="deildin" data-page="deildin" hidden>
+    <div class="wx-grid" style="grid-template-columns: 1fr;">
+      <div class="wx-card">
+        <h3>Leikjadagskrárskipti</h3>
+        <p class="wx-note">Árangur liðsins í línunni ef það hefði spilað leikjadagskrá liðsins í dálknum. Rammaði reiturinn er raunverulegur árangur. Grænt er betra en raunin, rautt verra.</p>
+        <div class="wx-scroll"><div class="wx-swap" id="wx-swap" data-source="swap teams"></div></div>
+      </div>
+      <div class="wx-card">
+        <h3>Metabókin</h3>
+        <p class="wx-note">Bestu og verstu frammistöður tímabilsins.</p>
+        <div class="wx-recs" id="wx-records" data-source="records"></div>
+      </div>
+      <div class="wx-card">
+        <h3>Jójó-vísitalan</h3>
+        <p class="wx-note">Hversu mikið allir-við-alla hlutfall liðsins sveiflast milli vikna (staðalfrávik). Efst eru mestu jójó-liðin, neðst þau stöðugustu. Línan sýnir hverja viku.</p>
+        <div class="wx-scroll">
+          <table class="wx-t wx-t1 wx-click" id="wx-yoyo" data-source="consistency" data-row-key="teamId">
+            <thead><tr><th data-field="team">Lið</th><th data-field="sd">Sveifla</th><th data-field="mean">Meðal AvA</th><th data-field="min">Versta</th><th data-field="max">Besta</th><th data-field="series">Vikur</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
     </div>
   </section>
@@ -673,6 +767,293 @@ dash.calc('upcoming', {
     return out;
   },
 });
+dash.calc('cat_ranks', {
+  title: 'Sæti í flokkum eftir vikum',
+  description: 'Sæti hvers liðs (1–12) í hverjum flokki hverja viku. TO: lægst er best. Jöfn lið fá sama sæti.',
+  inputs: ['stats'],
+  fn: (stats) => {
+    const CATS = [['PTS', 'PTS'], ['REB', 'REB'], ['AST', 'AST'], ['ST', 'ST'], ['BLK', 'BLK'], ['TPM', '3PTM'], ['TO', 'TO'], ['FGP', 'FG%'], ['FTP', 'FT%']];
+    const out = [];
+    for (const w of [...new Set(stats.map((r) => r.week))]) {
+      const rows = stats.filter((r) => r.week === w);
+      for (const [c, label] of CATS) {
+        const better = (a, b) => (c === 'TO' ? a < b : a > b);
+        for (const r of rows) {
+          const rank = 1 + rows.filter((o) => better(Math.round(o[c] * 10000), Math.round(r[c] * 10000))).length;
+          out.push({ key: w + '|' + r.teamId + '|' + c, week: w, teamId: r.teamId, cat: c, label, value: r[c], rank });
+        }
+      }
+    }
+    return out;
+  },
+});
+
+dash.calc('punts', {
+  title: 'Punt-skynjari',
+  description: 'Flokkar þar sem lið hefur verið í neðstu 3 sætunum í minnst 60 % vikna (minnst 3 vikur).',
+  inputs: ['cat_ranks'],
+  fn: (cat_ranks) => {
+    const acc = {};
+    for (const r of cat_ranks) {
+      const a = (acc[r.teamId + '|' + r.cat] ??= { teamId: r.teamId, cat: r.cat, label: r.label, weeks: 0, bottom: 0, sum: 0 });
+      a.weeks++; a.sum += r.rank; if (r.rank >= 10) a.bottom++;
+    }
+    return Object.values(acc).map((a) => ({
+      key: a.teamId + '|' + a.cat, teamId: a.teamId, cat: a.cat, label: a.label, weeks: a.weeks, bottom: a.bottom,
+      avgRank: a.sum / a.weeks, punt: a.weeks >= 3 && a.bottom / a.weeks >= 0.6,
+    }));
+  },
+});
+
+dash.calc('flips', {
+  title: 'Hvað vantaði?',
+  description: 'Fyrir hvert tap eða jafntefli: minnsta breyting í flokkum sem hefði snúið leiknum. Kostnaður flokks er munurinn deilt með staðalfráviki flokksins í deildinni.',
+  inputs: ['stats', 'schedule', 'teams'],
+  fn: (stats, schedule, teams) => {
+    const CATS = [['PTS', 'PTS'], ['REB', 'REB'], ['AST', 'AST'], ['ST', 'ST'], ['BLK', 'BLK'], ['TPM', '3PTM'], ['TO', 'TO'], ['FGP', 'FG%'], ['FTP', 'FT%']];
+    const name = Object.fromEntries(teams.map((t) => [t.teamId, t.name]));
+    const row = Object.fromEntries(stats.map((r) => [r.week + '|' + r.teamId, r]));
+    const sd = {};
+    for (const [c] of CATS) {
+      const v = stats.map((r) => r[c]), m = v.reduce((s, x) => s + x, 0) / (v.length || 1);
+      sd[c] = Math.sqrt(v.reduce((s, x) => s + (x - m) ** 2, 0) / (v.length || 1)) || 1;
+    }
+    const pct = (c) => c === 'FGP' || c === 'FTP';
+    const say = (c, label, amt) => (pct(c) ? `${label} +${(amt * 100).toFixed(1).replace('.', ',')} pp` : c === 'TO' ? `${amt} færri TO` : `+${amt} ${label}`);
+    const list = (a) => (a.length > 1 ? a.slice(0, -1).join(', ') + ' og ' + a[a.length - 1] : a[0]);
+    const out = [];
+    for (const m of schedule) {
+      for (const [me, them] of [[m.awayId, m.homeId], [m.homeId, m.awayId]]) {
+        const a = row[m.week + '|' + me], b = row[m.week + '|' + them];
+        if (!a || !b) continue;
+        const opts = [];
+        let cw = 0, cl = 0;
+        for (const [c, label] of CATS) {
+          const d = Math.round((c === 'TO' ? b[c] - a[c] : a[c] - b[c]) * 10000) / 10000;
+          if (d > 0) cw++;
+          else if (d < 0) {
+            cl++;
+            // each lost category can be won (+2 to the margin) or, for counting stats, tied (+1)
+            const v = [{ c, label, gain: 2, amt: pct(c) ? -d + 0.001 : -d + 1 }];
+            if (!pct(c)) v.push({ c, label, gain: 1, amt: -d });
+            opts.push(v);
+          } else opts.push([{ c, label, gain: 1, amt: pct(c) ? 0.001 : 1 }]);
+        }
+        if (cw > cl) continue;
+        opts.flat().forEach((o) => { o.cost = o.amt / sd[o.c]; });
+        const best = (target) => {
+          let pick = null;
+          const walk = (i, sel, gain, cost) => {
+            if (pick && cost >= pick.cost) return;
+            if (gain >= target) { pick = { sel, cost }; return; }
+            if (i === opts.length) return;
+            walk(i + 1, sel, gain, cost);
+            for (const o of opts[i]) walk(i + 1, [...sel, o], gain + o.gain, cost + o.cost);
+          };
+          walk(0, [], 0, 0);
+          return pick ? list(pick.sel.map((o) => say(o.c, o.label, o.amt))) : null;
+        };
+        const d = cl - cw;
+        const toWin = best(d + 1), toDraw = d > 0 ? best(d) : null;
+        const res = d > 0 ? 0 : 0.5;
+        const text = [toDraw && `${toDraw} til að ná jafntefli`, toWin && `${toWin} til að vinna`].filter(Boolean).join('; ') + '.';
+        out.push({ key: m.week + '|' + me, week: m.week, teamId: me, oppId: them, opp: name[them], res, score: `${cw}–${cl}`, toDraw, toWin, text });
+      }
+    }
+    return out;
+  },
+});
+
+dash.calc('form', {
+  title: 'Form og bestu vikur',
+  description: 'Allir-við-alla hlutfall síðustu 3 vikna borið saman við tímabilið, auk bestu og verstu viku hvers liðs.',
+  inputs: ['team_week', 'teams'],
+  fn: (team_week, teams) => teams.map((t) => {
+    const ws = team_week.filter((r) => r.teamId === t.teamId).sort((a, b) => a.week - b.week);
+    const mean = (a) => (a.length ? a.reduce((s, r) => s + r.apPct, 0) / a.length : null);
+    const last = ws.slice(-3);
+    const byAp = [...ws].sort((a, b) => b.apPct - a.apPct || b.catPts - a.catPts);
+    const best = byAp[0], worst = byAp[byAp.length - 1];
+    const season = mean(ws), recent = mean(last);
+    return {
+      teamId: t.teamId, team: t.name, season, recent, delta: season == null ? null : recent - season, recentWeeks: last.length,
+      bestWeek: best?.week ?? null, bestRecord: best ? `${best.apW}-${best.apL}-${best.apT}` : null, bestOpp: best?.opp ?? null,
+      worstWeek: worst?.week ?? null, worstRecord: worst ? `${worst.apW}-${worst.apL}-${worst.apT}` : null, worstOpp: worst?.opp ?? null,
+    };
+  }),
+});
+
+dash.calc('odds_history', {
+  title: 'Líkur á úrslitakeppni yfir tímann',
+  description: 'Sama hermun og spáin, keyrð eins og staðan var eftir hverja viku (2.000 hermanir hver).',
+  inputs: ['team_week', 'schedule', 'teams'],
+  fn: (team_week, schedule, teams) => {
+    const REG = 19, PLAYOFF = 6, SIMS = 2000, PRIOR = 22;
+    const weeks = [...new Set(team_week.map((r) => r.week))].sort((a, b) => a - b);
+    const out = [];
+    let seed = 20261020;
+    const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967296) / 4294967296;
+    for (const k of weeks) {
+      const tw = team_week.filter((r) => r.week <= k && r.res !== null);
+      const base = {}, cats = {}, str = {};
+      let ties = 0, games = 0;
+      for (const t of teams) {
+        const ws = tw.filter((r) => r.teamId === t.teamId);
+        base[t.teamId] = ws.reduce((s, r) => s + r.res, 0);
+        cats[t.teamId] = ws.reduce((s, r) => s + r.cw + r.ct / 2, 0);
+        const ap = ws.reduce((s, r) => s + r.apW + r.apT / 2, 0), n = ws.reduce((s, r) => s + r.apW + r.apL + r.apT, 0);
+        str[t.teamId] = (ap + PRIOR / 2) / (n + PRIOR);
+        ties += ws.reduce((s, r) => s + r.apT, 0); games += n;
+      }
+      const tie = games ? ties / games : 0.06;
+      const left = schedule.filter((m) => m.week > k && m.week <= REG);
+      const po = Object.fromEntries(teams.map((t) => [t.teamId, 0]));
+      for (let s = 0; s < SIMS; s++) {
+        const w = { ...base };
+        for (const g of left) {
+          const a = str[g.awayId], h = str[g.homeId];
+          const pa = (a * (1 - h)) / (a * (1 - h) + h * (1 - a));
+          if (rand() < tie) { w[g.awayId] += 0.5; w[g.homeId] += 0.5; } else if (rand() < pa) w[g.awayId] += 1; else w[g.homeId] += 1;
+        }
+        teams.map((t) => [t.teamId, w[t.teamId] + cats[t.teamId] / 1e4 + rand() / 1e6]).sort((x, y) => y[1] - x[1]).slice(0, PLAYOFF).forEach(([id]) => { po[id]++; });
+      }
+      for (const t of teams) out.push({ key: k + '|' + t.teamId, week: k, teamId: t.teamId, team: t.name, playoff: po[t.teamId] / SIMS });
+    }
+    return out;
+  },
+});
+
+dash.calc('power', {
+  title: 'Kraftröðun',
+  description: 'Einkunn eftir hverja viku: 50 % allir-við-alla hlutfall tímabilsins, 35 % síðustu 3 vikna og 15 % jafnvægi (hlutfall flokka þar sem liðið vinnur meira en helming gegn öllum).',
+  inputs: ['team_week', 'pairs', 'teams'],
+  fn: (team_week, pairs, teams) => {
+    const weeks = [...new Set(team_week.map((r) => r.week))].sort((a, b) => a - b);
+    const out = [];
+    const prev = {};
+    for (const k of weeks) {
+      const rows = teams.map((t) => {
+        const ws = team_week.filter((r) => r.teamId === t.teamId && r.week <= k).sort((a, b) => a.week - b.week);
+        const mean = (a) => a.reduce((s, r) => s + r.apPct, 0) / (a.length || 1);
+        const season = mean(ws), recent = mean(ws.slice(-3));
+        const ps = pairs.filter((p) => p.teamId === t.teamId && p.week <= k);
+        let strong = 0;
+        for (let i = 0; i < 9; i++) {
+          let s = 0;
+          for (const p of ps) s += p.cats[i] === 'W' ? 1 : p.cats[i] === 'T' ? 0.5 : 0;
+          if (ps.length && s / ps.length > 0.5) strong++;
+        }
+        const r = ws.find((x) => x.week === k);
+        return { teamId: t.teamId, team: t.name, season, recent, balance: strong / 9, score: 0.5 * season + 0.35 * recent + 0.15 * (strong / 9), weekRecord: r ? `${r.apW}-${r.apL}-${r.apT}` : '' };
+      }).sort((a, b) => b.score - a.score);
+      rows.forEach((r, i) => {
+        const rank = i + 1, p = prev[r.teamId];
+        out.push({ key: k + '|' + r.teamId, week: k, ...r, rank, prevRank: p ?? null, move: p == null ? 0 : p - rank });
+        prev[r.teamId] = rank;
+      });
+    }
+    return out;
+  },
+});
+
+dash.calc('swap', {
+  title: 'Leikjadagskrárskipti',
+  description: 'Árangur hvers liðs ef það hefði spilað leikjadagskrá annars liðs. Þegar dagskráin mætir liðinu sjálfu kemur eigandi dagskrárinnar í staðinn.',
+  inputs: ['pairs', 'schedule', 'teams'],
+  fn: (pairs, schedule, teams) => {
+    const opp = {};
+    for (const m of schedule) { opp[m.week + '|' + m.awayId] = m.homeId; opp[m.week + '|' + m.homeId] = m.awayId; }
+    const res = Object.fromEntries(pairs.map((p) => [p.week + '|' + p.teamId + '|' + p.oppId, p.res]));
+    const weeks = [...new Set(pairs.map((p) => p.week))];
+    const out = [];
+    for (const a of teams) for (const s of teams) {
+      let W = 0, L = 0, T = 0;
+      for (const w of weeks) {
+        let o = opp[w + '|' + s.teamId];
+        if (o === a.teamId) o = s.teamId;
+        const r = res[w + '|' + a.teamId + '|' + o];
+        if (r === 1) W++; else if (r === 0) L++; else if (r === 0.5) T++;
+      }
+      const G = W + L + T;
+      out.push({ key: a.teamId + '|' + s.teamId, teamId: a.teamId, schedOf: s.teamId, W, L, T, record: `${W}-${L}-${T}`, pct: G ? (W + T / 2) / G : 0 });
+    }
+    return out;
+  },
+});
+
+dash.calc('records', {
+  title: 'Metabókin',
+  description: 'Bestu og verstu vikur tímabilsins í hverjum flokki, auk allir-við-alla meta, stærstu sigra og lengstu raða.',
+  inputs: ['stats', 'team_week', 'teams'],
+  fn: (stats, team_week, teams) => {
+    const name = Object.fromEntries(teams.map((t) => [t.teamId, t.name]));
+    const out = [];
+    const add = (key, title, r, value, note) => r && out.push({ key, title, teamId: r.teamId, team: name[r.teamId], week: r.week ?? null, value, note: note || '' });
+    const top = (rows, f, low) => [...rows].sort((a, b) => (low ? f(a) - f(b) : f(b) - f(a)))[0];
+    const f1 = (v) => (v * 100).toFixed(1).replace('.', ',') + ' %';
+    for (const [c, title, low] of [['PTS', 'Flest stig (PTS)'], ['REB', 'Flest fráköst (REB)'], ['AST', 'Flestar stoðsendingar (AST)'], ['ST', 'Flestir stolnir (ST)'], ['BLK', 'Flest varin skot (BLK)'], ['TPM', 'Flestir þristar (3PTM)'], ['TO', 'Fæstir tapaðir (TO)', true], ['FGP', 'Besta skotnýting (FG%)'], ['FTP', 'Besta vítanýting (FT%)']]) {
+      const r = top(stats, (x) => x[c], low);
+      add('cat|' + c, title, r, c === 'FGP' || c === 'FTP' ? f1(r?.[c] ?? 0) : String(r?.[c] ?? ''));
+    }
+    const tw = team_week.filter((r) => r.res !== null);
+    const best = top(tw, (r) => r.apPct + r.catPts / 1e4);
+    add('ap|best', 'Besta allir-við-alla vika', best, best && `${best.apW}-${best.apL}-${best.apT}`, best && `${best.catPts} af ${best.catMax} flokkum`);
+    const worst = top(tw, (r) => r.apPct + r.catPts / 1e4, true);
+    add('ap|worst', 'Versta allir-við-alla vika', worst, worst && `${worst.apW}-${worst.apL}-${worst.apT}`, worst && `${worst.catPts} af ${worst.catMax} flokkum`);
+    const blow = top(tw, (r) => r.cw - r.cl);
+    add('blowout', 'Stærsti sigurinn', blow, blow && `${blow.cw}–${blow.cl}`, blow && `gegn ${blow.opp}`);
+    const lucky = top(tw, (r) => r.luck);
+    add('luck|best', 'Heppnasta vikan', lucky, lucky && (lucky.luck > 0 ? '+' : '') + lucky.luck.toFixed(2).replace('.', ','), lucky && `${lucky.res === 1 ? 'vann' : 'jafnt við'} ${lucky.opp} með ${lucky.apW} af 11`);
+    const unlucky = top(tw, (r) => r.luck, true);
+    add('luck|worst', 'Óheppnasta vikan', unlucky, unlucky && unlucky.luck.toFixed(2).replace('.', ',').replace('-', '−'), unlucky && `${unlucky.res === 0 ? 'tapaði fyrir' : 'jafnt við'} ${unlucky.opp} með ${unlucky.apW} af 11`);
+    const perfect = tw.filter((r) => r.apW === r.apW + r.apL + r.apT && r.apW > 0);
+    out.push({ key: 'ap|perfect', title: 'Fullkomnar vikur (11-0)', teamId: perfect[0]?.teamId ?? null, team: perfect.length ? perfect.map((r) => `${name[r.teamId]} (v. ${r.week})`).join(', ') : 'Engin enn', week: null, value: String(perfect.length), note: '' });
+    for (const [key, title, want] of [['streak|win', 'Lengsta sigurganga', 1], ['streak|loss', 'Lengsta taphrina', 0]]) {
+      let bestRun = null;
+      for (const t of teams) {
+        let run = 0, start = null;
+        for (const r of tw.filter((x) => x.teamId === t.teamId).sort((a, b) => a.week - b.week)) {
+          if (r.res === want) { run++; if (run === 1) start = r.week; } else run = 0;
+          if (run && (!bestRun || run > bestRun.run)) bestRun = { teamId: t.teamId, run, start, end: r.week };
+        }
+      }
+      if (bestRun) out.push({ key, title, teamId: bestRun.teamId, team: name[bestRun.teamId], week: null, value: `${bestRun.run} ${bestRun.run === 1 ? 'vika' : 'vikur'}`, note: bestRun.run > 1 ? `vikur ${bestRun.start}–${bestRun.end}` : `vika ${bestRun.start}` });
+    }
+    return out;
+  },
+});
+
+dash.calc('consistency', {
+  title: 'Jójó-vísitala',
+  description: 'Staðalfrávik allir-við-alla hlutfalls hvers liðs milli vikna. Lágt = stöðugt lið, hátt = jójó.',
+  inputs: ['team_week', 'teams'],
+  fn: (team_week, teams) => teams.map((t) => {
+    const ws = team_week.filter((r) => r.teamId === t.teamId).sort((a, b) => a.week - b.week);
+    const v = ws.map((r) => r.apPct), m = v.reduce((s, x) => s + x, 0) / (v.length || 1);
+    const sd = v.length > 1 ? Math.sqrt(v.reduce((s, x) => s + (x - m) ** 2, 0) / (v.length - 1)) : 0;
+    return { teamId: t.teamId, team: t.name, mean: m, sd, min: v.length ? Math.min(...v) : 0, max: v.length ? Math.max(...v) : 0, weeks: ws.map((r) => r.week).join(','), series: v.map((x) => x.toFixed(3)).join(',') };
+  }).sort((a, b) => b.sd - a.sd),
+});
+
+dash.calc('next_week', {
+  title: 'Leikir næstu viku',
+  description: 'Allir leikir næstu viku með sigurlíkum úr sama líkani og spáin. Leikur vikunnar er sá jafnasti.',
+  inputs: ['upcoming', 'teams'],
+  fn: (upcoming, teams) => {
+    const name = Object.fromEntries(teams.map((t) => [t.teamId, t.name]));
+    const wk = upcoming.length ? Math.min(...upcoming.map((r) => r.week)) : null;
+    const seen = new Set();
+    const rows = [];
+    for (const r of upcoming.filter((r) => r.week === wk)) {
+      const id = [r.teamId, r.oppId].sort().join('|');
+      if (seen.has(id)) continue;
+      seen.add(id);
+      rows.push({ key: wk + '|' + id, week: wk, teamId: r.teamId, team: name[r.teamId], oppId: r.oppId, opp: r.opp, winProb: r.winProb, closeness: Math.abs(r.winProb - 0.5) });
+    }
+    const minClose = Math.min(...rows.map((r) => r.closeness));
+    return rows.sort((a, b) => a.closeness - b.closeness).map((r) => ({ ...r, featured: r.closeness === minClose }));
+  },
+});
 </script>
 
 <script>
@@ -684,6 +1065,18 @@ dash.calc('upcoming', {
   const fCat = (c, v) => (c === 'FGP' || c === 'FTP' ? loc.format('.1%')(v) : fNum(v));
   const fGap = (c, v) => (c === 'FGP' || c === 'FTP' ? loc.format('.1f')(v * 100) + ' pp' : fNum(v));
   const minus = (s) => s.replace('-', '−');
+  let LOGOS = {};
+  const logoImgs = {};
+  const logoEl = (id, name, size = 22) => {
+    const src = LOGOS[id];
+    let el;
+    if (src) { el = document.createElement('img'); el.className = 'wx-logo'; el.src = src; el.alt = ''; el.loading = 'lazy'; }
+    else { el = document.createElement('span'); el.className = 'wx-badge'; el.textContent = (name || '?').split(/\s+/).filter((w) => /\p{L}|\d/u.test(w[0])).map((w) => w[0]).join('').slice(0, 2).toUpperCase(); el.setAttribute('aria-hidden', 'true'); }
+    el.style.setProperty('--sz', size + 'px');
+    return el;
+  };
+  const withLogo = (id, name, size) => { const s = document.createElement('span'); s.className = 'wx-tn'; s.append(logoEl(id, name, size), document.createTextNode(name)); return s; };
+  const pctPP = (v) => (v == null ? '–' : (v > 0 ? '+' : v < 0 ? '−' : '±') + loc.format('.0f')(Math.abs(v) * 100) + ' pp');
   const tabs = [...root.querySelectorAll('.wx-tab')];
   const pages = [...root.querySelectorAll('.wx-page')];
   const weekSel = root.querySelector('#wx-week');
@@ -699,7 +1092,7 @@ dash.calc('upcoming', {
   tabs.forEach((t) => t.addEventListener('click', () => show(t.dataset.tab, true)));
   weekSel.addEventListener('change', () => dash.setParams({ week: Number(weekSel.value) }));
 
-  const ids = ['teams', 'team_cats', 'upcoming', 'stats', 'pairs', 'team_week', 'season', 'coinflips', 'heartbreak', 'cat_leaders', 'awards', 'odds'];
+  const ids = ['teams', 'team_cats', 'upcoming', 'cat_ranks', 'punts', 'flips', 'form', 'odds_history', 'power', 'swap', 'records', 'consistency', 'next_week', 'stats', 'pairs', 'team_week', 'season', 'coinflips', 'heartbreak', 'cat_leaders', 'awards', 'odds'];
   const status = () => {
     const s = ids.map((id) => dash.data(id).status);
     if (s.includes('error')) return 'error';
@@ -754,7 +1147,7 @@ dash.calc('upcoming', {
     for (const r of rows) {
       const c = document.createElement('div'); c.className = 'wx-award';
       const k = document.createElement('div'); k.className = 'wx-award-k'; k.textContent = r.title;
-      const t = document.createElement('div'); t.className = 'wx-award-t'; t.dataset.source = 'awards'; t.dataset.field = 'team'; t.dataset.where = 'key=' + r.key; t.textContent = r.team;
+      const t = document.createElement('div'); t.className = 'wx-award-t'; t.dataset.source = 'awards'; t.dataset.field = 'team'; t.dataset.where = 'key=' + r.key; t.appendChild(withLogo(r.teamId, r.team, 28));
       const d = document.createElement('div'); d.className = 'wx-award-d'; d.dataset.source = 'awards'; d.dataset.field = 'text'; d.dataset.where = 'key=' + r.key; d.textContent = r.text;
       c.append(k, t, d); box.appendChild(c);
     }
@@ -773,7 +1166,7 @@ dash.calc('upcoming', {
     const probe = svg.append('g').attr('font-size', 12);
     let lw = 0; rows.forEach((r) => { const t = probe.append('text').text(label(r)); lw = Math.max(lw, t.node().getComputedTextLength()); t.remove(); });
     probe.remove();
-    const left = lw + 16, right = 52;
+    const left = lw + 16 + 24, right = 52;
     const ext = Math.max(0.5, d3.max(rows, (r) => Math.abs(r.luck)));
     const x = d3.scaleLinear([-ext, ext], [left, W - right]);
     const y = d3.scaleBand(rows.map((r) => r.teamId), [top, top + rows.length * rowH]).padding(0.28);
@@ -783,6 +1176,8 @@ dash.calc('upcoming', {
     svg.append('line').attr('x1', x(0)).attr('x2', x(0)).attr('y1', top).attr('y2', top + rows.length * rowH).attr('stroke', 'var(--cds-chart-axis)');
     const g = svg.append('g').selectAll('g').data(rows).join('g');
     g.append('text').attr('x', left - 10).attr('y', (r) => y(r.teamId) + y.bandwidth() / 2).attr('dy', '0.35em').attr('text-anchor', 'end').attr('font-size', 12).attr('fill', 'var(--color-fg)').text(label);
+    g.filter((r) => LOGOS[r.teamId]).append('image').attr('href', (r) => LOGOS[r.teamId])
+      .attr('x', function (r) { const t = this.parentNode.querySelector('text'); return left - 10 - t.getComputedTextLength() - 26; }).attr('y', (r) => y(r.teamId) + y.bandwidth() / 2 - 10).attr('width', 20).attr('height', 20).attr('clip-path', 'circle(50%)');
     g.append('rect').attr('x', (r) => Math.min(x(0), x(r.luck))).attr('width', (r) => Math.max(2, Math.abs(x(r.luck) - x(0)))).attr('y', (r) => y(r.teamId)).attr('height', y.bandwidth()).attr('rx', 4)
       .attr('fill', (r) => (r.luck >= 0 ? dash.colors[0] : 'var(--cds-chart-status-critical)'));
     g.append('text').attr('x', (r) => (r.luck >= 0 ? x(r.luck) + 6 : x(r.luck) - 6)).attr('text-anchor', (r) => (r.luck >= 0 ? 'start' : 'end')).attr('y', (r) => y(r.teamId) + y.bandwidth() / 2).attr('dy', '0.35em')
@@ -801,7 +1196,8 @@ dash.calc('upcoming', {
       const tr = document.createElement('tr'); tr.dataset.key = r.teamId;
       const cells = [r.rank, r.team, r.record, r.apRecord, fPct(r.apPct), fPct(r.catPct), fDec1(r.expW), minus(fSign(r.luck)), r.apRank, r.rankDiff > 0 ? '+' + r.rankDiff : minus(String(r.rankDiff)), r.sos == null ? '–' : fPct(r.sos), fSignPct(r.oppForm)];
       cells.forEach((v, i) => {
-        const td = document.createElement('td'); td.textContent = v;
+        const td = document.createElement('td');
+        if (i === 1) td.appendChild(withLogo(r.teamId, r.team, 20)); else td.textContent = v;
         if (i === 7) td.className = r.luck > 0.05 ? 'wx-pos' : r.luck < -0.05 ? 'wx-neg' : '';
         if (i === 9) td.className = r.rankDiff > 0 ? 'wx-pos' : r.rankDiff < 0 ? 'wx-neg' : '';
         tr.appendChild(td);
@@ -865,7 +1261,7 @@ dash.calc('upcoming', {
     tw.forEach((r) => cell('h', short[r.teamId], r.team));
     cell('h', 'AvA');
     for (const r of tw) {
-      cell('r', r.team, r.team);
+      cell('r', '', r.team).appendChild(withLogo(r.teamId, r.team, 18));
       for (const c of tw) {
         if (c.teamId === r.teamId) { cell('self', ''); continue; }
         const p = pw[r.teamId + '|' + c.teamId];
@@ -880,7 +1276,7 @@ dash.calc('upcoming', {
     const tb = root.querySelector('#wx-cats tbody'); tb.replaceChildren();
     for (const r of cat.filter((r) => r.week === w)) {
       const tr = document.createElement('tr'); tr.dataset.key = r.key;
-      [r.label, r.team, fCat(r.cat, r.value), fCat(r.cat, r.second), fGap(r.cat, r.gap)].forEach((v) => { const td = document.createElement('td'); td.textContent = v; tr.appendChild(td); });
+      [r.label, r.team, fCat(r.cat, r.value), fCat(r.cat, r.second), fGap(r.cat, r.gap)].forEach((v, i) => { const td = document.createElement('td'); if (i === 1) td.appendChild(withLogo(r.teamId, r.team, 18)); else td.textContent = v; tr.appendChild(td); });
       tb.appendChild(tr);
     }
   }
@@ -902,7 +1298,7 @@ dash.calc('upcoming', {
     const top = d3.max(hb, (r) => r.lost);
     for (const r of hb) {
       const tr = document.createElement('tr'); tr.dataset.key = r.teamId;
-      const td0 = document.createElement('td'); td0.textContent = r.team; tr.appendChild(td0);
+      const td0 = document.createElement('td'); td0.appendChild(withLogo(r.teamId, r.team, 20)); tr.appendChild(td0);
       const td1 = document.createElement('td');
       const bar = document.createElement('span'); bar.className = 'wx-cellbar' + (r.lost === top && top > 0 ? ' on' : ''); bar.style.width = (r.lost / mx) * 4 + 'rem';
       td1.append(bar, String(r.lost)); tr.appendChild(td1);
@@ -919,7 +1315,7 @@ dash.calc('upcoming', {
     const p = (v) => (v > 0 && v < 0.005 ? '<1 %' : v < 1 && v > 0.995 ? '>99 %' : fPct(v));
     for (const r of odds) {
       const tr = document.createElement('tr'); tr.dataset.key = r.teamId;
-      const td0 = document.createElement('td'); td0.textContent = r.team; tr.appendChild(td0);
+      const td0 = document.createElement('td'); td0.appendChild(withLogo(r.teamId, r.team, 20)); tr.appendChild(td0);
       [fDec1(r.now), fDec1(r.proj)].forEach((v) => { const td = document.createElement('td'); td.textContent = v; tr.appendChild(td); });
       const td = document.createElement('td'); const bar = document.createElement('span'); bar.className = 'wx-cellbar'; bar.style.background = dash.colors[0]; bar.style.width = r.playoff * 4 + 'rem'; td.append(bar, p(r.playoff)); tr.appendChild(td);
       [p(r.bye), p(r.first), p(r.presidents)].forEach((v) => { const c = document.createElement('td'); c.textContent = v; tr.appendChild(c); });
@@ -930,7 +1326,7 @@ dash.calc('upcoming', {
   // ---------- Recap card ----------
   function drawRecap(awards, season, teamWeek, w, sample) {
     const box = root.querySelector('#wx-recap');
-    const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H;
+    const W = 1080, H = 2000, c = document.createElement('canvas'); c.width = W; c.height = H;
     const x = c.getContext('2d');
     const css = getComputedStyle(root);
     const sans = css.getPropertyValue('--font-anthropic-sans').trim() || 'system-ui, sans-serif';
@@ -945,7 +1341,9 @@ dash.calc('upcoming', {
     let yy = 330;
     for (const a of awards.filter((r) => r.week === w)) {
       x.fillStyle = '#7cc4ff'; x.font = `600 24px ${sans}`; x.fillText(a.title.toUpperCase(), 72, yy);
-      x.fillStyle = '#ffffff'; x.font = `400 44px ${serif}`; x.fillText(a.team, 72, yy + 52);
+      const li = logoImgs[a.teamId];
+      if (li && li.complete && li.naturalWidth) { x.save(); x.beginPath(); x.arc(72 + 22, yy + 38, 22, 0, Math.PI * 2); x.clip(); x.drawImage(li, 72, yy + 16, 44, 44); x.restore(); }
+      x.fillStyle = '#ffffff'; x.font = `400 44px ${serif}`; x.fillText(a.team, li && li.naturalWidth ? 128 : 72, yy + 52);
       x.fillStyle = '#c7d3e0'; x.font = `400 26px ${sans}`;
       wrap(a.text, W - 144).forEach((ln, i) => x.fillText(ln, 72, yy + 92 + i * 34));
       yy += 92 + wrap(a.text, W - 144).length * 34 + 30;
@@ -958,16 +1356,24 @@ dash.calc('upcoming', {
       x.fillStyle = col ? '#ff8a8a' : '#8be0a4'; x.font = `600 22px ${sans}`; x.fillText(lbl, cx, yy + 44);
       rs.forEach((r, i) => { x.fillStyle = '#ffffff'; x.font = `400 28px ${sans}`; const nm = r.team.length > 22 ? r.team.slice(0, 21) + '…' : r.team; x.fillText(`${nm}  ${minus(fSign(r.luck))}`, cx, yy + 84 + i * 40); });
     });
-    x.fillStyle = '#6f8399'; x.font = `400 22px ${sans}`; x.fillText('Heppni = raunverulegir sigrar − væntir sigrar úr allir-við-alla', 72, H - 60);
-    const img = document.createElement('img'); img.alt = `Vikuspjald Wintris, vika ${w}`; img.src = c.toDataURL('image/png');
+    // crop to the content (at least 1080×1350, the Messenger portrait size) and put the footer under it
+    const outH = Math.max(1350, yy + 84 + 2 * 40 + 110);
+    const out = document.createElement('canvas'); out.width = W; out.height = outH;
+    const o = out.getContext('2d');
+    o.fillStyle = '#0f1b2d'; o.fillRect(0, 0, W, outH);
+    o.drawImage(c, 0, 0);
+    o.fillStyle = '#0f1b2d'; o.fillRect(0, outH - 100, W, 100);
+    o.fillStyle = '#6f8399'; o.font = `400 22px ${sans}`; o.fillText('Heppni = raunverulegir sigrar − væntir sigrar úr allir-við-alla', 72, outH - 50);
+    const img = document.createElement('img'); img.alt = `Vikuspjald Wintris, vika ${w}`; img.src = out.toDataURL('image/png');
     box.replaceChildren(img);
   }
 
   // ---------- Team page ----------
   const pickTeam = (id) => { dash.setParams({ team: id }); show('lid', true); };
-  ['#wx-stand', '#wx-heart', '#wx-odds'].forEach((sel) => root.querySelector(sel).addEventListener('click', (ev) => {
+  ['#wx-stand', '#wx-heart', '#wx-odds', '#wx-yoyo'].forEach((sel) => root.querySelector(sel).addEventListener('click', (ev) => {
     const tr = ev.target.closest('tbody tr[data-key]'); if (tr) pickTeam(tr.dataset.key);
   }));
+  root.querySelector('#wx-power').addEventListener('click', (ev) => { const tr = ev.target.closest('tbody tr[data-team]'); if (tr) pickTeam(tr.dataset.team); });
   root.querySelector('#wx-teampick').addEventListener('click', (ev) => {
     const b = ev.target.closest('button[data-team]'); if (b) dash.setParams({ team: b.dataset.team });
   });
@@ -977,11 +1383,11 @@ dash.calc('upcoming', {
     if (!teams.some((t) => t.teamId === id)) id = season[0]?.teamId;
     const pick = root.querySelector('#wx-teampick');
     pick.replaceChildren(...[...teams].sort((a, b) => a.name.localeCompare(b.name, 'is')).map((t) => {
-      const b = document.createElement('button'); b.className = 'wx-teambtn'; b.dataset.team = t.teamId; b.setAttribute('aria-pressed', String(t.teamId === id)); b.textContent = t.name; return b;
+      const b = document.createElement('button'); b.className = 'wx-teambtn'; b.dataset.team = t.teamId; b.setAttribute('aria-pressed', String(t.teamId === id)); b.appendChild(withLogo(t.teamId, t.name, 18)); return b;
     }));
     const s = season.find((r) => r.teamId === id), o = odds.find((r) => r.teamId === id);
     if (!s) return;
-    const h = root.querySelector('#wx-teamname'); h.dataset.field = 'team'; h.dataset.where = 'teamId=' + id; h.textContent = s.team;
+    const h = root.querySelector('#wx-teamname'); h.dataset.field = 'team'; h.dataset.where = 'teamId=' + id; h.replaceChildren(withLogo(id, s.team, 44));
 
     const tiles = root.querySelector('#wx-tiles'); tiles.replaceChildren();
     const tile = (k, src, field, v, sub) => {
@@ -996,6 +1402,15 @@ dash.calc('upcoming', {
     tile('Heppni', 'season', 'luck', minus(fSign(s.luck)), `${fDec1(s.expW)} væntir sigrar`);
     tile('Styrkur mótherja', 'season', 'sos', s.sos == null ? '–' : fPct(s.sos), 'Meðal AvA % mótherja hingað til');
     if (o) tile('Úrslitakeppni', 'odds', 'playoff', fPct(o.playoff), `Frí í 1. umferð ${fPct(o.bye)} · Forsetabikar ${fPct(o.presidents)}`);
+    const f = dash.data('form').data.find((r) => r.teamId === id);
+    if (f && f.season != null) {
+      tile('Form', 'form', 'delta', (f.delta > 0.02 ? '↑ ' : f.delta < -0.02 ? '↓ ' : '→ ') + pctPP(f.delta), `Síðustu ${f.recentWeeks} vikur ${fPct(f.recent)} AvA, tímabilið ${fPct(f.season)}`);
+      tile('Besta vikan', 'form', 'bestRecord', f.bestRecord, `Vika ${f.bestWeek}, gegn ${f.bestOpp}`);
+      tile('Versta vikan', 'form', 'worstRecord', f.worstRecord, `Vika ${f.worstWeek}, gegn ${f.worstOpp}`);
+    }
+    drawHeat(id);
+    drawFlipTable(id);
+    if (active === 'lid') drawOddsHist(id);
 
     const tb = root.querySelector('#wx-tw tbody'); tb.replaceChildren();
     for (const r of teamWeek.filter((r) => r.teamId === id).sort((a, b) => b.week - a.week)) {
@@ -1056,20 +1471,188 @@ dash.calc('upcoming', {
       .on('mouseleave', () => { t.hidden = true; });
   }
 
+  // ---------- Team: category heatmap + punts ----------
+  function drawHeat(id) {
+    const rows = dash.data('cat_ranks').data.filter((r) => r.teamId === id);
+    const weeks = [...new Set(rows.map((r) => r.week))].sort((a, b) => a - b);
+    const box = root.querySelector('#wx-heat'); box.replaceChildren();
+    const order = [['PTS', 'PTS'], ['REB', 'REB'], ['AST', 'AST'], ['ST', 'ST'], ['BLK', 'BLK'], ['TPM', '3PTM'], ['TO', 'TO'], ['FGP', 'FG%'], ['FTP', 'FT%']];
+    box.style.gridTemplateColumns = `4rem repeat(${weeks.length}, minmax(2.2rem, 1fr))`;
+    const cell = (cls, txt, title) => { const d = document.createElement('div'); d.className = 'wx-m ' + cls; d.textContent = txt; if (title) d.title = title; box.appendChild(d); return d; };
+    const ok = getComputedStyle(root).getPropertyValue('--color-ok').trim() || '#5fd39a';
+    const bad = getComputedStyle(root).getPropertyValue('--color-bad').trim() || '#ff7f7f';
+    const col = d3.scaleLinear([1, 6.5, 12], [ok, 'rgba(255,255,255,0.06)', bad]).interpolate(d3.interpolateRgb);
+    cell('h', '');
+    weeks.forEach((w) => cell('h', 'V' + w));
+    for (const [c, label] of order) {
+      cell('h', label).style.textAlign = 'left';
+      for (const w of weeks) {
+        const r = rows.find((x) => x.week === w && x.cat === c);
+        const d = cell('', r ? String(r.rank) : '', r ? `${label}, vika ${w}: ${r.rank}. sæti (${fCat(c, r.value)})` : '');
+        if (r) { const bg = d3.color(col(r.rank)); bg.opacity = 0.55; d.style.background = bg.formatRgb(); }
+      }
+    }
+    const pb = root.querySelector('#wx-punts'); pb.replaceChildren();
+    const punts = dash.data('punts').data.filter((r) => r.teamId === id && r.punt);
+    if (punts.length) {
+      const lead = document.createElement('span'); lead.className = 'wx-note'; lead.textContent = 'Virðist vera að punta:'; pb.appendChild(lead);
+      punts.forEach((r) => { const c = document.createElement('span'); c.className = 'wx-chipp bad'; c.textContent = `${r.label} (neðstu 3 í ${r.bottom} af ${r.weeks} vikum)`; pb.appendChild(c); });
+    } else {
+      const n = document.createElement('span'); n.className = 'wx-note'; n.textContent = 'Ekkert augljóst punt: enginn flokkur í neðstu 3 sætunum í meira en 60 % vikna.'; pb.appendChild(n);
+    }
+  }
+
+  function drawFlipTable(id) {
+    const tb = root.querySelector('#wx-flipt tbody'); tb.replaceChildren();
+    const rows = dash.data('flips').data.filter((r) => r.teamId === id).sort((a, b) => b.week - a.week);
+    root.querySelector('#wx-flipt-empty').hidden = rows.length > 0;
+    for (const r of rows) {
+      const tr = document.createElement('tr'); tr.dataset.key = r.key;
+      const pill = document.createElement('span'); pill.className = 'wx-res ' + (r.res === 0 ? 'L' : 'T'); pill.textContent = r.score;
+      [r.week, r.opp, pill, r.text].forEach((v) => { const td = document.createElement('td'); if (v instanceof Node) td.appendChild(v); else td.textContent = v; tr.appendChild(td); });
+      tb.appendChild(tr);
+    }
+  }
+
+  function drawOddsHist(id) {
+    const box = root.querySelector('#wx-oddshist');
+    const W = box.clientWidth; if (!W) return;
+    box.querySelectorAll('svg').forEach((n) => n.remove());
+    const data = dash.data('odds_history').data;
+    const weeks = [...new Set(data.map((r) => r.week))].sort((a, b) => a - b);
+    const H = 240, m = { t: 12, r: 44, b: 26, l: 56 };
+    const x = d3.scaleLinear([Math.min(...weeks, 1), Math.max(...weeks, 2)], [m.l, W - m.r]);
+    const y = d3.scaleLinear([0, 1], [H - m.b, m.t]);
+    const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+    svg.append('g').selectAll('line').data([0, 0.25, 0.5, 0.75, 1]).join('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', (d) => y(d)).attr('y2', (d) => y(d)).attr('stroke', 'var(--cds-chart-grid)');
+    svg.append('g').attr('transform', `translate(${m.l - 6},0)`).call(d3.axisLeft(y).tickValues([0, 0.5, 1]).tickFormat(fPct)).attr('font-size', null).attr('font-family', null)
+      .call((g) => { g.select('.domain').remove(); g.selectAll('line').remove(); g.selectAll('text').attr('fill', 'var(--color-fg-muted)').attr('font-size', 11); });
+    svg.append('g').attr('transform', `translate(0,${H - m.b + 4})`).call(d3.axisBottom(x).ticks(Math.min(weeks.length, 10)).tickFormat((d) => (Number.isInteger(d) ? 'V' + d : ''))).attr('font-size', null).attr('font-family', null)
+      .call((g) => { g.select('.domain').remove(); g.selectAll('line').remove(); g.selectAll('text').attr('fill', 'var(--color-fg-muted)').attr('font-size', 11); });
+    const line = d3.line().x((d) => x(d.week)).y((d) => y(d.playoff));
+    const groups = d3.groups(data, (r) => r.teamId);
+    svg.append('g').selectAll('path').data(groups.filter(([t]) => t !== id)).join('path').attr('d', ([, rs]) => line(rs.sort((a, b) => a.week - b.week))).attr('fill', 'none').attr('stroke', 'var(--cds-chart-muted)').attr('stroke-width', 1.2);
+    const mine = (groups.find(([t]) => t === id) || [null, []])[1].sort((a, b) => a.week - b.week);
+    svg.append('path').attr('d', line(mine)).attr('fill', 'none').attr('stroke', dash.colors[0]).attr('stroke-width', 2.5).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round');
+    svg.append('g').selectAll('circle').data(mine).join('circle').attr('cx', (d) => x(d.week)).attr('cy', (d) => y(d.playoff)).attr('r', 3).attr('fill', dash.colors[0]);
+    const last = mine[mine.length - 1];
+    if (last) svg.append('text').attr('x', x(last.week) + 8).attr('y', y(last.playoff)).attr('dy', '0.35em').attr('font-size', 12).attr('fill', 'var(--color-fg)').text(fPct(last.playoff));
+    const t = tip(box);
+    svg.on('mousemove', (ev) => {
+      const [mx] = d3.pointer(ev);
+      const p = mine.reduce((b, d) => (!b || Math.abs(x(d.week) - mx) < Math.abs(x(b.week) - mx) ? d : b), null); if (!p) return;
+      t.replaceChildren(); const a = document.createElement('span'); a.textContent = 'Eftir viku ' + p.week; t.append(a, document.createElement('br'), `Líkur á úrslitakeppni: ${fPct(p.playoff)}`);
+      const [bx, by] = d3.pointer(ev, box); placeTip(box, t, bx, by);
+    }).on('mouseleave', () => { t.hidden = true; });
+  }
+
+  // ---------- Yfirlit: power rankings + next week ----------
+  function drawPower(w) {
+    root.querySelector('#wx-pw-h').textContent = `Kraftröðun · eftir viku ${w}`;
+    const tb = root.querySelector('#wx-power tbody'); tb.replaceChildren();
+    for (const r of dash.data('power').data.filter((r) => r.week === w)) {
+      const tr = document.createElement('tr'); tr.dataset.key = r.key; tr.dataset.team = r.teamId;
+      const mv = document.createElement('span'); mv.className = 'wx-move ' + (r.move > 0 ? 'wx-pos' : r.move < 0 ? 'wx-neg' : '');
+      mv.textContent = r.prevRank == null ? '–' : r.move > 0 ? '▲ ' + r.move : r.move < 0 ? '▼ ' + -r.move : '=';
+      [r.rank, withLogo(r.teamId, r.team, 20), mv, loc.format('.3f')(r.score), fPct(r.season), fPct(r.recent), `${Math.round(r.balance * 9)}/9`, r.weekRecord].forEach((v) => {
+        const td = document.createElement('td'); if (v instanceof Node) td.appendChild(v); else td.textContent = v; tr.appendChild(td);
+      });
+      tb.appendChild(tr);
+    }
+  }
+
+  function drawNextWeek() {
+    const rows = dash.data('next_week').data;
+    const box = root.querySelector('#wx-next-week'); box.replaceChildren();
+    root.querySelector('#wx-next-week-empty').hidden = rows.length > 0;
+    root.querySelector('#wx-nw-h').textContent = rows.length ? `Leikir næstu viku · vika ${rows[0].week}` : 'Leikir næstu viku';
+    for (const r of rows) {
+      const d = document.createElement('div'); d.className = 'wx-mu' + (r.featured ? ' feat' : '');
+      const a = withLogo(r.teamId, r.team, 22);
+      const mid = document.createElement('div'); mid.className = 'wx-mu-mid';
+      if (r.featured) { const tag = document.createElement('span'); tag.className = 'wx-feat-tag'; tag.textContent = 'Leikur vikunnar'; mid.appendChild(tag); }
+      const bar = document.createElement('div'); bar.className = 'wx-mu-bar'; const fill = document.createElement('span'); fill.style.width = r.winProb * 100 + '%'; bar.appendChild(fill);
+      const pct = document.createElement('span'); pct.dataset.source = 'next_week'; pct.dataset.field = 'winProb'; pct.dataset.where = 'key=' + r.key; pct.textContent = `${fPct(r.winProb)} – ${fPct(1 - r.winProb)}`;
+      mid.append(bar, pct);
+      const b = withLogo(r.oppId, r.opp, 22); b.classList.add('r');
+      d.append(a, mid, b); box.appendChild(d);
+    }
+  }
+
+  // ---------- Deildin ----------
+  function drawSwap(teams) {
+    const box = root.querySelector('#wx-swap'); box.replaceChildren();
+    const sw = dash.data('swap').data;
+    const by = Object.fromEntries(sw.map((r) => [r.teamId + '|' + r.schedOf, r]));
+    const order = [...teams].sort((a, b) => (by[b.teamId + '|' + b.teamId]?.pct ?? 0) - (by[a.teamId + '|' + a.teamId]?.pct ?? 0));
+    box.style.gridTemplateColumns = `minmax(9rem, 1.6fr) repeat(${order.length}, minmax(2.9rem, 1fr))`;
+    const cell = (cls, txt, title) => { const d = document.createElement('div'); d.className = 'wx-m ' + cls; d.textContent = txt; if (title) d.title = title; box.appendChild(d); return d; };
+    cell('h', '');
+    order.forEach((t) => cell('h', t.short, 'Dagskrá ' + t.name));
+    for (const a of order) {
+      cell('r', '', a.name).appendChild(withLogo(a.teamId, a.name, 18));
+      const own = by[a.teamId + '|' + a.teamId];
+      for (const sOf of order) {
+        const r = by[a.teamId + '|' + sOf.teamId]; if (!r) { cell('', ''); continue; }
+        const diag = a.teamId === sOf.teamId;
+        const cls = diag ? 'diag' : r.pct > own.pct + 1e-9 ? 'W' : r.pct < own.pct - 1e-9 ? 'L' : '';
+        cell(cls, r.record, `${a.name} með dagskrá ${sOf.name}: ${r.record}`);
+      }
+    }
+  }
+
+  function drawRecords() {
+    const box = root.querySelector('#wx-records'); box.replaceChildren();
+    for (const r of dash.data('records').data) {
+      const d = document.createElement('div'); d.className = 'wx-rec';
+      const k = document.createElement('div'); k.className = 'wx-rec-k'; k.textContent = r.title;
+      const v = document.createElement('div'); v.className = 'wx-rec-v'; v.dataset.source = 'records'; v.dataset.field = 'value'; v.dataset.where = 'key=' + r.key; v.textContent = r.value;
+      const who = document.createElement('div');
+      if (r.key === 'ap|perfect') who.textContent = r.team; else who.appendChild(withLogo(r.teamId, r.team, 20));
+      const n = document.createElement('div'); n.className = 'wx-rec-n'; n.textContent = [r.week != null ? 'Vika ' + r.week : '', r.note].filter(Boolean).join(' · ');
+      d.append(k, v, who, n); box.appendChild(d);
+    }
+  }
+
+  function drawYoyo() {
+    const rows = dash.data('consistency').data;
+    const tb = root.querySelector('#wx-yoyo tbody'); tb.replaceChildren();
+    const mx = Math.max(0.01, d3.max(rows, (r) => r.sd));
+    rows.forEach((r, i) => {
+      const tr = document.createElement('tr'); tr.dataset.key = r.teamId;
+      const td = (v) => { const x = document.createElement('td'); if (v instanceof Node) x.appendChild(v); else x.textContent = v; tr.appendChild(x); return x; };
+      td(withLogo(r.teamId, r.team, 20));
+      const sdc = document.createElement('span'); const bar = document.createElement('span'); bar.className = 'wx-cellbar' + (i === 0 ? ' on' : ''); bar.style.width = (r.sd / mx) * 4 + 'rem';
+      sdc.append(bar, loc.format('.2f')(r.sd)); td(sdc);
+      td(fPct(r.mean)); td(fPct(r.min)); td(fPct(r.max));
+      const vals = r.series ? r.series.split(',').map(Number) : [];
+      const w = 96, h = 22, svg = d3.create('svg').attr('width', w).attr('height', h).attr('viewBox', `0 0 ${w} ${h}`);
+      if (vals.length > 1) {
+        const sx = d3.scaleLinear([0, vals.length - 1], [2, w - 2]), sy = d3.scaleLinear([0, 1], [h - 2, 2]);
+        svg.append('line').attr('x1', 2).attr('x2', w - 2).attr('y1', sy(0.5)).attr('y2', sy(0.5)).attr('stroke', 'var(--cds-chart-grid)');
+        svg.append('path').attr('d', d3.line().x((_, j) => sx(j)).y((v) => sy(v))(vals)).attr('fill', 'none').attr('stroke', dash.colors[0]).attr('stroke-width', 1.5).attr('stroke-linejoin', 'round');
+      }
+      td(svg.node());
+      tb.appendChild(tr);
+    });
+  }
+
   function draw() {
     const st = status();
     const banner = root.querySelector('#wx-banner');
     if (st === 'error') {
-      ['#wx-awards', '#wx-luck', '#wx-cum', '#wx-matrix', '#wx-recap', '#wx-teamcats', '#wx-tiles'].forEach((s) => failLine(root.querySelector(s)));
+      ['#wx-awards', '#wx-luck', '#wx-cum', '#wx-matrix', '#wx-recap', '#wx-teamcats', '#wx-tiles', '#wx-heat', '#wx-oddshist', '#wx-swap', '#wx-records', '#wx-next-week'].forEach((s) => failLine(root.querySelector(s)));
       root.querySelector('#wx-take').classList.remove('dash-skeleton');
       return;
     }
     if (st !== 'ok') {
-      ['#wx-awards', '#wx-luck', '#wx-cum', '#wx-matrix', '#wx-recap', '#wx-teamcats', '#wx-tiles'].forEach((s) => root.querySelector(s).classList.add('dash-skeleton'));
+      ['#wx-awards', '#wx-luck', '#wx-cum', '#wx-matrix', '#wx-recap', '#wx-teamcats', '#wx-tiles', '#wx-heat', '#wx-oddshist', '#wx-swap', '#wx-records', '#wx-next-week'].forEach((s) => root.querySelector(s).classList.add('dash-skeleton'));
       return;
     }
-    ['#wx-awards', '#wx-luck', '#wx-cum', '#wx-matrix', '#wx-recap', '#wx-teamcats', '#wx-tiles'].forEach((s) => root.querySelector(s).classList.remove('dash-skeleton'));
+    ['#wx-awards', '#wx-luck', '#wx-cum', '#wx-matrix', '#wx-recap', '#wx-teamcats', '#wx-tiles', '#wx-heat', '#wx-oddshist', '#wx-swap', '#wx-records', '#wx-next-week'].forEach((s) => root.querySelector(s).classList.remove('dash-skeleton'));
     const stats = dash.data('stats').data, teamWeek = dash.data('team_week').data, season = dash.data('season').data;
+    LOGOS = Object.fromEntries((dash.data('logos').data || []).map((r) => [r.teamId, r.logo]));
+    for (const [tid, src] of Object.entries(LOGOS)) if (!logoImgs[tid]) { const im = new Image(); im.onload = () => { if (active === 'spjald') draw(); }; im.src = src; logoImgs[tid] = im; }
     const sample = stats.length > 0 && stats[0].sample;
     banner.hidden = !sample;
     const { w, weeks } = currentWeek(teamWeek);
@@ -1086,6 +1669,11 @@ dash.calc('upcoming', {
     drawFlips(dash.data('coinflips').data, w);
     drawHeart(dash.data('heartbreak').data);
     drawOdds(dash.data('odds').data);
+    drawPower(w);
+    drawNextWeek();
+    drawRecords();
+    drawYoyo();
+    drawSwap(teams);
     drawTeam(teams, season, dash.data('odds').data, teamWeek, dash.data('team_cats').data, dash.data('upcoming').data, dash.data('coinflips').data);
     if (active === 'yfirlit') drawLuck(season);
     if (active === 'heppni') drawCum(teamWeek, season);
@@ -1093,7 +1681,7 @@ dash.calc('upcoming', {
     if (active === 'spjald') drawRecap(dash.data('awards').data, season, teamWeek, w, sample);
   }
 
-  ['#wx-awards', '#wx-luck', '#wx-cum', '#wx-matrix', '#wx-recap', '#wx-teamcats', '#wx-tiles'].forEach((s) => root.querySelector(s).classList.add('dash-skeleton'));
+  ['#wx-awards', '#wx-luck', '#wx-cum', '#wx-matrix', '#wx-recap', '#wx-teamcats', '#wx-tiles', '#wx-heat', '#wx-oddshist', '#wx-swap', '#wx-records', '#wx-next-week'].forEach((s) => root.querySelector(s).classList.add('dash-skeleton'));
   const start = location.hash.slice(1);
   show(tabs.some((t) => t.dataset.tab === start) ? start : 'yfirlit', false);
   dash.onData(draw);

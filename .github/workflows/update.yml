@@ -30,6 +30,12 @@ jobs:
           FANTRAX_COOKIE: ${{ secrets.FANTRAX_COOKIE }}
         run: python3 -I scripts/fetch_weeks.py data/weekly_stats.json
 
+      - name: Fetch team logos from Fantrax
+        continue-on-error: true   # logos are nice to have; never block the stats update
+        env:
+          FANTRAX_COOKIE: ${{ secrets.FANTRAX_COOKIE }}
+        run: python3 -I scripts/fetch_logos.py data/logos.json
+
       - name: Build data.js
         run: python3 -I scripts/build_data.py
 
@@ -37,7 +43,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/weekly_stats.json data.js
+          git add data/weekly_stats.json data/logos.json data.js
           if git diff --cached --quiet; then
             echo "No new numbers this time."
           else

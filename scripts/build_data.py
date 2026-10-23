@@ -20,6 +20,7 @@ bundle = {
     "schedule": load("schedule"),
     "weekly_stats": load("weekly_stats"),
     "sample_stats": load("sample_stats"),
+    "logos": load("logos") if (DATA / "logos.json").exists() else [],
     "updated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
 }
 
