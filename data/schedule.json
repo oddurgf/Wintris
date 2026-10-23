@@ -1,0 +1,686 @@
+[
+{
+"key": "1|1or2t6ygmv86btob",
+"week": 1,
+"awayId": "1or2t6ygmv86btob",
+"homeId": "h4uo382amv5utmbg"
+},
+{
+"key": "1|kcpss0xkmv5tqcsh",
+"week": 1,
+"awayId": "kcpss0xkmv5tqcsh",
+"homeId": "o86y7xj2mv9hg8zh"
+},
+{
+"key": "1|sxnma7w9mv71dpmn",
+"week": 1,
+"awayId": "sxnma7w9mv71dpmn",
+"homeId": "f08p3vyymv9l3uz9"
+},
+{
+"key": "1|rrwiih80mv866c6h",
+"week": 1,
+"awayId": "rrwiih80mv866c6h",
+"homeId": "tk5ocwd4mv5hl8ue"
+},
+{
+"key": "1|umngimotmv5gs8hc",
+"week": 1,
+"awayId": "umngimotmv5gs8hc",
+"homeId": "8ecr0cc6mv5skym1"
+},
+{
+"key": "1|n519blcgmvcdvsz3",
+"week": 1,
+"awayId": "n519blcgmvcdvsz3",
+"homeId": "ck48czqmmvarwe4z"
+},
+{
+"key": "2|h4uo382amv5utmbg",
+"week": 2,
+"awayId": "h4uo382amv5utmbg",
+"homeId": "kcpss0xkmv5tqcsh"
+},
+{
+"key": "2|1or2t6ygmv86btob",
+"week": 2,
+"awayId": "1or2t6ygmv86btob",
+"homeId": "sxnma7w9mv71dpmn"
+},
+{
+"key": "2|o86y7xj2mv9hg8zh",
+"week": 2,
+"awayId": "o86y7xj2mv9hg8zh",
+"homeId": "rrwiih80mv866c6h"
+},
+{
+"key": "2|f08p3vyymv9l3uz9",
+"week": 2,
+"awayId": "f08p3vyymv9l3uz9",
+"homeId": "umngimotmv5gs8hc"
+},
+{
+"key": "2|tk5ocwd4mv5hl8ue",
+"week": 2,
+"awayId": "tk5ocwd4mv5hl8ue",
+"homeId": "n519blcgmvcdvsz3"
+},
+{
+"key": "2|8ecr0cc6mv5skym1",
+"week": 2,
+"awayId": "8ecr0cc6mv5skym1",
+"homeId": "ck48czqmmvarwe4z"
+},
+{
+"key": "3|sxnma7w9mv71dpmn",
+"week": 3,
+"awayId": "sxnma7w9mv71dpmn",
+"homeId": "h4uo382amv5utmbg"
+},
+{
+"key": "3|rrwiih80mv866c6h",
+"week": 3,
+"awayId": "rrwiih80mv866c6h",
+"homeId": "kcpss0xkmv5tqcsh"
+},
+{
+"key": "3|umngimotmv5gs8hc",
+"week": 3,
+"awayId": "umngimotmv5gs8hc",
+"homeId": "1or2t6ygmv86btob"
+},
+{
+"key": "3|n519blcgmvcdvsz3",
+"week": 3,
+"awayId": "n519blcgmvcdvsz3",
+"homeId": "o86y7xj2mv9hg8zh"
+},
+{
+"key": "3|ck48czqmmvarwe4z",
+"week": 3,
+"awayId": "ck48czqmmvarwe4z",
+"homeId": "f08p3vyymv9l3uz9"
+},
+{
+"key": "3|8ecr0cc6mv5skym1",
+"week": 3,
+"awayId": "8ecr0cc6mv5skym1",
+"homeId": "tk5ocwd4mv5hl8ue"
+},
+{
+"key": "4|h4uo382amv5utmbg",
+"week": 4,
+"awayId": "h4uo382amv5utmbg",
+"homeId": "rrwiih80mv866c6h"
+},
+{
+"key": "4|sxnma7w9mv71dpmn",
+"week": 4,
+"awayId": "sxnma7w9mv71dpmn",
+"homeId": "umngimotmv5gs8hc"
+},
+{
+"key": "4|kcpss0xkmv5tqcsh",
+"week": 4,
+"awayId": "kcpss0xkmv5tqcsh",
+"homeId": "n519blcgmvcdvsz3"
+},
+{
+"key": "4|1or2t6ygmv86btob",
+"week": 4,
+"awayId": "1or2t6ygmv86btob",
+"homeId": "ck48czqmmvarwe4z"
+},
+{
+"key": "4|o86y7xj2mv9hg8zh",
+"week": 4,
+"awayId": "o86y7xj2mv9hg8zh",
+"homeId": "8ecr0cc6mv5skym1"
+},
+{
+"key": "4|f08p3vyymv9l3uz9",
+"week": 4,
+"awayId": "f08p3vyymv9l3uz9",
+"homeId": "tk5ocwd4mv5hl8ue"
+},
+{
+"key": "5|umngimotmv5gs8hc",
+"week": 5,
+"awayId": "umngimotmv5gs8hc",
+"homeId": "h4uo382amv5utmbg"
+},
+{
+"key": "5|n519blcgmvcdvsz3",
+"week": 5,
+"awayId": "n519blcgmvcdvsz3",
+"homeId": "rrwiih80mv866c6h"
+},
+{
+"key": "5|ck48czqmmvarwe4z",
+"week": 5,
+"awayId": "ck48czqmmvarwe4z",
+"homeId": "sxnma7w9mv71dpmn"
+},
+{
+"key": "5|8ecr0cc6mv5skym1",
+"week": 5,
+"awayId": "8ecr0cc6mv5skym1",
+"homeId": "kcpss0xkmv5tqcsh"
+},
+{
+"key": "5|tk5ocwd4mv5hl8ue",
+"week": 5,
+"awayId": "tk5ocwd4mv5hl8ue",
+"homeId": "1or2t6ygmv86btob"
+},
+{
+"key": "5|f08p3vyymv9l3uz9",
+"week": 5,
+"awayId": "f08p3vyymv9l3uz9",
+"homeId": "o86y7xj2mv9hg8zh"
+},
+{
+"key": "6|h4uo382amv5utmbg",
+"week": 6,
+"awayId": "h4uo382amv5utmbg",
+"homeId": "n519blcgmvcdvsz3"
+},
+{
+"key": "6|umngimotmv5gs8hc",
+"week": 6,
+"awayId": "umngimotmv5gs8hc",
+"homeId": "ck48czqmmvarwe4z"
+},
+{
+"key": "6|rrwiih80mv866c6h",
+"week": 6,
+"awayId": "rrwiih80mv866c6h",
+"homeId": "8ecr0cc6mv5skym1"
+},
+{
+"key": "6|sxnma7w9mv71dpmn",
+"week": 6,
+"awayId": "sxnma7w9mv71dpmn",
+"homeId": "tk5ocwd4mv5hl8ue"
+},
+{
+"key": "6|kcpss0xkmv5tqcsh",
+"week": 6,
+"awayId": "kcpss0xkmv5tqcsh",
+"homeId": "f08p3vyymv9l3uz9"
+},
+{
+"key": "6|1or2t6ygmv86btob",
+"week": 6,
+"awayId": "1or2t6ygmv86btob",
+"homeId": "o86y7xj2mv9hg8zh"
+},
+{
+"key": "7|ck48czqmmvarwe4z",
+"week": 7,
+"awayId": "ck48czqmmvarwe4z",
+"homeId": "h4uo382amv5utmbg"
+},
+{
+"key": "7|8ecr0cc6mv5skym1",
+"week": 7,
+"awayId": "8ecr0cc6mv5skym1",
+"homeId": "n519blcgmvcdvsz3"
+},
+{
+"key": "7|tk5ocwd4mv5hl8ue",
+"week": 7,
+"awayId": "tk5ocwd4mv5hl8ue",
+"homeId": "umngimotmv5gs8hc"
+},
+{
+"key": "7|f08p3vyymv9l3uz9",
+"week": 7,
+"awayId": "f08p3vyymv9l3uz9",
+"homeId": "rrwiih80mv866c6h"
+},
+{
+"key": "7|o86y7xj2mv9hg8zh",
+"week": 7,
+"awayId": "o86y7xj2mv9hg8zh",
+"homeId": "sxnma7w9mv71dpmn"
+},
+{
+"key": "7|1or2t6ygmv86btob",
+"week": 7,
+"awayId": "1or2t6ygmv86btob",
+"homeId": "kcpss0xkmv5tqcsh"
+},
+{
+"key": "8|h4uo382amv5utmbg",
+"week": 8,
+"awayId": "h4uo382amv5utmbg",
+"homeId": "8ecr0cc6mv5skym1"
+},
+{
+"key": "8|ck48czqmmvarwe4z",
+"week": 8,
+"awayId": "ck48czqmmvarwe4z",
+"homeId": "tk5ocwd4mv5hl8ue"
+},
+{
+"key": "8|n519blcgmvcdvsz3",
+"week": 8,
+"awayId": "n519blcgmvcdvsz3",
+"homeId": "f08p3vyymv9l3uz9"
+},
+{
+"key": "8|umngimotmv5gs8hc",
+"week": 8,
+"awayId": "umngimotmv5gs8hc",
+"homeId": "o86y7xj2mv9hg8zh"
+},
+{
+"key": "8|rrwiih80mv866c6h",
+"week": 8,
+"awayId": "rrwiih80mv866c6h",
+"homeId": "1or2t6ygmv86btob"
+},
+{
+"key": "8|sxnma7w9mv71dpmn",
+"week": 8,
+"awayId": "sxnma7w9mv71dpmn",
+"homeId": "kcpss0xkmv5tqcsh"
+},
+{
+"key": "9|tk5ocwd4mv5hl8ue",
+"week": 9,
+"awayId": "tk5ocwd4mv5hl8ue",
+"homeId": "h4uo382amv5utmbg"
+},
+{
+"key": "9|f08p3vyymv9l3uz9",
+"week": 9,
+"awayId": "f08p3vyymv9l3uz9",
+"homeId": "8ecr0cc6mv5skym1"
+},
+{
+"key": "9|o86y7xj2mv9hg8zh",
+"week": 9,
+"awayId": "o86y7xj2mv9hg8zh",
+"homeId": "ck48czqmmvarwe4z"
+},
+{
+"key": "9|1or2t6ygmv86btob",
+"week": 9,
+"awayId": "1or2t6ygmv86btob",
+"homeId": "n519blcgmvcdvsz3"
+},
+{
+"key": "9|kcpss0xkmv5tqcsh",
+"week": 9,
+"awayId": "kcpss0xkmv5tqcsh",
+"homeId": "umngimotmv5gs8hc"
+},
+{
+"key": "9|sxnma7w9mv71dpmn",
+"week": 9,
+"awayId": "sxnma7w9mv71dpmn",
+"homeId": "rrwiih80mv866c6h"
+},
+{
+"key": "10|h4uo382amv5utmbg",
+"week": 10,
+"awayId": "h4uo382amv5utmbg",
+"homeId": "f08p3vyymv9l3uz9"
+},
+{
+"key": "10|tk5ocwd4mv5hl8ue",
+"week": 10,
+"awayId": "tk5ocwd4mv5hl8ue",
+"homeId": "o86y7xj2mv9hg8zh"
+},
+{
+"key": "10|8ecr0cc6mv5skym1",
+"week": 10,
+"awayId": "8ecr0cc6mv5skym1",
+"homeId": "1or2t6ygmv86btob"
+},
+{
+"key": "10|ck48czqmmvarwe4z",
+"week": 10,
+"awayId": "ck48czqmmvarwe4z",
+"homeId": "kcpss0xkmv5tqcsh"
+},
+{
+"key": "10|n519blcgmvcdvsz3",
+"week": 10,
+"awayId": "n519blcgmvcdvsz3",
+"homeId": "sxnma7w9mv71dpmn"
+},
+{
+"key": "10|umngimotmv5gs8hc",
+"week": 10,
+"awayId": "umngimotmv5gs8hc",
+"homeId": "rrwiih80mv866c6h"
+},
+{
+"key": "11|o86y7xj2mv9hg8zh",
+"week": 11,
+"awayId": "o86y7xj2mv9hg8zh",
+"homeId": "h4uo382amv5utmbg"
+},
+{
+"key": "11|1or2t6ygmv86btob",
+"week": 11,
+"awayId": "1or2t6ygmv86btob",
+"homeId": "f08p3vyymv9l3uz9"
+},
+{
+"key": "11|kcpss0xkmv5tqcsh",
+"week": 11,
+"awayId": "kcpss0xkmv5tqcsh",
+"homeId": "tk5ocwd4mv5hl8ue"
+},
+{
+"key": "11|sxnma7w9mv71dpmn",
+"week": 11,
+"awayId": "sxnma7w9mv71dpmn",
+"homeId": "8ecr0cc6mv5skym1"
+},
+{
+"key": "11|rrwiih80mv866c6h",
+"week": 11,
+"awayId": "rrwiih80mv866c6h",
+"homeId": "ck48czqmmvarwe4z"
+},
+{
+"key": "11|umngimotmv5gs8hc",
+"week": 11,
+"awayId": "umngimotmv5gs8hc",
+"homeId": "n519blcgmvcdvsz3"
+},
+{
+"key": "12|h4uo382amv5utmbg",
+"week": 12,
+"awayId": "h4uo382amv5utmbg",
+"homeId": "1or2t6ygmv86btob"
+},
+{
+"key": "12|o86y7xj2mv9hg8zh",
+"week": 12,
+"awayId": "o86y7xj2mv9hg8zh",
+"homeId": "kcpss0xkmv5tqcsh"
+},
+{
+"key": "12|f08p3vyymv9l3uz9",
+"week": 12,
+"awayId": "f08p3vyymv9l3uz9",
+"homeId": "sxnma7w9mv71dpmn"
+},
+{
+"key": "12|tk5ocwd4mv5hl8ue",
+"week": 12,
+"awayId": "tk5ocwd4mv5hl8ue",
+"homeId": "rrwiih80mv866c6h"
+},
+{
+"key": "12|8ecr0cc6mv5skym1",
+"week": 12,
+"awayId": "8ecr0cc6mv5skym1",
+"homeId": "umngimotmv5gs8hc"
+},
+{
+"key": "12|ck48czqmmvarwe4z",
+"week": 12,
+"awayId": "ck48czqmmvarwe4z",
+"homeId": "n519blcgmvcdvsz3"
+},
+{
+"key": "13|kcpss0xkmv5tqcsh",
+"week": 13,
+"awayId": "kcpss0xkmv5tqcsh",
+"homeId": "h4uo382amv5utmbg"
+},
+{
+"key": "13|sxnma7w9mv71dpmn",
+"week": 13,
+"awayId": "sxnma7w9mv71dpmn",
+"homeId": "1or2t6ygmv86btob"
+},
+{
+"key": "13|rrwiih80mv866c6h",
+"week": 13,
+"awayId": "rrwiih80mv866c6h",
+"homeId": "o86y7xj2mv9hg8zh"
+},
+{
+"key": "13|umngimotmv5gs8hc",
+"week": 13,
+"awayId": "umngimotmv5gs8hc",
+"homeId": "f08p3vyymv9l3uz9"
+},
+{
+"key": "13|n519blcgmvcdvsz3",
+"week": 13,
+"awayId": "n519blcgmvcdvsz3",
+"homeId": "tk5ocwd4mv5hl8ue"
+},
+{
+"key": "13|ck48czqmmvarwe4z",
+"week": 13,
+"awayId": "ck48czqmmvarwe4z",
+"homeId": "8ecr0cc6mv5skym1"
+},
+{
+"key": "14|h4uo382amv5utmbg",
+"week": 14,
+"awayId": "h4uo382amv5utmbg",
+"homeId": "sxnma7w9mv71dpmn"
+},
+{
+"key": "14|kcpss0xkmv5tqcsh",
+"week": 14,
+"awayId": "kcpss0xkmv5tqcsh",
+"homeId": "rrwiih80mv866c6h"
+},
+{
+"key": "14|1or2t6ygmv86btob",
+"week": 14,
+"awayId": "1or2t6ygmv86btob",
+"homeId": "umngimotmv5gs8hc"
+},
+{
+"key": "14|o86y7xj2mv9hg8zh",
+"week": 14,
+"awayId": "o86y7xj2mv9hg8zh",
+"homeId": "n519blcgmvcdvsz3"
+},
+{
+"key": "14|f08p3vyymv9l3uz9",
+"week": 14,
+"awayId": "f08p3vyymv9l3uz9",
+"homeId": "ck48czqmmvarwe4z"
+},
+{
+"key": "14|tk5ocwd4mv5hl8ue",
+"week": 14,
+"awayId": "tk5ocwd4mv5hl8ue",
+"homeId": "8ecr0cc6mv5skym1"
+},
+{
+"key": "15|rrwiih80mv866c6h",
+"week": 15,
+"awayId": "rrwiih80mv866c6h",
+"homeId": "h4uo382amv5utmbg"
+},
+{
+"key": "15|umngimotmv5gs8hc",
+"week": 15,
+"awayId": "umngimotmv5gs8hc",
+"homeId": "sxnma7w9mv71dpmn"
+},
+{
+"key": "15|n519blcgmvcdvsz3",
+"week": 15,
+"awayId": "n519blcgmvcdvsz3",
+"homeId": "kcpss0xkmv5tqcsh"
+},
+{
+"key": "15|ck48czqmmvarwe4z",
+"week": 15,
+"awayId": "ck48czqmmvarwe4z",
+"homeId": "1or2t6ygmv86btob"
+},
+{
+"key": "15|8ecr0cc6mv5skym1",
+"week": 15,
+"awayId": "8ecr0cc6mv5skym1",
+"homeId": "o86y7xj2mv9hg8zh"
+},
+{
+"key": "15|tk5ocwd4mv5hl8ue",
+"week": 15,
+"awayId": "tk5ocwd4mv5hl8ue",
+"homeId": "f08p3vyymv9l3uz9"
+},
+{
+"key": "16|h4uo382amv5utmbg",
+"week": 16,
+"awayId": "h4uo382amv5utmbg",
+"homeId": "umngimotmv5gs8hc"
+},
+{
+"key": "16|rrwiih80mv866c6h",
+"week": 16,
+"awayId": "rrwiih80mv866c6h",
+"homeId": "n519blcgmvcdvsz3"
+},
+{
+"key": "16|sxnma7w9mv71dpmn",
+"week": 16,
+"awayId": "sxnma7w9mv71dpmn",
+"homeId": "ck48czqmmvarwe4z"
+},
+{
+"key": "16|kcpss0xkmv5tqcsh",
+"week": 16,
+"awayId": "kcpss0xkmv5tqcsh",
+"homeId": "8ecr0cc6mv5skym1"
+},
+{
+"key": "16|1or2t6ygmv86btob",
+"week": 16,
+"awayId": "1or2t6ygmv86btob",
+"homeId": "tk5ocwd4mv5hl8ue"
+},
+{
+"key": "16|o86y7xj2mv9hg8zh",
+"week": 16,
+"awayId": "o86y7xj2mv9hg8zh",
+"homeId": "f08p3vyymv9l3uz9"
+},
+{
+"key": "17|n519blcgmvcdvsz3",
+"week": 17,
+"awayId": "n519blcgmvcdvsz3",
+"homeId": "h4uo382amv5utmbg"
+},
+{
+"key": "17|ck48czqmmvarwe4z",
+"week": 17,
+"awayId": "ck48czqmmvarwe4z",
+"homeId": "umngimotmv5gs8hc"
+},
+{
+"key": "17|8ecr0cc6mv5skym1",
+"week": 17,
+"awayId": "8ecr0cc6mv5skym1",
+"homeId": "rrwiih80mv866c6h"
+},
+{
+"key": "17|tk5ocwd4mv5hl8ue",
+"week": 17,
+"awayId": "tk5ocwd4mv5hl8ue",
+"homeId": "sxnma7w9mv71dpmn"
+},
+{
+"key": "17|f08p3vyymv9l3uz9",
+"week": 17,
+"awayId": "f08p3vyymv9l3uz9",
+"homeId": "kcpss0xkmv5tqcsh"
+},
+{
+"key": "17|o86y7xj2mv9hg8zh",
+"week": 17,
+"awayId": "o86y7xj2mv9hg8zh",
+"homeId": "1or2t6ygmv86btob"
+},
+{
+"key": "18|h4uo382amv5utmbg",
+"week": 18,
+"awayId": "h4uo382amv5utmbg",
+"homeId": "ck48czqmmvarwe4z"
+},
+{
+"key": "18|n519blcgmvcdvsz3",
+"week": 18,
+"awayId": "n519blcgmvcdvsz3",
+"homeId": "8ecr0cc6mv5skym1"
+},
+{
+"key": "18|umngimotmv5gs8hc",
+"week": 18,
+"awayId": "umngimotmv5gs8hc",
+"homeId": "tk5ocwd4mv5hl8ue"
+},
+{
+"key": "18|rrwiih80mv866c6h",
+"week": 18,
+"awayId": "rrwiih80mv866c6h",
+"homeId": "f08p3vyymv9l3uz9"
+},
+{
+"key": "18|sxnma7w9mv71dpmn",
+"week": 18,
+"awayId": "sxnma7w9mv71dpmn",
+"homeId": "o86y7xj2mv9hg8zh"
+},
+{
+"key": "18|kcpss0xkmv5tqcsh",
+"week": 18,
+"awayId": "kcpss0xkmv5tqcsh",
+"homeId": "1or2t6ygmv86btob"
+},
+{
+"key": "19|8ecr0cc6mv5skym1",
+"week": 19,
+"awayId": "8ecr0cc6mv5skym1",
+"homeId": "h4uo382amv5utmbg"
+},
+{
+"key": "19|tk5ocwd4mv5hl8ue",
+"week": 19,
+"awayId": "tk5ocwd4mv5hl8ue",
+"homeId": "ck48czqmmvarwe4z"
+},
+{
+"key": "19|f08p3vyymv9l3uz9",
+"week": 19,
+"awayId": "f08p3vyymv9l3uz9",
+"homeId": "n519blcgmvcdvsz3"
+},
+{
+"key": "19|o86y7xj2mv9hg8zh",
+"week": 19,
+"awayId": "o86y7xj2mv9hg8zh",
+"homeId": "umngimotmv5gs8hc"
+},
+{
+"key": "19|1or2t6ygmv86btob",
+"week": 19,
+"awayId": "1or2t6ygmv86btob",
+"homeId": "rrwiih80mv866c6h"
+},
+{
+"key": "19|kcpss0xkmv5tqcsh",
+"week": 19,
+"awayId": "kcpss0xkmv5tqcsh",
+"homeId": "sxnma7w9mv71dpmn"
+}
+]

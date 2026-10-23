@@ -1,0 +1,71 @@
+name: Update league data
+
+on:
+  schedule:
+    # Times are UTC, which is the same as Iceland time.
+    - cron: "37 7 * * 1"   # Monday morning, after the week ends on Sunday
+    - cron: "37 7 * * 2"   # Tuesday catch-up for late stat corrections
+  workflow_dispatch:        # "Run workflow" button for a manual update
+  push:
+    branches: [main]        # republish when you change the site yourself
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: wintris-pages
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch finished weeks from Fantrax
+        env:
+          FANTRAX_COOKIE: ${{ secrets.FANTRAX_COOKIE }}
+        run: python3 -I scripts/fetch_weeks.py data/weekly_stats.json
+
+      - name: Build data.js
+        run: python3 -I scripts/build_data.py
+
+      - name: Save new data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/weekly_stats.json data.js
+          if git diff --cached --quiet; then
+            echo "No new numbers this time."
+          else
+            git commit -m "Update league data $(date -u +%Y-%m-%d)"
+            git push
+          fi
+
+  deploy:
+    needs: update
+    if: always() && (needs.update.result == 'success' || needs.update.result == 'skipped')
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Collect site files
+        run: |
+          mkdir _site
+          cp index.html data.js _site/
+          touch _site/.nojekyll
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
