@@ -2,7 +2,7 @@
 <html lang="is">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Wintris · Fantasy-körfubolti</title>
 <meta name="description" content="Mælaborð Wintris deildarinnar: heppni, allir við alla, tæpir flokkar og líkur á úrslitakeppni.">
 <meta property="og:title" content="Wintris · mælaborð deildarinnar">
@@ -76,6 +76,121 @@ body #dash-root .wx-card-img img { box-shadow: 0 20px 50px rgba(0,0,0,.4); }
 body #dash-root .dash-skeleton { position: relative; min-height: 6rem; border-radius: 12px; background: linear-gradient(90deg, #111c2e 0%, #18263c 50%, #111c2e 100%); background-size: 200% 100%; animation: wxsk 1.4s linear infinite; }
 @keyframes wxsk { to { background-position: -200% 0; } }
 @media (max-width: 640px) { .site-court { width: 320px; right: -110px; top: -30px; } body #dash-root .wx-card { padding: 1rem; } body #dash-root .wx-head { padding-top: 12px; } }
+
+/* --- 3-tab mobile-first layout --- */
+#dash-root [hidden] { display: none !important; }
+body #dash-root .wx { gap: 1rem; }
+body #dash-root .wx-card, body #dash-root .wx-fold { scroll-margin-top: 12px; }
+@media (min-width: 760px) { body #dash-root .wx-card, body #dash-root .wx-fold { scroll-margin-top: 80px; } }
+body #dash-root #wx-h2h { width: 100%; max-width: 40rem; margin: 0 auto; }
+body #dash-root .wx-mu.wx-feat-row { text-align: center; padding: 8px 0 0; border-radius: 8px 8px 0 0; border-bottom: 0; }
+body #dash-root .wx-feat-row + .wx-mu.feat { border-radius: 0 0 8px 8px; padding-top: 4px; }
+body #dash-root .wx-page { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+body #dash-root .wx-page[hidden] { display: none; }
+body #dash-root .wx-nav { position: sticky; top: 0; z-index: 20; margin: 0 -16px; padding: 10px 16px; background: rgba(10,18,32,.88); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--color-border-line); }
+body #dash-root .wx-nav .wx-tabs { display: flex; gap: 8px; overflow: visible; }
+body #dash-root .wx-nav .wx-tab { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; font-size: .95rem; }
+body #dash-root .wx-tab svg { width: 20px; height: 20px; flex: none; }
+@media (max-width: 759px) {
+  body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+  body #dash-root .wx-nav { position: fixed; top: auto; bottom: 0; left: 0; right: 0; margin: 0; padding: 6px 8px calc(6px + env(safe-area-inset-bottom)); border-bottom: 0; border-top: 1px solid var(--color-border-line); background: rgba(10,18,32,.95); }
+  body #dash-root .wx-nav .wx-tabs { justify-content: space-around; gap: 4px; }
+  body #dash-root .wx-nav .wx-tab { flex: 1 1 0; flex-direction: column; justify-content: center; gap: 3px; min-height: 58px; padding: 6px 4px; border: 0; border-radius: 12px; font-size: .74rem; background: transparent; }
+  body #dash-root .wx-nav .wx-tab svg { width: 24px; height: 24px; }
+  body #dash-root .wx-nav .wx-tab[aria-selected="true"] { background: rgba(124,196,255,.14); color: var(--ice); }
+}
+body #dash-root .wx-wksub { color: var(--color-fg-muted); font-size: .8rem; margin: 0; }
+body #dash-root .wx-wkhead { display: flex; flex-direction: column; gap: 10px; padding-top: 6px; }
+body #dash-root .wx-wkrow { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+body #dash-root .wx-step { display: inline-flex; align-items: center; gap: 2px; background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 999px; padding: 3px; }
+body #dash-root .wx-stepbtn { font: inherit; width: 44px; height: 44px; border-radius: 999px; border: 0; background: transparent; color: var(--color-fg); font-size: 1.6rem; line-height: 1; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 0 0 3px; }
+body #dash-root .wx-stepbtn:hover:not(:disabled) { background: rgba(255,255,255,.07); }
+body #dash-root .wx-stepbtn:disabled { opacity: .25; cursor: default; }
+body #dash-root .wx-stepsel { appearance: none; -webkit-appearance: none; font-family: var(--font-display); text-transform: uppercase; letter-spacing: .06em; font-size: 1.1rem; color: #fff; background: transparent; border: 0; padding: 0 6px; min-height: 44px; text-align: center; text-align-last: center; cursor: pointer; }
+body #dash-root .wx-stepsel option { background: #111c2e; color: #e9eff7; }
+body #dash-root .wx-headline { margin: 0; font-size: clamp(1rem, 2.6vw, 1.2rem); color: #c4d2e2; line-height: 1.45; max-width: 62ch; }
+body #dash-root .wx-headline b { color: #fff; font-weight: 600; }
+body #dash-root .wx-results { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr)); gap: 10px; }
+body #dash-root .wx-rc { border: 1px solid var(--color-border-line); border-radius: 12px; background: rgba(255,255,255,.02); padding: 6px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+body #dash-root .wx-rc-row { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; gap: 4px; }
+body #dash-root .wx-rc-side { font: inherit; font-size: .86rem; line-height: 1.2; color: var(--color-fg-muted); background: transparent; border: 0; border-radius: 8px; min-height: 48px; padding: 4px 6px; display: flex; align-items: center; gap: 8px; text-align: left; cursor: pointer; min-width: 0; }
+body #dash-root .wx-rc-side.r { flex-direction: row-reverse; text-align: right; }
+body #dash-root .wx-rc-side.win { color: #fff; font-weight: 600; }
+body #dash-root .wx-rc-side:hover { background: rgba(255,255,255,.05); }
+body #dash-root .wx-rc-name { min-width: 0; overflow-wrap: anywhere; }
+body #dash-root .wx-rc-score { display: flex; flex-direction: column; align-items: center; font-family: var(--font-display); font-size: 1.45rem; letter-spacing: .04em; color: #fff; padding: 0 4px; white-space: nowrap; line-height: 1.1; }
+body #dash-root .wx-rc-score small { font-family: var(--font-anthropic-sans); font-size: .66rem; letter-spacing: 0; color: var(--color-fg-muted); }
+body #dash-root .wx-rc-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; padding: 0 4px 4px; }
+body #dash-root .wx-rc-pills:empty { display: none; }
+body #dash-root .wx-pill { font-size: .68rem; letter-spacing: .05em; text-transform: uppercase; border-radius: 999px; padding: 2px 9px; border: 1px solid currentColor; white-space: nowrap; }
+body #dash-root .wx-pill.sweep { color: var(--orange); }
+body #dash-root .wx-pill.unlucky { color: var(--color-bad); }
+body #dash-root .wx-pill.decided { color: var(--color-warn); }
+body #dash-root .wx-pill.draw { color: var(--color-fg-muted); }
+body #dash-root .wx-more { display: flex; justify-content: space-between; align-items: center; gap: 4px 12px; flex-wrap: wrap; }
+body #dash-root .wx-linkbtn { font: inherit; font-size: .85rem; background: none; border: 0; color: var(--ice); cursor: pointer; min-height: 44px; padding: 0; }
+body #dash-root .wx-linkbtn[data-goto] { margin-left: auto; }
+body #dash-root .wx-fold { background: linear-gradient(180deg, #13203a 0%, var(--color-panel) 100%); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); min-width: 0; }
+body #dash-root .wx-fold > summary { list-style: none; cursor: pointer; min-height: 54px; padding: 0 1.25rem; display: flex; align-items: center; justify-content: space-between; gap: 12px; font-family: var(--font-display); font-weight: 500; text-transform: uppercase; letter-spacing: .06em; font-size: 1.05rem; }
+body #dash-root .wx-fold > summary::-webkit-details-marker { display: none; }
+body #dash-root .wx-fold > summary::after { content: '+'; font-family: var(--font-anthropic-sans); font-size: 1.5rem; color: var(--color-fg-muted); }
+body #dash-root .wx-fold[open] > summary::after { content: '−'; }
+body #dash-root .wx-fold-body { padding: 0 1.25rem 1.25rem; display: flex; flex-direction: column; gap: .5rem; min-width: 0; }
+body #dash-root .wx-btn { font: inherit; font-weight: 600; font-size: .95rem; min-height: 50px; border-radius: 999px; border: 1px solid var(--ice); background: var(--ice); color: #06101e; padding: 0 22px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; text-decoration: none; }
+body #dash-root .wx-btn.ghost { background: transparent; color: var(--ice); align-self: flex-start; }
+body #dash-root #wx-recap-btn { width: 100%; }
+@media (min-width: 760px) { body #dash-root #wx-recap-btn { width: auto; align-self: flex-start; } }
+body #dash-root .wx-teamhead { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding-top: 6px; }
+body #dash-root .wx-teampickrow { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1 1 16rem; }
+body #dash-root #wx-teamname { display: inline-flex; flex: none; }
+body #dash-root .wx-teamsel { appearance: none; -webkit-appearance: none; min-width: 0; max-width: 100%; flex: 1 1 auto; font-family: var(--font-display); font-weight: 700; text-transform: uppercase; font-size: clamp(1.25rem, 5.4vw, 2rem); line-height: 1.15; color: #fff; border: 0; border-radius: 10px; min-height: 48px; padding: 4px 34px 4px 4px; cursor: pointer; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237cc4ff' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 6px center / 20px; }
+body #dash-root .wx-teamsel:hover { background-color: rgba(255,255,255,.04); }
+body #dash-root .wx-teamsel option { font-family: var(--font-anthropic-sans); font-size: 1rem; text-transform: none; font-weight: 400; background: #111c2e; color: #e9eff7; }
+body #dash-root .wx-tiles4 { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; }
+body #dash-root .wx-tiles4 .wx-tile { padding: 10px 10px 9px; gap: 2px; }
+body #dash-root .wx-tiles4 .wx-tile-k, body #dash-root .wx-tiles4 .wx-tile-s { font-size: .7rem; }
+body #dash-root .wx-tiles4 .wx-tile-v { font-family: var(--font-display); font-weight: 500; font-size: clamp(1.15rem, 4.6vw, 1.8rem); letter-spacing: .02em; white-space: nowrap; }
+body #dash-root .wx-h2h-top { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; gap: 8px; padding-bottom: 6px; }
+body #dash-root .wx-h2h-team { font: inherit; font-size: .86rem; line-height: 1.2; color: var(--color-fg-muted); background: none; border: 0; border-radius: 10px; padding: 6px 4px; min-height: 44px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; min-width: 0; overflow-wrap: anywhere; }
+body #dash-root .wx-h2h-team.win { color: #fff; font-weight: 600; }
+body #dash-root button.wx-h2h-team { cursor: pointer; }
+body #dash-root button.wx-h2h-team:hover { background: rgba(255,255,255,.05); }
+body #dash-root .wx-h2h-score { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+body #dash-root .wx-h2h-num { font-family: var(--font-display); font-size: clamp(2rem, 9vw, 2.8rem); line-height: 1; color: #fff; letter-spacing: .03em; white-space: nowrap; }
+body #dash-root .wx-h2h-t { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: .9rem; }
+body #dash-root .wx-h2h-t td { padding: 7px 10px; border-bottom: 1px solid var(--color-border-line); color: var(--color-fg-muted); }
+body #dash-root .wx-h2h-t tr:last-child td { border-bottom: 0; }
+body #dash-root .wx-h2h-t td.m { text-align: right; width: 40%; border-radius: 8px 0 0 8px; }
+body #dash-root .wx-h2h-t td.o { text-align: left; width: 40%; border-radius: 0 8px 8px 0; }
+body #dash-root .wx-h2h-t td.c { text-align: center; font-size: .78rem; letter-spacing: .05em; color: var(--color-fg-muted); white-space: nowrap; }
+body #dash-root .wx-h2h-t td.c small { display: block; font-size: .64rem; letter-spacing: 0; text-transform: none; color: var(--color-warn); }
+body #dash-root .wx-h2h-t td.win { color: #fff; font-weight: 600; background: color-mix(in srgb, var(--color-ok) 16%, transparent); }
+body #dash-root .wx-h2h-sum { margin: 4px 0 0; font-size: .86rem; color: var(--color-fg-muted); }
+body #dash-root .wx-h2h-sum b { color: #fff; font-weight: 600; }
+body #dash-root .wx-lghead { display: flex; flex-direction: column; gap: 8px; padding-top: 6px; }
+body #dash-root .wx-lgtitle { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; line-height: 1; margin: 0; font-size: clamp(2rem, 8vw, 3.4rem);
+  background: linear-gradient(90deg, #ffffff 0%, var(--ice) 60%, var(--lilac) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+@media (max-width: 639px) {
+  body #dash-root .wx-awards { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
+  body #dash-root .wx-award { padding: 10px; }
+  body #dash-root .wx-award-k { font-size: .64rem; }
+  body #dash-root .wx-award-t { font-size: .98rem; line-height: 1.2; }
+  body #dash-root .wx-award-t .wx-tn { align-items: flex-start; }
+  body #dash-root .wx-award-d { font-size: .74rem; }
+  body #dash-root .wx-fold > summary { padding: 0 1rem; }
+  body #dash-root .wx-fold-body { padding: 0 1rem 1rem; }
+  body #dash-root .wx-tiles4 .wx-tile { padding: 8px 7px; }
+  body #dash-root .wx-rc-side, body #dash-root .wx-rc-side.r { flex-direction: column; justify-content: flex-start; text-align: center; gap: 5px; padding: 8px 2px 6px; font-size: .8rem; }
+  body #dash-root .wx-rc-name { overflow-wrap: break-word; }
+  body #dash-root .wx-mu { grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); }
+  body #dash-root .wx-mu > .wx-tn, body #dash-root .wx-mu > .wx-tn.r { flex-direction: column; justify-content: center; text-align: center; gap: 4px; line-height: 1.2; overflow-wrap: break-word; }
+  body #dash-root .wx-mu-bar { width: 24vw; }
+  body #dash-root #wx-tiles-more { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
+  body #dash-root #wx-tiles-more .wx-tile { padding: 10px; }
+  body #dash-root #wx-tiles-more .wx-tile-v { font-size: 1.4rem; }
+  body #dash-root #wx-tiles-more .wx-tile-k, body #dash-root #wx-tiles-more .wx-tile-s { font-size: .7rem; }
+}
 </style>
 </head>
 <body>
@@ -232,105 +347,152 @@ body #dash-root .dash-skeleton { position: relative; min-height: 6rem; border-ra
 </style>
 
 <div class="wx">
-  <header class="wx-head" id="haus">
-    <p class="wx-kicker">Mælaborð deildarinnar</p>
-    <h1 class="wx-hero">Heppni<br>eða snilld?</h1>
-    <p class="wx-take dash-skeleton" id="wx-take" data-source="season">—</p>
-    <div class="wx-stats"><span class="wx-chip"><b>12</b> lið</span><span class="wx-chip"><b>9</b> flokkar</span><span class="wx-chip"><b>19</b> vikur í deild</span><span class="wx-chip">Gögn uppfærð <b id="wx-updated">—</b></span></div>
-  </header>
-
   <div class="wx-banner" id="wx-banner" data-source="stats" hidden><b>Sýnigögn.</b> Tölurnar hér eru tilbúnar og eiga aðeins að sýna hvernig mælaborðið lítur út. Lið og leikjadagskrá eru raunveruleg. Fyrsta vikan klárast 26. október og þá koma raunveruleg úrslit í staðinn.</div>
 
-  <div class="wx-bar">
-    <div class="wx-tabs" role="tablist" aria-label="Síður">
-      <button class="wx-tab" role="tab" data-tab="yfirlit">Yfirlit</button>
-      <button class="wx-tab" role="tab" data-tab="lid">Liðið</button>
-      <button class="wx-tab" role="tab" data-tab="deildin">Deildin</button>
-      <button class="wx-tab" role="tab" data-tab="heppni">Heppni</button>
-      <button class="wx-tab" role="tab" data-tab="vikan">Vikan</button>
-      <button class="wx-tab" role="tab" data-tab="hjartasar">Hjartasár</button>
-      <button class="wx-tab" role="tab" data-tab="urslit">Úrslitakeppnin</button>
-      <button class="wx-tab" role="tab" data-tab="spjald">Vikuspjald</button>
+  <nav class="wx-nav" aria-label="Síður">
+    <div class="wx-tabs" role="tablist">
+      <button class="wx-tab" role="tab" data-tab="vikan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span>Vikan</span></button>
+      <button class="wx-tab" role="tab" data-tab="lid"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3.5 4 6v4.5h3v10h10v-10h3V6l-4-2.5c-.6 1.6-2.2 2.6-4 2.6S8.6 5.1 8 3.5z"/></svg><span>Liðið mitt</span></button>
+      <button class="wx-tab" role="tab" data-tab="deildin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M8 6H5v1.5A3 3 0 0 0 8 10.5M16 6h3v1.5a3 3 0 0 1-3 3M12 13v4.5M8.5 20.5h7M10 17.5h4"/></svg><span>Deildin</span></button>
     </div>
-    <label class="wx-weekbox" for="wx-week">Vika <select class="wx-week" id="wx-week" data-source="team_week"></select></label>
-  </div>
+  </nav>
 
-  <!-- Yfirlit -->
-  <section class="wx-page" id="yfirlit" data-page="yfirlit">
-    <div class="wx-grid" style="grid-template-columns: 1fr;">
-      <div class="wx-card">
-        <h3 id="wx-aw-h">Verðlaun vikunnar</h3>
-        <div class="wx-awards" id="wx-awards" data-source="awards"></div>
+  <!-- Vikan -->
+  <section class="wx-page" id="vikan" data-page="vikan">
+    <header class="wx-wkhead">
+      <div class="wx-wkrow">
+        <div class="wx-step">
+          <button type="button" class="wx-stepbtn" data-dir="-1" aria-label="Fyrri vika">‹</button>
+          <select class="wx-stepsel" aria-label="Vika"></select>
+          <button type="button" class="wx-stepbtn" data-dir="1" aria-label="Næsta vika">›</button>
+        </div>
+        <span class="wx-wksub" data-weeksub>—</span>
       </div>
-      <div class="wx-card" id="power-card">
-        <h3 id="wx-pw-h">Kraftröðun</h3>
-        <p class="wx-note">Einkunn: 50 % allir-við-alla hlutfall tímabilsins, 35 % síðustu 3 vikna og 15 % jafnvægi (hve marga af 9 flokkum liðið vinnur oftar en ekki). Örin sýnir breytingu frá vikunni á undan.</p>
+      <p class="wx-headline" id="wx-headline" data-source="team_week">—</p>
+    </header>
+
+    <div class="wx-card" id="results-card">
+      <h3>Úrslit vikunnar</h3>
+      <div class="wx-results" id="wx-results" data-source="results"></div>
+    </div>
+
+    <div class="wx-card">
+      <h3 id="wx-aw-h">Verðlaun vikunnar</h3>
+      <div class="wx-awards" id="wx-awards" data-source="awards"></div>
+    </div>
+
+    <div class="wx-card">
+      <h3>Tæpir flokkar vikunnar</h3>
+      <p class="wx-note">Flokkar í raunverulegu leikjunum sem réðust á minnsta mun.</p>
+      <div class="wx-scroll">
+        <table class="wx-t" id="wx-flips" data-source="coinflips" data-row-key="key">
+          <thead><tr><th data-field="label">Flokkur</th><th data-field="team">Vann</th><th data-field="opp">Tapaði</th><th data-field="mineTxt">Tölur</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="wx-empty" id="wx-flips-empty" hidden>Enginn flokkur réðst á svona litlum mun þessa viku.</p>
+      <div class="wx-more">
+        <button type="button" class="wx-linkbtn" id="wx-flips-all" hidden>Sýna alla</button>
+        <button type="button" class="wx-linkbtn" data-goto="deildin" data-anchor="heart-card">Hjartasárateljarinn →</button>
+      </div>
+    </div>
+
+    <details class="wx-fold" id="fold-matrix">
+      <summary><span id="wx-mx-h">Allir við alla</span></summary>
+      <div class="wx-fold-body">
+        <p class="wx-note">Hver reitur er flokkaskor liðsins í línunni gegn liðinu í dálknum (unnir–tapaðir). Raunverulegi leikurinn er rammaður inn. Síðasti dálkurinn er allir-við-alla árangur vikunnar.</p>
+        <div class="wx-scroll"><div class="wx-matrix" id="wx-matrix" data-source="pairs team_week teams"></div></div>
+      </div>
+    </details>
+
+    <details class="wx-fold" id="fold-cats">
+      <summary><span>Flokkur vikunnar</span></summary>
+      <div class="wx-fold-body">
+        <p class="wx-note">Hver var bestur í hverjum flokki vikunnar. Í TO vinnur lægsta talan.</p>
         <div class="wx-scroll">
-          <table class="wx-t wx-click" id="wx-power" data-source="power" data-row-key="key">
-            <thead><tr><th data-field="rank">#</th><th data-field="team">Lið</th><th data-field="move">Breyting</th><th data-field="score">Einkunn</th><th data-field="season">AvA tímabil</th><th data-field="recent">Síðustu 3</th><th data-field="balance">Jafnvægi</th><th data-field="weekRecord">AvA vikunnar</th></tr></thead>
+          <table class="wx-t" id="wx-cats" data-source="cat_leaders" data-row-key="key">
+            <thead><tr><th data-field="label">Flokkur</th><th data-field="team">Lið</th><th data-field="value">Gildi</th><th data-field="second">Næstbest</th><th data-field="gap">Munur</th></tr></thead>
             <tbody></tbody>
           </table>
         </div>
       </div>
-      <div class="wx-card" id="next-card">
-        <h3 id="wx-nw-h">Leikir næstu viku</h3>
-        <p class="wx-note">Sigurlíkur úr sama líkani og spáin um úrslitakeppnina. Jafnasti leikurinn er leikur vikunnar.</p>
-        <div id="wx-next-week" data-source="next_week"></div>
-        <p class="wx-empty" id="wx-next-week-empty" hidden>Deildarkeppninni er lokið.</p>
-      </div>
-      <div class="wx-card" id="luck-card">
-        <h3>Heppnisvísitala tímabilsins</h3>
-        <p class="wx-note">Raunverulegir sigrar mínus væntir sigrar. Væntir sigrar eru hlutfall liða sem liðið hefði unnið hverja viku ef allir mættu öllum. Jafntefli telst hálfur sigur.</p>
-        <div class="wx-chart" id="wx-luck" data-source="season"></div>
-      </div>
+    </details>
+
+    <button type="button" class="wx-btn" id="wx-recap-btn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Sækja vikuspjald fyrir Messenger</button>
+    <div class="wx-card wx-card-img" id="wx-recap-panel" hidden>
+      <h3 id="wx-recap-h">Vikuspjald</h3>
+      <p class="wx-note">Haltu fingri á myndinni (eða hægrismelltu) til að vista hana og senda í spjallið.</p>
+      <div id="wx-recap" data-source="awards season team_week"></div>
+      <a class="wx-btn ghost" id="wx-recap-dl" download="wintris-vikuspjald.png" href="#">Vista mynd</a>
+    </div>
+
+    <div class="wx-card" id="next-card">
+      <h3 id="wx-nw-h">Framundan</h3>
+      <p class="wx-note">Leikir næstu viku og sigurlíkur. Jafnasti leikurinn er leikur vikunnar.</p>
+      <div id="wx-next-week" data-source="next_week"></div>
+      <p class="wx-empty" id="wx-next-week-empty" hidden>Deildarkeppninni er lokið.</p>
     </div>
   </section>
 
-  <!-- Liðið -->
+  <!-- Liðið mitt -->
   <section class="wx-page" id="lid" data-page="lid" hidden>
-    <div class="wx-grid" style="grid-template-columns: 1fr;">
-      <div class="wx-card">
-        <h3>Veldu lið</h3>
-        <div class="wx-teampick" id="wx-teampick" data-source="teams" role="group" aria-label="Lið"></div>
+    <header class="wx-teamhead">
+      <div class="wx-teampickrow">
+        <span id="wx-teamname" data-source="season"></span>
+        <select class="wx-teamsel" id="wx-teamsel" aria-label="Veldu lið" data-source="teams"></select>
       </div>
-      <h3 class="wx-teamname" id="wx-teamname" data-source="season">—</h3>
-      <div class="wx-tiles" id="wx-tiles" data-source="season odds"></div>
-      <div class="wx-card">
-        <h3>Vika fyrir viku</h3>
-        <p class="wx-note">Raunverulegi leikurinn, allir-við-alla árangur vikunnar og heppni. Heppni er niðurstaðan (1, ½ eða 0) mínus hlutfall liða sem liðið hefði unnið.</p>
-        <div class="wx-scroll">
-          <table class="wx-t" id="wx-tw" data-source="team_week" data-row-key="key">
-            <thead><tr><th data-field="week">Vika</th><th data-field="opp">Mótherji</th><th data-field="res">Niðurstaða</th><th data-field="cw">Flokkar</th><th data-field="apW">AvA</th><th data-field="catPts">Flokkar af 99</th><th data-field="luck">Heppni</th><th data-field="cumLuck">Uppsöfnuð</th></tr></thead>
-            <tbody></tbody>
-          </table>
+      <div class="wx-wkrow">
+        <div class="wx-step">
+          <button type="button" class="wx-stepbtn" data-dir="-1" aria-label="Fyrri vika">‹</button>
+          <select class="wx-stepsel" aria-label="Vika"></select>
+          <button type="button" class="wx-stepbtn" data-dir="1" aria-label="Næsta vika">›</button>
         </div>
       </div>
+    </header>
+    <div class="wx-tiles4" id="wx-tiles" data-source="season"></div>
+
+    <div class="wx-card" id="h2h-card">
+      <h3 id="wx-h2h-h">Leikurinn</h3>
+      <div id="wx-h2h" data-source="h2h team_week"></div>
     </div>
-    <div class="wx-grid" style="grid-template-columns: 1fr; margin-top: var(--cds-gap-md);">
-      <div class="wx-card">
-        <h3>Sæti í flokkum eftir vikum</h3>
-        <p class="wx-note">Sæti liðsins (1–12) í hverjum flokki hverja viku. Grænt er efst, rautt neðst.</p>
-        <div class="wx-chips" id="wx-punts" data-source="punts"></div>
-        <div class="wx-scroll"><div class="wx-heat" id="wx-heat" data-source="cat_ranks"></div></div>
-      </div>
-      <div class="wx-card">
-        <h3>Hvað vantaði?</h3>
-        <p class="wx-note">Fyrir hvert tap og jafntefli: minnsta breyting sem hefði snúið leiknum. „Minnst“ miðast við hversu algengur munurinn er í deildinni, svo 2 ST teljast meira en 2 PTS.</p>
-        <div class="wx-scroll">
-          <table class="wx-t" id="wx-flipt" data-source="flips" data-row-key="key">
-            <thead><tr><th data-field="week">Vika</th><th data-field="opp">Mótherji</th><th data-field="score">Flokkar</th><th data-field="text">Vantaði</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-        <p class="wx-empty" id="wx-flipt-empty" hidden>Ekkert tap eða jafntefli enn.</p>
-      </div>
-      <div class="wx-card">
-        <h3>Líkur á úrslitakeppni yfir tímann</h3>
-        <p class="wx-note">Líkurnar eins og þær voru eftir hverja viku. Gráu línurnar eru hin liðin.</p>
-        <div class="wx-chart" id="wx-oddshist" data-source="odds_history" style="min-height: 15rem;"></div>
+
+    <div class="wx-card">
+      <h3>Vika fyrir viku</h3>
+      <p class="wx-note">Raunverulegi leikurinn, allir-við-alla árangur vikunnar og heppni. Heppni er niðurstaðan (1, ½ eða 0) mínus hlutfall liða sem liðið hefði unnið.</p>
+      <div class="wx-scroll">
+        <table class="wx-t" id="wx-tw" data-source="team_week" data-row-key="key">
+          <thead><tr><th data-field="week">Vika</th><th data-field="opp">Mótherji</th><th data-field="res">Niðurstaða</th><th data-field="cw">Flokkar</th><th data-field="apW">AvA</th><th data-field="catPts">Flokkar af 99</th><th data-field="luck">Heppni</th><th data-field="cumLuck">Uppsöfnuð</th></tr></thead>
+          <tbody></tbody>
+        </table>
       </div>
     </div>
-    <div class="wx-grid" style="margin-top: var(--cds-gap-md);">
+    <div class="wx-card">
+      <h3>Fleiri tölur</h3>
+      <div class="wx-tiles" id="wx-tiles-more" data-source="season odds form"></div>
+    </div>
+    <div class="wx-card">
+      <h3>Sæti í flokkum eftir vikum</h3>
+      <p class="wx-note">Sæti liðsins (1–12) í hverjum flokki hverja viku. Grænt er efst, rautt neðst.</p>
+      <div class="wx-chips" id="wx-punts" data-source="punts"></div>
+      <div class="wx-scroll"><div class="wx-heat" id="wx-heat" data-source="cat_ranks"></div></div>
+    </div>
+    <div class="wx-card">
+      <h3>Hvað vantaði?</h3>
+      <p class="wx-note">Fyrir hvert tap og jafntefli: minnsta breyting sem hefði snúið leiknum. „Minnst“ miðast við hversu algengur munurinn er í deildinni, svo 2 ST teljast meira en 2 PTS.</p>
+      <div class="wx-scroll">
+        <table class="wx-t" id="wx-flipt" data-source="flips" data-row-key="key">
+          <thead><tr><th data-field="week">Vika</th><th data-field="opp">Mótherji</th><th data-field="score">Flokkar</th><th data-field="text">Vantaði</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="wx-empty" id="wx-flipt-empty" hidden>Ekkert tap eða jafntefli enn.</p>
+    </div>
+    <div class="wx-card">
+      <h3>Líkur á úrslitakeppni yfir tímann</h3>
+      <p class="wx-note">Líkurnar eins og þær voru eftir hverja viku. Gráu línurnar eru hin liðin.</p>
+      <div class="wx-chart" id="wx-oddshist" data-source="odds_history" style="min-height: 15rem;"></div>
+    </div>
+    <div class="wx-grid">
       <div class="wx-card">
         <h3>Styrkleikar og veikleikar</h3>
         <p class="wx-note">Hlutfall unninna flokka gegn öllum hinum liðunum, allar vikur. Yfir 50 % er styrkleiki.</p>
@@ -363,112 +525,42 @@ body #dash-root .dash-skeleton { position: relative; min-height: 6rem; border-ra
 
   <!-- Deildin -->
   <section class="wx-page" id="deildin" data-page="deildin" hidden>
-    <div class="wx-grid" style="grid-template-columns: 1fr;">
-      <div class="wx-card">
-        <h3>Leikjadagskrárskipti</h3>
-        <p class="wx-note">Árangur liðsins í línunni ef það hefði spilað leikjadagskrá liðsins í dálknum. Rammaði reiturinn er raunverulegur árangur. Grænt er betra en raunin, rautt verra.</p>
-        <div class="wx-scroll"><div class="wx-swap" id="wx-swap" data-source="swap teams"></div></div>
-      </div>
-      <div class="wx-card">
-        <h3>Metabókin</h3>
-        <p class="wx-note">Bestu og verstu frammistöður tímabilsins.</p>
-        <div class="wx-recs" id="wx-records" data-source="records"></div>
-      </div>
-      <div class="wx-card">
-        <h3>Jójó-vísitalan</h3>
-        <p class="wx-note">Hversu mikið allir-við-alla hlutfall liðsins sveiflast milli vikna (staðalfrávik). Efst eru mestu jójó-liðin, neðst þau stöðugustu. Línan sýnir hverja viku.</p>
-        <div class="wx-scroll">
-          <table class="wx-t wx-t1 wx-click" id="wx-yoyo" data-source="consistency" data-row-key="teamId">
-            <thead><tr><th data-field="team">Lið</th><th data-field="sd">Sveifla</th><th data-field="mean">Meðal AvA</th><th data-field="min">Versta</th><th data-field="max">Besta</th><th data-field="series">Vikur</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Heppni -->
-  <section class="wx-page" id="heppni" data-page="heppni" hidden>
-    <div class="wx-grid" style="grid-template-columns: 1fr;">
-      <div class="wx-card">
-        <h3>Raunveruleg staða og staðan ef allir mættu öllum</h3>
-        <p class="wx-note">Raðað eftir raunverulegri stöðu. Smelltu á lið til að sjá síðu þess. „Mism.“ sýnir hversu mörgum sætum ofar (+) eða neðar (−) liðið er en allir-við-alla staðan segir.</p>
-        <div class="wx-scroll">
-          <table class="wx-t wx-click" id="wx-stand" data-source="season" data-row-key="teamId">
-            <thead><tr>
-              <th data-field="rank">Sæti</th><th data-field="team">Lið</th><th data-field="record">Árangur</th>
-              <th data-field="apRecord">AvA árangur</th><th data-field="apPct">AvA %</th><th data-field="catPct">Flokkar %</th>
-              <th data-field="expW">Væntir sigrar</th><th data-field="luck">Heppni</th><th data-field="apRank">AvA sæti</th><th data-field="rankDiff">Mism.</th>
-              <th data-field="sos">Styrkur mótherja</th><th data-field="oppForm">Form mótherja</th>
-            </tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-        <dl class="wx-defs">
-          <div><b>AvA</b> (allir við alla): árangur liðsins ef það hefði mætt öllum 11 hinum liðunum í hverri viku.</div>
-          <div><b>Flokkar %</b>: hlutfall af 99 flokkum á viku (11 lið × 9 flokkar) sem liðið hefði unnið. Jafn flokkur telst hálfur.</div>
-          <div><b>Styrkur mótherja</b>: meðaltal AvA hlutfalls þeirra liða sem liðið hefur mætt. Yfir 50 % þýðir erfiðari dagskrá.</div>
-          <div><b>Form mótherja</b>: hversu miklu betur (+) eða verr (−) mótherjar spiluðu vikuna sem þeir mættu liðinu, miðað við eigið meðaltal.</div>
-        </dl>
-      </div>
-      <div class="wx-card">
-        <h3>Heppni yfir tímabilið</h3>
-        <p class="wx-note">Uppsöfnuð heppni eftir vikum. Heppnasta og óheppnasta liðið eru lituð. Farðu yfir línu til að sjá liðið.</p>
-        <div class="wx-chart" id="wx-cum" data-source="team_week"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Vikan -->
-  <section class="wx-page" id="vikan" data-page="vikan" hidden>
-    <div class="wx-grid" style="grid-template-columns: 1fr;">
-      <div class="wx-card">
-        <h3 id="wx-mx-h">Allir við alla</h3>
-        <p class="wx-note">Hver reitur er flokkaskor liðsins í línunni gegn liðinu í dálknum (unnir–tapaðir). Raunverulegi leikurinn er rammaður inn. Síðasti dálkurinn er allir-við-alla árangur vikunnar.</p>
-        <div class="wx-scroll"><div class="wx-matrix" id="wx-matrix" data-source="pairs team_week teams"></div></div>
-      </div>
-    </div>
-    <div class="wx-grid" style="margin-top: var(--cds-gap-md);">
-      <div class="wx-card">
-        <h3>Flokkur vikunnar</h3>
-        <p class="wx-note">Hver var bestur í hverjum flokki vikunnar. Í TO vinnur lægsta talan.</p>
-        <div class="wx-scroll">
-          <table class="wx-t" id="wx-cats" data-source="cat_leaders" data-row-key="key">
-            <thead><tr><th data-field="label">Flokkur</th><th data-field="team">Lið</th><th data-field="value">Gildi</th><th data-field="second">Næstbest</th><th data-field="gap">Munur</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-      <div class="wx-card">
-        <h3>Tæpir flokkar vikunnar</h3>
-        <p class="wx-note">Flokkar í raunverulegum leikjum sem réðust á minnsta mun. Mörk: PTS 10, REB 5, AST 3, ST 1, BLK 1, 3PTM 2, TO 2, FG% 0,5 og FT% 1 prósentustig.</p>
-        <div class="wx-scroll">
-          <table class="wx-t" id="wx-flips" data-source="coinflips" data-row-key="key">
-            <thead><tr><th data-field="label">Flokkur</th><th data-field="team">Vann</th><th data-field="opp">Tapaði</th><th data-field="mineTxt">Tölur</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-        <p class="wx-empty" id="wx-flips-empty" hidden>Enginn flokkur réðst á svona litlum mun þessa viku.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Hjartasár -->
-  <section class="wx-page" id="hjartasar" data-page="hjartasar" hidden>
-    <div class="wx-card">
-      <h3>Hjartasárateljarinn</h3>
-      <p class="wx-note">Tæpir flokkar í raunverulegum leikjum yfir allt tímabilið. Nettó er unnir mínus tapaðir. Rauða súlan sýnir hverjir hafa tapað flestum.</p>
+    <header class="wx-lghead">
+      <h1 class="wx-lgtitle">Heppni eða snilld?</h1>
+      <p class="wx-take dash-skeleton" id="wx-take" data-source="season">—</p>
+      <p class="wx-wksub" id="wx-lgweek">—</p>
+    </header>
+    <div class="wx-card" id="power-card">
+      <h3 id="wx-pw-h">Kraftröðun</h3>
+      <p class="wx-note">Einkunn: 50 % allir-við-alla hlutfall tímabilsins, 35 % síðustu 3 vikna og 15 % jafnvægi (hve marga af 9 flokkum liðið vinnur oftar en ekki). Örin sýnir breytingu frá vikunni á undan.</p>
       <div class="wx-scroll">
-        <table class="wx-t wx-t1 wx-click" id="wx-heart" data-source="heartbreak" data-row-key="teamId">
-          <thead><tr><th data-field="team">Lið</th><th data-field="lost">Tapaðir tæpir</th><th data-field="won">Unnir tæpir</th><th data-field="tied">Jafnir</th><th data-field="net">Nettó</th></tr></thead>
+        <table class="wx-t wx-click" id="wx-power" data-source="power" data-row-key="key">
+          <thead><tr><th data-field="rank">#</th><th data-field="team">Lið</th><th data-field="move">Breyting</th><th data-field="score">Einkunn</th><th data-field="season">AvA tímabil</th><th data-field="recent">Síðustu 3</th><th data-field="balance">Jafnvægi</th><th data-field="weekRecord">AvA vikunnar</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
     </div>
-  </section>
-
-  <!-- Úrslit -->
-  <section class="wx-page" id="urslit" data-page="urslit" hidden>
+    <div class="wx-card">
+      <h3>Raunveruleg staða og staðan ef allir mættu öllum</h3>
+      <p class="wx-note">Raðað eftir raunverulegri stöðu. Smelltu á lið til að sjá síðu þess. „Mism.“ sýnir hversu mörgum sætum ofar (+) eða neðar (−) liðið er en allir-við-alla staðan segir.</p>
+      <div class="wx-scroll">
+        <table class="wx-t wx-click" id="wx-stand" data-source="season" data-row-key="teamId">
+          <thead><tr>
+            <th data-field="rank">Sæti</th><th data-field="team">Lið</th><th data-field="record">Árangur</th>
+            <th data-field="apRecord">AvA árangur</th><th data-field="apPct">AvA %</th><th data-field="catPct">Flokkar %</th>
+            <th data-field="expW">Væntir sigrar</th><th data-field="luck">Heppni</th><th data-field="apRank">AvA sæti</th><th data-field="rankDiff">Mism.</th>
+            <th data-field="sos">Styrkur mótherja</th><th data-field="oppForm">Form mótherja</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <dl class="wx-defs">
+        <div><b>AvA</b> (allir við alla): árangur liðsins ef það hefði mætt öllum 11 hinum liðunum í hverri viku.</div>
+        <div><b>Flokkar %</b>: hlutfall af 99 flokkum á viku (11 lið × 9 flokkar) sem liðið hefði unnið. Jafn flokkur telst hálfur.</div>
+        <div><b>Styrkur mótherja</b>: meðaltal AvA hlutfalls þeirra liða sem liðið hefur mætt. Yfir 50 % þýðir erfiðari dagskrá.</div>
+        <div><b>Form mótherja</b>: hversu miklu betur (+) eða verr (−) mótherjar spiluðu vikuna sem þeir mættu liðinu, miðað við eigið meðaltal.</div>
+      </dl>
+    </div>
     <div class="wx-card">
       <h3>Líkur á úrslitakeppni</h3>
       <p class="wx-note" id="wx-odds-note" data-source="odds">—</p>
@@ -483,14 +575,45 @@ body #dash-root .dash-skeleton { position: relative; min-height: 6rem; border-ra
         <div><b>Úrslitakeppni</b>: efstu 6 eftir 19. viku. Efstu 2 fá frí í 1. umferð. <b>Forsetabikar</b>: sæti 7–12.</div>
       </dl>
     </div>
-  </section>
-
-  <!-- Vikuspjald -->
-  <section class="wx-page" id="spjald" data-page="spjald" hidden>
-    <div class="wx-card wx-card-img">
-      <h3>Vikuspjald fyrir Messenger</h3>
-      <p class="wx-note">Hægrismelltu á myndina eða haltu fingri á henni til að vista hana og senda í spjallið.</p>
-      <div id="wx-recap" data-source="awards season team_week"></div>
+    <div class="wx-card" id="luck-card">
+      <h3>Heppnisvísitala tímabilsins</h3>
+      <p class="wx-note">Raunverulegir sigrar mínus væntir sigrar. Væntir sigrar eru hlutfall liða sem liðið hefði unnið hverja viku ef allir mættu öllum. Jafntefli telst hálfur sigur.</p>
+      <div class="wx-chart" id="wx-luck" data-source="season"></div>
+    </div>
+    <div class="wx-card">
+      <h3>Heppni yfir tímabilið</h3>
+      <p class="wx-note">Uppsöfnuð heppni eftir vikum. Heppnasta og óheppnasta liðið eru lituð. Farðu yfir línu til að sjá liðið.</p>
+      <div class="wx-chart" id="wx-cum" data-source="team_week"></div>
+    </div>
+    <div class="wx-card" id="heart-card">
+      <h3>Hjartasárateljarinn</h3>
+      <p class="wx-note">Tæpir flokkar í raunverulegum leikjum yfir allt tímabilið. Nettó er unnir mínus tapaðir. Rauða súlan sýnir hverjir hafa tapað flestum.</p>
+      <div class="wx-scroll">
+        <table class="wx-t wx-t1 wx-click" id="wx-heart" data-source="heartbreak" data-row-key="teamId">
+          <thead><tr><th data-field="team">Lið</th><th data-field="lost">Tapaðir tæpir</th><th data-field="won">Unnir tæpir</th><th data-field="tied">Jafnir</th><th data-field="net">Nettó</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="wx-card">
+      <h3>Leikjadagskrárskipti</h3>
+      <p class="wx-note">Árangur liðsins í línunni ef það hefði spilað leikjadagskrá liðsins í dálknum. Rammaði reiturinn er raunverulegur árangur. Grænt er betra en raunin, rautt verra.</p>
+      <div class="wx-scroll"><div class="wx-swap" id="wx-swap" data-source="swap teams"></div></div>
+    </div>
+    <div class="wx-card">
+      <h3>Metabókin</h3>
+      <p class="wx-note">Bestu og verstu frammistöður tímabilsins.</p>
+      <div class="wx-recs" id="wx-records" data-source="records"></div>
+    </div>
+    <div class="wx-card">
+      <h3>Jójó-vísitalan</h3>
+      <p class="wx-note">Hversu mikið allir-við-alla hlutfall liðsins sveiflast milli vikna (staðalfrávik). Efst eru mestu jójó-liðin, neðst þau stöðugustu. Línan sýnir hverja viku.</p>
+      <div class="wx-scroll">
+        <table class="wx-t wx-t1 wx-click" id="wx-yoyo" data-source="consistency" data-row-key="teamId">
+          <thead><tr><th data-field="team">Lið</th><th data-field="sd">Sveifla</th><th data-field="mean">Meðal AvA</th><th data-field="min">Versta</th><th data-field="max">Besta</th><th data-field="series">Vikur</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
   </section>
 </div>
@@ -1054,6 +1177,62 @@ dash.calc('next_week', {
     return rows.sort((a, b) => a.closeness - b.closeness).map((r) => ({ ...r, featured: r.closeness === minClose }));
   },
 });
+
+dash.calc('results', {
+  title: 'Úrslit vikunnar',
+  description: 'Raunverulegu leikirnir hverja viku með flokkaskori og merkjum: sóp (9–0), óheppni (tap þrátt fyrir jákvæðan allir-við-alla árangur vikunnar) og leikir sem einn tæpur flokkur réð (sömu mörk og í tæpum flokkum).',
+  inputs: ['team_week', 'coinflips', 'schedule'],
+  fn: (team_week, coinflips, schedule) => {
+    const LIM = { PTS: 10, REB: 5, AST: 3, ST: 1, BLK: 1, TPM: 2, TO: 2, FGP: 0.005, FTP: 0.01 };
+    const tw = Object.fromEntries(team_week.map((r) => [r.week + '|' + r.teamId, r]));
+    const out = [];
+    for (const m of schedule) {
+      const a = tw[m.week + '|' + m.awayId], h = tw[m.week + '|' + m.homeId];
+      if (!a || !h || a.res === null) continue;
+      const winner = a.res === 1 ? a : h.res === 1 ? h : null;
+      const loser = winner ? (winner === a ? h : a) : null;
+      // one close category decided it when losing that category would have changed the result
+      let decided = null;
+      if (winner && winner.cw - winner.cl <= 2) {
+        decided = coinflips
+          .filter((f) => f.week === m.week && f.teamId === winner.teamId && f.oppId === loser.teamId && f.outcome === 'W')
+          .sort((x, y) => x.margin / LIM[x.cat] - y.margin / LIM[y.cat])[0] || null;
+      }
+      out.push({
+        key: m.week + '|' + m.awayId, week: m.week, awayId: a.teamId, homeId: h.teamId, away: a.team, home: h.team,
+        awayCats: a.cw, homeCats: h.cw, tiedCats: a.ct, awayRes: a.res, homeRes: h.res,
+        awayAp: `${a.apW}-${a.apL}-${a.apT}`, homeAp: `${h.apW}-${h.apL}-${h.apT}`,
+        winnerId: winner ? winner.teamId : null, sweep: !!winner && winner.cw === 9,
+        unluckyId: [a, h].find((r) => r.res === 0 && r.apW > r.apL)?.teamId ?? null,
+        decidedCat: decided ? decided.cat : null, decidedLabel: decided ? decided.label : null, decidedMargin: decided ? decided.margin : null,
+      });
+    }
+    return out;
+  },
+});
+
+dash.calc('h2h', {
+  title: 'Leikurinn flokk fyrir flokk',
+  description: 'Tölur liðs og mótherja í öllum 9 flokkum í raunverulega leiknum hverja viku, hver vann flokkinn og munurinn. TO: lægra vinnur. „Tæpleiki“ er munurinn deilt með marki tæpra flokka.',
+  inputs: ['stats', 'schedule'],
+  fn: (stats, schedule) => {
+    const CATS = [['PTS', 'PTS'], ['REB', 'REB'], ['AST', 'AST'], ['ST', 'ST'], ['BLK', 'BLK'], ['TPM', '3PTM'], ['TO', 'TO'], ['FGP', 'FG%'], ['FTP', 'FT%']];
+    const LIM = { PTS: 10, REB: 5, AST: 3, ST: 1, BLK: 1, TPM: 2, TO: 2, FGP: 0.005, FTP: 0.01 };
+    const row = Object.fromEntries(stats.map((r) => [r.week + '|' + r.teamId, r]));
+    const out = [];
+    for (const m of schedule) {
+      for (const [me, them] of [[m.awayId, m.homeId], [m.homeId, m.awayId]]) {
+        const a = row[m.week + '|' + me], b = row[m.week + '|' + them];
+        if (!a || !b) continue;
+        for (const [c, label] of CATS) {
+          const d = Math.round((c === 'TO' ? b[c] - a[c] : a[c] - b[c]) * 10000) / 10000;
+          out.push({ key: m.week + '|' + me + '|' + c, week: m.week, teamId: me, oppId: them, cat: c, label, mine: a[c], theirs: b[c], outcome: d > 0 ? 'W' : d < 0 ? 'L' : 'T', margin: Math.abs(d), rel: Math.abs(d) / LIM[c] });
+        }
+      }
+    }
+    return out;
+  },
+});
 </script>
 
 <script>
@@ -1077,22 +1256,75 @@ dash.calc('next_week', {
   };
   const withLogo = (id, name, size) => { const s = document.createElement('span'); s.className = 'wx-tn'; s.append(logoEl(id, name, size), document.createTextNode(name)); return s; };
   const pctPP = (v) => (v == null ? '–' : (v > 0 ? '+' : v < 0 ? '−' : '±') + loc.format('.0f')(Math.abs(v) * 100) + ' pp');
+  const fMargin = (c, v) => (c === 'FGP' || c === 'FTP' ? fDec1(v * 100) + ' pp' : fNum(v));
+  const LIM = { PTS: 10, REB: 5, AST: 3, ST: 1, BLK: 1, TPM: 2, TO: 2, FGP: 0.005, FTP: 0.01 };
   const tabs = [...root.querySelectorAll('.wx-tab')];
   const pages = [...root.querySelectorAll('.wx-page')];
-  const weekSel = root.querySelector('#wx-week');
-  let active = 'yfirlit';
+  const PAGES = ['vikan', 'lid', 'deildin'];
+  // links people may still have from the old 8-tab site
+  const OLD = { yfirlit: 'vikan', spjald: 'vikan', heppni: 'deildin', hjartasar: 'deildin', urslit: 'deildin' };
+  let active = 'vikan';
+  let weekList = [];
+  let flipsAll = false;
+  let recapOpen = false;
 
   const show = (name, link) => {
+    name = OLD[name] || name;
+    if (!PAGES.includes(name)) name = 'vikan';
+    const changed = name !== active;
     active = name;
     tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.tab === name)));
     pages.forEach((p) => { p.hidden = p.dataset.page !== name; });
-    if (link) dash.setLink(name);
+    if (link) { dash.setLink(name); if (changed) window.scrollTo(0, 0); }
     draw();
   };
   tabs.forEach((t) => t.addEventListener('click', () => show(t.dataset.tab, true)));
-  weekSel.addEventListener('change', () => dash.setParams({ week: Number(weekSel.value) }));
 
-  const ids = ['teams', 'team_cats', 'upcoming', 'cat_ranks', 'punts', 'flips', 'form', 'odds_history', 'power', 'swap', 'records', 'consistency', 'next_week', 'stats', 'pairs', 'team_week', 'season', 'coinflips', 'heartbreak', 'cat_leaders', 'awards', 'odds'];
+  // week steppers (Vikan and Liðið mitt share one week)
+  const setWeek = (k) => { if (weekList.includes(k)) dash.setParams({ week: k }); };
+  root.addEventListener('click', (ev) => {
+    const b = ev.target.closest('.wx-stepbtn'); if (!b || b.disabled) return;
+    const cur = dash.params().week ?? weekList[weekList.length - 1];
+    const i = weekList.indexOf(cur) + Number(b.dataset.dir);
+    if (i >= 0 && i < weekList.length) setWeek(weekList[i]);
+  });
+  root.addEventListener('change', (ev) => { if (ev.target.matches('.wx-stepsel')) setWeek(Number(ev.target.value)); });
+  function drawSteppers(w) {
+    root.querySelectorAll('.wx-step').forEach((st) => {
+      const sel = st.querySelector('.wx-stepsel');
+      if (document.activeElement !== sel) {
+        sel.replaceChildren(...weekList.map((k) => new Option('Vika ' + k, k)));
+        if (w != null) sel.value = String(w);
+      }
+      const i = weekList.indexOf(w);
+      const [prev, next] = st.querySelectorAll('.wx-stepbtn');
+      prev.disabled = i <= 0; next.disabled = i < 0 || i >= weekList.length - 1;
+    });
+    root.querySelectorAll('[data-weeksub]').forEach((el) => { el.textContent = w == null ? '' : `Deildarkeppni · vika ${w} af 19`; });
+  }
+
+  // links that jump to a card on another page
+  root.addEventListener('click', (ev) => {
+    const g = ev.target.closest('[data-goto]'); if (!g) return;
+    ev.preventDefault();
+    show(g.dataset.goto, true);
+    const el = g.dataset.anchor && document.getElementById(g.dataset.anchor);
+    if (el) requestAnimationFrame(() => el.scrollIntoView({ block: 'start' }));
+  });
+
+  // the team someone picks in the dropdown is remembered on their phone
+  const LS_KEY = 'wintris-lid';
+  const readTeam = () => { try { return localStorage.getItem(LS_KEY); } catch (e) { return null; } };
+  const saveTeam = (id) => { try { localStorage.setItem(LS_KEY, id); } catch (e) { /* storage blocked: fine */ } };
+  const teamSel = root.querySelector('#wx-teamsel');
+  teamSel.addEventListener('change', () => { saveTeam(teamSel.value); dash.setParams({ team: teamSel.value }); });
+  const currentTeam = (teams, season) => {
+    const ok = (id) => id && teams.some((t) => t.teamId === id);
+    const p = dash.params().team, s = readTeam();
+    return ok(p) ? p : ok(s) ? s : season[0]?.teamId;
+  };
+
+  const ids = ['results', 'h2h', 'teams', 'team_cats', 'upcoming', 'cat_ranks', 'punts', 'flips', 'form', 'odds_history', 'power', 'swap', 'records', 'consistency', 'next_week', 'stats', 'pairs', 'team_week', 'season', 'coinflips', 'heartbreak', 'cat_leaders', 'awards', 'odds'];
   const status = () => {
     const s = ids.map((id) => dash.data(id).status);
     if (s.includes('error')) return 'error';
@@ -1135,7 +1367,54 @@ dash.calc('next_week', {
       mk(hi, 'team', hi.team), ' er heppnasta liðið (', mk(hi, 'luck', minus(fSign(hi.luck))), ' sigrar umfram væntingar) og ',
       mk(lo, 'team', lo.team), ' það óheppnasta (', mk(lo, 'luck', minus(fSign(lo.luck))), ').'
     );
+    root.querySelector('#wx-lgweek').textContent = `Eftir viku ${weeks[weeks.length - 1]} af 19`;
   }
+
+  // ---------- Vikan: headline + results ----------
+  const score = (cw, cl, ct) => `${cw}–${cl}` + (ct ? `–${ct}` : '');
+  function drawHeadline(teamWeek, w) {
+    const el = root.querySelector('#wx-headline'); el.replaceChildren();
+    const rows = teamWeek.filter((r) => r.week === w && r.res !== null);
+    if (!rows.length) { el.textContent = 'Engin úrslit fyrir þessa viku.'; return; }
+    const b = (r, text) => { const s = document.createElement('b'); s.dataset.source = 'team_week'; s.dataset.field = 'team'; s.dataset.where = 'key=' + r.key; s.textContent = text; return s; };
+    const big = rows.filter((r) => r.res === 1).sort((x, y) => (y.cw - y.cl) - (x.cw - x.cl) || y.apW - x.apW)[0];
+    if (big) el.append(b(big, big.team), ` vann stærsta sigurinn, ${score(big.cw, big.cl, big.ct)} gegn ${big.opp}.`);
+    const un = [...rows].sort((x, y) => x.luck - y.luck)[0];
+    if (un && un.res !== 1 && un.luck < -0.05) el.append(big ? ' ' : '', b(un, un.team), ` var óheppnast: ${un.res === 0 ? 'tapaði' : 'gerði jafntefli'} ${score(un.cw, un.cl, un.ct)} en hefði unnið ${un.apW} af 11 liðum.`);
+  }
+
+  function drawResults(w) {
+    const box = root.querySelector('#wx-results'); box.replaceChildren();
+    const rows = dash.data('results').data.filter((r) => r.week === w);
+    if (!rows.length) { const p = document.createElement('p'); p.className = 'wx-empty'; p.textContent = 'Engin úrslit fyrir þessa viku.'; box.appendChild(p); return; }
+    for (const r of rows) {
+      const card = document.createElement('div'); card.className = 'wx-rc';
+      const row = document.createElement('div'); row.className = 'wx-rc-row';
+      const side = (id, name, res, right) => {
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'wx-rc-side' + (right ? ' r' : '') + (res === 1 ? ' win' : '');
+        b.dataset.team = id; b.dataset.week = w; b.setAttribute('aria-label', `${name}, vika ${w}`);
+        const n = document.createElement('span'); n.className = 'wx-rc-name'; n.textContent = name;
+        b.append(logoEl(id, name, 28), n); return b;
+      };
+      const sc = document.createElement('div'); sc.className = 'wx-rc-score'; sc.dataset.source = 'results'; sc.dataset.where = 'key=' + r.key;
+      sc.append(`${r.awayCats}–${r.homeCats}`);
+      if (r.tiedCats) { const s = document.createElement('small'); s.textContent = `${r.tiedCats} ${r.tiedCats === 1 ? 'jafn' : 'jafnir'}`; sc.appendChild(s); }
+      row.append(side(r.awayId, r.away, r.awayRes, false), sc, side(r.homeId, r.home, r.homeRes, true));
+      const pills = document.createElement('div'); pills.className = 'wx-rc-pills';
+      const pill = (cls, text, title) => { const p = document.createElement('span'); p.className = 'wx-pill ' + cls; p.textContent = text; if (title) p.title = title; pills.appendChild(p); };
+      if (!r.winnerId) pill('draw', 'Jafntefli');
+      if (r.sweep) pill('sweep', 'Sóp');
+      if (r.unluckyId) {
+        const who = r.unluckyId === r.awayId ? [r.away, r.awayAp] : [r.home, r.homeAp];
+        pill('unlucky', 'Óheppni', `${who[0]} tapaði en var ${who[1]} gegn öllum`);
+      }
+      if (r.decidedCat) pill('decided', `Réðst á ${r.decidedLabel} (${fMargin(r.decidedCat, r.decidedMargin)})`);
+      card.append(row, pills); box.appendChild(card);
+    }
+  }
+  root.querySelector('#wx-results').addEventListener('click', (ev) => {
+    const b = ev.target.closest('.wx-rc-side'); if (b) pickTeam(b.dataset.team, Number(b.dataset.week));
+  });
 
   // ---------- Awards ----------
   function drawAwards(awards, w) {
@@ -1282,14 +1561,20 @@ dash.calc('next_week', {
   }
   function drawFlips(flips, w) {
     const tb = root.querySelector('#wx-flips tbody'); tb.replaceChildren();
-    const rows = flips.filter((r) => r.week === w && (r.outcome === 'W' || (r.outcome === 'T' && r.teamId < r.oppId))).sort((a, b) => a.label.localeCompare(b.label));
-    root.querySelector('#wx-flips-empty').hidden = rows.length > 0;
+    const all = flips.filter((r) => r.week === w && (r.outcome === 'W' || (r.outcome === 'T' && r.teamId < r.oppId))).sort((a, b) => a.margin / LIM[a.cat] - b.margin / LIM[b.cat]);
+    root.querySelector('#wx-flips-empty').hidden = all.length > 0;
+    const more = root.querySelector('#wx-flips-all');
+    more.hidden = all.length <= 3;
+    more.textContent = flipsAll ? 'Sýna bara 3 tæpustu' : `Sýna alla (${all.length})`;
+    const rows = flipsAll ? all : all.slice(0, 3);
     for (const r of rows) {
       const tr = document.createElement('tr'); tr.dataset.key = r.key;
       [r.label + (r.outcome === 'T' ? ' (jafnt)' : ''), r.team, r.opp, fCat(r.cat, r.mine) + ' – ' + fCat(r.cat, r.theirs)].forEach((v) => { const td = document.createElement('td'); td.textContent = v; tr.appendChild(td); });
       tb.appendChild(tr);
     }
   }
+
+  root.querySelector('#wx-flips-all').addEventListener('click', () => { flipsAll = !flipsAll; draw(); });
 
   // ---------- Heartbreak ----------
   function drawHeart(hb) {
@@ -1366,47 +1651,94 @@ dash.calc('next_week', {
     o.fillStyle = '#6f8399'; o.font = `400 22px ${sans}`; o.fillText('Heppni = raunverulegir sigrar − væntir sigrar úr allir-við-alla', 72, outH - 50);
     const img = document.createElement('img'); img.alt = `Vikuspjald Wintris, vika ${w}`; img.src = out.toDataURL('image/png');
     box.replaceChildren(img);
+    const dl = root.querySelector('#wx-recap-dl'); dl.href = img.src; dl.download = `wintris-vikuspjald-vika-${w}.png`;
+    root.querySelector('#wx-recap-h').textContent = `Vikuspjald · vika ${w}`;
   }
+  root.querySelector('#wx-recap-btn').addEventListener('click', () => {
+    recapOpen = true;
+    root.querySelector('#wx-recap-panel').hidden = false;
+    draw();
+    requestAnimationFrame(() => root.querySelector('#wx-recap-panel').scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  });
 
   // ---------- Team page ----------
-  const pickTeam = (id) => { dash.setParams({ team: id }); show('lid', true); };
+  const pickTeam = (id, week) => { dash.setParams(week ? { team: id, week } : { team: id }); show('lid', true); };
   ['#wx-stand', '#wx-heart', '#wx-odds', '#wx-yoyo'].forEach((sel) => root.querySelector(sel).addEventListener('click', (ev) => {
     const tr = ev.target.closest('tbody tr[data-key]'); if (tr) pickTeam(tr.dataset.key);
   }));
   root.querySelector('#wx-power').addEventListener('click', (ev) => { const tr = ev.target.closest('tbody tr[data-team]'); if (tr) pickTeam(tr.dataset.team); });
-  root.querySelector('#wx-teampick').addEventListener('click', (ev) => {
-    const b = ev.target.closest('button[data-team]'); if (b) dash.setParams({ team: b.dataset.team });
-  });
+  root.querySelector('#wx-h2h').addEventListener('click', (ev) => { const b = ev.target.closest('button[data-team]'); if (b) pickTeam(b.dataset.team, Number(b.dataset.week)); });
 
-  function drawTeam(teams, season, odds, teamWeek, teamCats, upcoming, flips) {
-    let id = dash.params().team;
-    if (!teams.some((t) => t.teamId === id)) id = season[0]?.teamId;
-    const pick = root.querySelector('#wx-teampick');
-    pick.replaceChildren(...[...teams].sort((a, b) => a.name.localeCompare(b.name, 'is')).map((t) => {
-      const b = document.createElement('button'); b.className = 'wx-teambtn'; b.dataset.team = t.teamId; b.setAttribute('aria-pressed', String(t.teamId === id)); b.appendChild(withLogo(t.teamId, t.name, 18)); return b;
-    }));
+  // ---------- Liðið mitt: the matchup, category by category ----------
+  function drawH2H(id, w, teamWeek) {
+    root.querySelector('#wx-h2h-h').textContent = `Leikurinn í viku ${w}`;
+    const box = root.querySelector('#wx-h2h'); box.replaceChildren();
+    const order = ['PTS', 'REB', 'AST', 'ST', 'BLK', 'TPM', 'TO', 'FGP', 'FTP'];
+    const rows = order.map((c) => dash.data('h2h').data.find((r) => r.teamId === id && r.week === w && r.cat === c)).filter(Boolean);
+    const me = teamWeek.find((r) => r.teamId === id && r.week === w);
+    if (!rows.length || !me) { const p = document.createElement('p'); p.className = 'wx-empty'; p.textContent = 'Enginn leikur þessa viku.'; box.appendChild(p); return; }
+    const top = document.createElement('div'); top.className = 'wx-h2h-top';
+    const team = (tid, name, win, button) => {
+      const el = document.createElement(button ? 'button' : 'div'); el.className = 'wx-h2h-team' + (win ? ' win' : '');
+      if (button) { el.type = 'button'; el.dataset.team = tid; el.dataset.week = w; el.setAttribute('aria-label', `Opna ${name}`); }
+      const n = document.createElement('span'); n.textContent = name;
+      el.append(logoEl(tid, name, 40), n); return el;
+    };
+    const mid = document.createElement('div'); mid.className = 'wx-h2h-score';
+    const num = document.createElement('div'); num.className = 'wx-h2h-num'; num.dataset.source = 'team_week'; num.dataset.where = 'key=' + me.key; num.textContent = score(me.cw, me.cl, me.ct);
+    const pill = document.createElement('span'); pill.className = 'wx-res ' + (me.res === 1 ? 'W' : me.res === 0 ? 'L' : 'T'); pill.textContent = me.res === 1 ? 'Sigur' : me.res === 0 ? 'Tap' : 'Jafntefli';
+    mid.append(num, pill);
+    top.append(team(id, me.team, me.res === 1, false), mid, team(me.oppId, me.opp, me.res === 0, true));
+    const t = document.createElement('table'); t.className = 'wx-h2h-t'; t.dataset.source = 'h2h'; t.dataset.rowKey = 'key';
+    const tb = document.createElement('tbody');
+    for (const r of rows) {
+      const tr = document.createElement('tr'); tr.dataset.key = r.key;
+      const m = document.createElement('td'); m.className = 'm' + (r.outcome === 'W' ? ' win' : ''); m.textContent = fCat(r.cat, r.mine);
+      const c = document.createElement('td'); c.className = 'c'; c.textContent = r.label;
+      if (r.outcome === 'T') { const s = document.createElement('small'); s.textContent = 'jafnt'; c.appendChild(s); }
+      const o = document.createElement('td'); o.className = 'o' + (r.outcome === 'L' ? ' win' : ''); o.textContent = fCat(r.cat, r.theirs);
+      tr.append(m, c, o); tb.appendChild(tr);
+    }
+    t.appendChild(tb);
+    const close = [...rows].sort((a, b) => a.rel - b.rel)[0];
+    const sum = document.createElement('p'); sum.className = 'wx-h2h-sum';
+    const b = (text) => { const s = document.createElement('b'); s.textContent = text; return s; };
+    sum.append('AvA vikunnar ', b(score(me.apW, me.apL, me.apT)), ' · Tæpasti flokkurinn: ', b(close.label), close.outcome === 'T' ? ' (jafnt)' : ` (${fMargin(close.cat, close.margin)})`);
+    box.append(top, t, sum);
+  }
+
+  function drawTeam(teams, season, odds, teamWeek, teamCats, upcoming, flips, w) {
+    const id = currentTeam(teams, season);
+    if (document.activeElement !== teamSel) {
+      teamSel.replaceChildren(...[...teams].sort((a, b) => a.name.localeCompare(b.name, 'is')).map((t) => new Option(t.name, t.teamId)));
+      if (id) teamSel.value = id;
+    }
     const s = season.find((r) => r.teamId === id), o = odds.find((r) => r.teamId === id);
     if (!s) return;
-    const h = root.querySelector('#wx-teamname'); h.dataset.field = 'team'; h.dataset.where = 'teamId=' + id; h.replaceChildren(withLogo(id, s.team, 44));
+    const h = root.querySelector('#wx-teamname'); h.dataset.field = 'team'; h.dataset.where = 'teamId=' + id; h.replaceChildren(logoEl(id, s.team, 44));
 
-    const tiles = root.querySelector('#wx-tiles'); tiles.replaceChildren();
-    const tile = (k, src, field, v, sub) => {
+    const tile = (box, k, src, field, v, sub) => {
       const d = document.createElement('div'); d.className = 'wx-tile';
       const a = document.createElement('div'); a.className = 'wx-tile-k'; a.textContent = k;
       const b = document.createElement('div'); b.className = 'wx-tile-v'; b.dataset.source = src; b.dataset.field = field; b.dataset.where = 'teamId=' + id; b.textContent = v;
       const c = document.createElement('div'); c.className = 'wx-tile-s'; c.textContent = sub;
-      d.append(a, b, c); tiles.appendChild(d);
+      d.append(a, b, c); box.appendChild(d);
     };
-    tile('Árangur', 'season', 'record', s.record, `${s.rank}. sæti í deildinni`);
-    tile('Allir við alla', 'season', 'apRecord', s.apRecord, `${s.apRank}. sæti ef allir mættu öllum`);
-    tile('Heppni', 'season', 'luck', minus(fSign(s.luck)), `${fDec1(s.expW)} væntir sigrar`);
-    tile('Styrkur mótherja', 'season', 'sos', s.sos == null ? '–' : fPct(s.sos), 'Meðal AvA % mótherja hingað til');
-    if (o) tile('Úrslitakeppni', 'odds', 'playoff', fPct(o.playoff), `Frí í 1. umferð ${fPct(o.bye)} · Forsetabikar ${fPct(o.presidents)}`);
+    const tiles = root.querySelector('#wx-tiles'); tiles.replaceChildren();
+    tile(tiles, 'Árangur', 'season', 'record', s.record, 'S–T–J');
+    tile(tiles, 'Sæti', 'season', 'rank', s.rank + '.', 'af 12');
+    tile(tiles, 'AvA', 'season', 'apRecord', s.apRecord, `${s.apRank}. sæti`);
+    tile(tiles, 'Heppni', 'season', 'luck', minus(fSign(s.luck)), `${fDec1(s.expW)} væntir`);
+    drawH2H(id, w, teamWeek);
+
+    const more = root.querySelector('#wx-tiles-more'); more.replaceChildren();
+    tile(more, 'Styrkur mótherja', 'season', 'sos', s.sos == null ? '–' : fPct(s.sos), 'Meðal AvA % mótherja hingað til');
+    if (o) tile(more, 'Úrslitakeppni', 'odds', 'playoff', fPct(o.playoff), `Frí í 1. umferð ${fPct(o.bye)} · Forsetabikar ${fPct(o.presidents)}`);
     const f = dash.data('form').data.find((r) => r.teamId === id);
     if (f && f.season != null) {
-      tile('Form', 'form', 'delta', (f.delta > 0.02 ? '↑ ' : f.delta < -0.02 ? '↓ ' : '→ ') + pctPP(f.delta), `Síðustu ${f.recentWeeks} vikur ${fPct(f.recent)} AvA, tímabilið ${fPct(f.season)}`);
-      tile('Besta vikan', 'form', 'bestRecord', f.bestRecord, `Vika ${f.bestWeek}, gegn ${f.bestOpp}`);
-      tile('Versta vikan', 'form', 'worstRecord', f.worstRecord, `Vika ${f.worstWeek}, gegn ${f.worstOpp}`);
+      tile(more, 'Form', 'form', 'delta', (f.delta > 0.02 ? '↑ ' : f.delta < -0.02 ? '↓ ' : '→ ') + pctPP(f.delta), `Síðustu ${f.recentWeeks} vikur ${fPct(f.recent)} AvA, tímabilið ${fPct(f.season)}`);
+      tile(more, 'Besta vikan', 'form', 'bestRecord', f.bestRecord, `Vika ${f.bestWeek}, gegn ${f.bestOpp}`);
+      tile(more, 'Versta vikan', 'form', 'worstRecord', f.worstRecord, `Vika ${f.worstWeek}, gegn ${f.worstOpp}`);
     }
     drawHeat(id);
     drawFlipTable(id);
@@ -1565,12 +1897,17 @@ dash.calc('next_week', {
     const rows = dash.data('next_week').data;
     const box = root.querySelector('#wx-next-week'); box.replaceChildren();
     root.querySelector('#wx-next-week-empty').hidden = rows.length > 0;
-    root.querySelector('#wx-nw-h').textContent = rows.length ? `Leikir næstu viku · vika ${rows[0].week}` : 'Leikir næstu viku';
+    root.querySelector('#wx-nw-h').textContent = rows.length ? `Framundan · leikir viku ${rows[0].week}` : 'Framundan';
     for (const r of rows) {
       const d = document.createElement('div'); d.className = 'wx-mu' + (r.featured ? ' feat' : '');
       const a = withLogo(r.teamId, r.team, 22);
       const mid = document.createElement('div'); mid.className = 'wx-mu-mid';
-      if (r.featured) { const tag = document.createElement('span'); tag.className = 'wx-feat-tag'; tag.textContent = 'Leikur vikunnar'; mid.appendChild(tag); }
+      if (r.featured) {
+        // the tag gets its own line so it never runs into a team name on a phone
+        const fr = document.createElement('div'); fr.className = 'wx-mu feat wx-feat-row';
+        const tag = document.createElement('span'); tag.className = 'wx-feat-tag'; tag.textContent = 'Leikur vikunnar';
+        fr.style.display = 'block'; fr.appendChild(tag); box.appendChild(fr);
+      }
       const bar = document.createElement('div'); bar.className = 'wx-mu-bar'; const fill = document.createElement('span'); fill.style.width = r.winProb * 100 + '%'; bar.appendChild(fill);
       const pct = document.createElement('span'); pct.dataset.source = 'next_week'; pct.dataset.field = 'winProb'; pct.dataset.where = 'key=' + r.key; pct.textContent = `${fPct(r.winProb)} – ${fPct(1 - r.winProb)}`;
       mid.append(bar, pct);
@@ -1652,45 +1989,47 @@ dash.calc('next_week', {
     ['#wx-awards', '#wx-luck', '#wx-cum', '#wx-matrix', '#wx-recap', '#wx-teamcats', '#wx-tiles', '#wx-heat', '#wx-oddshist', '#wx-swap', '#wx-records', '#wx-next-week'].forEach((s) => root.querySelector(s).classList.remove('dash-skeleton'));
     const stats = dash.data('stats').data, teamWeek = dash.data('team_week').data, season = dash.data('season').data;
     LOGOS = Object.fromEntries((dash.data('logos').data || []).map((r) => [r.teamId, r.logo]));
-    for (const [tid, src] of Object.entries(LOGOS)) if (!logoImgs[tid]) { const im = new Image(); im.onload = () => { if (active === 'spjald') draw(); }; im.src = src; logoImgs[tid] = im; }
+    for (const [tid, src] of Object.entries(LOGOS)) if (!logoImgs[tid]) { const im = new Image(); im.onload = () => { if (recapOpen && active === 'vikan') draw(); }; im.src = src; logoImgs[tid] = im; }
     const sample = stats.length > 0 && stats[0].sample;
     banner.hidden = !sample;
     const { w, weeks } = currentWeek(teamWeek);
-    if (document.activeElement !== weekSel) {
-      weekSel.replaceChildren(...[...weeks].reverse().map((k) => new Option('Vika ' + k, k)));
-      if (w != null) weekSel.value = String(w);
-    }
+    weekList = weeks;
+    drawSteppers(w);
     drawHeader(season, sample, weeks);
     const teams = dash.data('teams').data;
     if (!weeks.length) return;
+    const latest = weeks[weeks.length - 1];
+    // Vikan
+    drawHeadline(teamWeek, w);
+    drawResults(w);
     drawAwards(dash.data('awards').data, w);
-    drawStand(season);
-    drawCats(dash.data('cat_leaders').data, w);
     drawFlips(dash.data('coinflips').data, w);
-    drawHeart(dash.data('heartbreak').data);
-    drawOdds(dash.data('odds').data);
-    drawPower(w);
+    drawCats(dash.data('cat_leaders').data, w);
+    drawMatrix(dash.data('pairs').data, teamWeek, teams, w);
     drawNextWeek();
+    if (recapOpen && active === 'vikan') drawRecap(dash.data('awards').data, season, teamWeek, w, sample);
+    // Liðið mitt
+    drawTeam(teams, season, dash.data('odds').data, teamWeek, dash.data('team_cats').data, dash.data('upcoming').data, dash.data('coinflips').data, w);
+    // Deildin (always the latest week: it has no week selector)
+    drawPower(latest);
+    drawStand(season);
+    drawOdds(dash.data('odds').data);
+    drawHeart(dash.data('heartbreak').data);
+    drawSwap(teams);
     drawRecords();
     drawYoyo();
-    drawSwap(teams);
-    drawTeam(teams, season, dash.data('odds').data, teamWeek, dash.data('team_cats').data, dash.data('upcoming').data, dash.data('coinflips').data);
-    if (active === 'yfirlit') drawLuck(season);
-    if (active === 'heppni') drawCum(teamWeek, season);
-    if (active === 'vikan') drawMatrix(dash.data('pairs').data, teamWeek, teams, w);
-    if (active === 'spjald') drawRecap(dash.data('awards').data, season, teamWeek, w, sample);
+    if (active === 'deildin') { drawLuck(season); drawCum(teamWeek, season); }
   }
 
   ['#wx-awards', '#wx-luck', '#wx-cum', '#wx-matrix', '#wx-recap', '#wx-teamcats', '#wx-tiles', '#wx-heat', '#wx-oddshist', '#wx-swap', '#wx-records', '#wx-next-week'].forEach((s) => root.querySelector(s).classList.add('dash-skeleton'));
-  const start = location.hash.slice(1);
-  show(tabs.some((t) => t.dataset.tab === start) ? start : 'yfirlit', false);
+  show(location.hash.slice(1).split('/')[0], false);
   dash.onData(draw);
 })();
 </script>
 
   </div>
   <footer class="site-foot">
-    <span>Wintris · fantasy-körfubolti síðan löngu fyrir Fantrax</span>
+    <span>Wintris · fantasy-körfubolti síðan löngu fyrir Fantrax · gögn uppfærð <b id="wx-updated">—</b></span>
     <span>Tölur úr Fantrax · heppni = raunverulegir sigrar − væntir sigrar úr allir-við-alla</span>
   </footer>
 </div>
