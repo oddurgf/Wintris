@@ -4,9 +4,20 @@
 
 The public site for **Wintris**, a 12-team H2H 9-category fantasy basketball league on Fantrax
 (league id `f29oe0zdmv5gs7rl`, season 2026–27, 19 regular-season weeks, top 6 make the playoffs).
-It shows all-play records, a luck index, power rankings, close categories ("hjartasár"), playoff
-odds (and their history), team pages (category heatmap, punt detector, "hvað vantaði?"), a league
-tab (schedule swap, record book, yo-yo index) and a weekly recap card, with team logos. Live at https://oddurgf.github.io/Wintris/.
+Live at https://oddurgf.github.io/Wintris/. It is built mobile-first (most people open it from a
+link on their phone) and has three pages, a bottom tab bar on phones and top tabs on computers:
+
+- **Vikan** (home): week stepper, generated headline, the week's results with tags (Sóp, Óheppni,
+  Réðst á …), awards, close categories, all-play matrix, category leaders, the Messenger recap
+  image and next week's games.
+- **Liðið mitt**: team dropdown (remembered in localStorage), 4 tiles, the week's head-to-head box,
+  then segments *Tímabilið* / *Flokkar* / *Framundan*.
+- **Deildin**: segments *Staðan* (one merged standings table with a Staða/Kraftröðun sort and a
+  "Sýna alla dálka" toggle), *Heppni*, *Hjartasár* and *Met*.
+
+Shareable links: `#vikan/3`, `#lid/<teamId>/3`, `#deildin/heppni`. Old links (`#yfirlit`,
+`#hjartasar` …) still land on the right view. Any team name opens Liðið mitt for that team. Long
+method notes sit behind a "?" button on each card, with a one-line subtitle visible.
 
 **This repo is the master copy.** The earlier claude.ai dashboard is archived and no longer
 updated. Make all changes here. There is one site and one data pipeline.
@@ -51,8 +62,11 @@ run is Tuesday 00:17 UTC, just after the close; the 07:37 run is a catch-up for 
 ## Before every push: check the site in a headless browser
 
 Serve the repo locally, then open it with Playwright (preinstalled in cloud sessions) and click
-every tab (`.wx-tab`) at a desktop width (1280×900) and a phone width (390×844). Confirm there are
-no console errors or page errors, and that the page doesn't scroll sideways.
+every tab (`.wx-tab`) **and every segment** (`.wx-seg[data-seg="lid"|"deildin"] button`) at a desktop
+width (1280×900) and a phone width (390×844). Confirm there are no console errors or page errors,
+that the page doesn't scroll sideways, and on the phone that no table shows more than 5 columns
+and tap targets are at least 44px. Only the three grids (all-play matrix, category heatmap,
+schedule swap) and the standings table with all columns on may scroll sideways inside their box.
 
 ```bash
 python3 -m http.server 8765 &   # from the repo root
