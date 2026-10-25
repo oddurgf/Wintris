@@ -38,8 +38,17 @@ def fxpa(method, data):
         sys.exit(f"Fantrax error: {err.get('code')} (login cookie missing or expired?)")
     return d["responses"][0]["data"]
 
-def finished_weeks(include_current):
+def save_periods(info, path):
+    """Keep each scoring period's dates (public league info) so the site can show them."""
+    rows = [{k: p[k] for k in ("number", "startDate", "endDate", "name", "caption") if k in p}
+            for p in info["scoringPeriods"]]
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(rows, f, ensure_ascii=False, indent=0)
+
+def finished_weeks(include_current, periods_out=None):
     info = get(f"https://www.fantrax.com/fxea/general/getLeagueInfo?leagueId={LEAGUE}")
+    if periods_out:
+        save_periods(info, periods_out)
     now = datetime.now(timezone.utc)
     out = []
     for p in info["scoringPeriods"]:
@@ -89,7 +98,7 @@ if __name__ == "__main__":
     out = sys.argv[1]
     if not _cookie:
         sys.exit("FANTRAX_COOKIE is empty: add your Fantrax login cookie as a GitHub secret (see README).")
-    weeks = finished_weeks("--include-current" in sys.argv)
+    weeks = finished_weeks("--include-current" in sys.argv, os.path.join(os.path.dirname(os.path.abspath(out)), "periods.json"))
     allrows, problems = [], []
     for w in weeks:
         rows, wlt, mus = week_rows(w)
