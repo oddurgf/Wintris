@@ -26,13 +26,15 @@ updated. Make all changes here. There is one site and one data pipeline.
 
 ```
 Fantrax ──scripts/fetch_weeks.py──▶ data/weekly_stats.json ─┐
+                               └──▶ data/periods.json ──────┤
 Fantrax ──scripts/fetch_logos.py──▶ data/logos.json ─────────┴─scripts/build_data.py──▶ data.js ──▶ index.html (site)
 ```
 
 | File | Role |
 |---|---|
 | `index.html` | The whole site: layout, CSS, the calculations and charts (d3 v7 from cdnjs). Its first `<script>` is a small engine that stands in for the old dashboard runtime (`window.dash`: `data`, `calc`, `onData`, `params`/`setParams`, `setLink`, `colors`), serving data from `data.js` and running each `dash.calc` in the browser. |
-| `data.js` | `window.WINTRIS_DATA = {teams, schedule, weekly_stats, sample_stats, logos, updated}`. Generated. |
+| `data.js` | `window.WINTRIS_DATA = {teams, schedule, weekly_stats, sample_stats, logos, periods, updated}`. Generated. |
+| `data/periods.json` | Fantrax scoring periods `{number, startDate, endDate}` (all 22, from the public `getLeagueInfo`), saved by `fetch_weeks.py` on every run. The site's `week_dates` calc turns them into game days: a week closes on a Monday (usually 18:59 ET, sometimes noon), so its last game day is the Sunday before; week 1 is Tue 20 Oct – Sun 25 Oct. Shown next to the week stepper, on the matchup box, Framundan and the recap image. |
 | `data/logos.json` | `{teamId, logo}` rows, logo = base64 data URL of the 128px Fantrax logo (the site can't load images from other hosts reliably, and a missing logo falls back to an initials badge). |
 | `scripts/fetch_logos.py` | Downloads the logos (`getFantasyTeams` + fantraximg.com). Runs in the workflow with `continue-on-error`, so a logo failure never blocks the stats. |
 | `data/teams.json`, `data/schedule.json` | Fixed league facts (team ids/names/short names; weeks 1–19 matchups). |

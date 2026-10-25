@@ -296,7 +296,7 @@ body #dash-root .wx-t .wx-tn { line-height: 1.25; }
 (function () {
   var D = window.WINTRIS_DATA || {};
   var store = {};
-  ['teams', 'schedule', 'weekly_stats', 'sample_stats', 'logos'].forEach(function (id) {
+  ['teams', 'schedule', 'weekly_stats', 'sample_stats', 'logos', 'periods'].forEach(function (id) {
     var rows = Array.isArray(D[id]) ? D[id] : [];
     store[id] = { status: 'ok', data: rows, rows: rows, columns: rows.length ? Object.keys(rows[0]) : [], refreshing: false, meta: [] };
   });
@@ -1378,6 +1378,18 @@ dash.calc('league', {
     });
   },
 });
+dash.calc('week_dates', {
+  title: 'Dagsetningar vikna',
+  description: 'Fyrsti og síðasti leikdagur hverrar viku (bandarískur tími), úr leikvikum Fantrax. Fantrax lokar vikunni á mánudegi, svo síðasti leikdagurinn er sunnudagurinn á undan.',
+  inputs: ['periods'],
+  fn: (periods) => periods.map((p) => {
+    const first = p.startDate.slice(0, 10);
+    let last = p.endDate.slice(0, 10);
+    // the week closes on a Monday before that day's games, so its last game day is the day before
+    if (Number(p.endDate.slice(11, 13)) < 21) { const d = new Date(last + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() - 1); last = d.toISOString().slice(0, 10); }
+    return { week: p.number, first, last };
+  }),
+});
 </script>
 
 <script>
@@ -1403,6 +1415,13 @@ dash.calc('league', {
   const pctPP = (v) => (v == null ? '–' : (v > 0 ? '+' : v < 0 ? '−' : '±') + loc.format('.0f')(Math.abs(v) * 100) + ' pp');
   const fMargin = (c, v) => (c === 'FGP' || c === 'FTP' ? fDec1(v * 100) + ' pp' : fNum(v));
   const LIM = { PTS: 10, REB: 5, AST: 3, ST: 1, BLK: 1, TPM: 2, TO: 2, FGP: 0.005, FTP: 0.01 };
+  const MON = ['jan.', 'feb.', 'mars', 'apr.', 'maí', 'jún.', 'júl.', 'ágú.', 'sep.', 'okt.', 'nóv.', 'des.'];
+  // "20.–25. okt." or "26. okt.–1. nóv."; empty when the dates aren't known
+  const weekDates = (w) => {
+    const r = dash.data('week_dates').data.find((x) => x.week === w); if (!r) return '';
+    const [d1, m1, d2, m2] = [Number(r.first.slice(8)), Number(r.first.slice(5, 7)) - 1, Number(r.last.slice(8)), Number(r.last.slice(5, 7)) - 1];
+    return m1 === m2 ? `${d1}.–${d2}. ${MON[m2]}` : `${d1}. ${MON[m1]}–${d2}. ${MON[m2]}`;
+  };
   const tabs = [...root.querySelectorAll('.wx-tab')];
   const pages = [...root.querySelectorAll('.wx-page')];
   const PAGES = ['vikan', 'lid', 'deildin'];
@@ -1501,7 +1520,7 @@ dash.calc('league', {
       const [prev, next] = st.querySelectorAll('.wx-stepbtn');
       prev.disabled = i <= 0; next.disabled = i < 0 || i >= weekList.length - 1;
     });
-    root.querySelectorAll('[data-weeksub]').forEach((el) => { el.textContent = w == null ? '' : `Deildarkeppni · vika ${w} af 19`; });
+    root.querySelectorAll('[data-weeksub]').forEach((el) => { const d = weekDates(w); el.textContent = w == null ? '' : d ? `${d} · vika ${w} af 19` : `Deildarkeppni · vika ${w} af 19`; });
   }
 
   // links that jump to a view on another page
@@ -1531,7 +1550,7 @@ dash.calc('league', {
     return ok(p) ? p : ok(s) ? s : season[0]?.teamId;
   };
 
-  const ids = ['league', 'results', 'h2h', 'teams', 'team_cats', 'upcoming', 'cat_ranks', 'punts', 'flips', 'form', 'odds_history', 'power', 'swap', 'records', 'consistency', 'next_week', 'stats', 'pairs', 'team_week', 'season', 'coinflips', 'heartbreak', 'cat_leaders', 'awards', 'odds'];
+  const ids = ['week_dates', 'league', 'results', 'h2h', 'teams', 'team_cats', 'upcoming', 'cat_ranks', 'punts', 'flips', 'form', 'odds_history', 'power', 'swap', 'records', 'consistency', 'next_week', 'stats', 'pairs', 'team_week', 'season', 'coinflips', 'heartbreak', 'cat_leaders', 'awards', 'odds'];
   const status = () => {
     const s = ids.map((id) => dash.data(id).status);
     if (s.includes('error')) return 'error';
@@ -1868,6 +1887,8 @@ dash.calc('league', {
     x.fillStyle = grad; x.fillRect(0, 0, W, 14);
     x.fillStyle = '#9fb3c8'; x.font = `600 30px ${sans}`; x.fillText('WINTRIS · VIKUSPJALD', 72, 110);
     x.fillStyle = '#ffffff'; x.font = `400 96px ${serif}`; x.fillText(`Vika ${w}`, 72, 210);
+    const vw = x.measureText(`Vika ${w}`).width;
+    if (weekDates(w)) { x.fillStyle = '#9fb3c8'; x.font = `400 36px ${sans}`; x.fillText(weekDates(w), 72 + vw + 28, 206); }
     if (sample) { x.fillStyle = '#ffcc66'; x.font = `600 28px ${sans}`; x.fillText('SÝNIGÖGN – EKKI RAUNVERULEG ÚRSLIT', 72, 260); }
     const wrap = (text, maxW) => { const words = text.split(' '); const lines = []; let l = ''; for (const wd of words) { const tst = l ? l + ' ' + wd : wd; if (x.measureText(tst).width > maxW && l) { lines.push(l); l = wd; } else l = tst; } if (l) lines.push(l); return lines; };
     let yy = 330;
@@ -1913,7 +1934,7 @@ dash.calc('league', {
 
   // ---------- Liðið mitt: the matchup, category by category ----------
   function drawH2H(id, w, teamWeek) {
-    root.querySelector('#wx-h2h-h').textContent = `Leikurinn í viku ${w}`;
+    root.querySelector('#wx-h2h-h').textContent = `Leikurinn í viku ${w}` + (weekDates(w) ? ` · ${weekDates(w)}` : '');
     const box = root.querySelector('#wx-h2h'); box.replaceChildren();
     const order = ['PTS', 'REB', 'AST', 'ST', 'BLK', 'TPM', 'TO', 'FGP', 'FTP'];
     const rows = order.map((c) => dash.data('h2h').data.find((r) => r.teamId === id && r.week === w && r.cat === c)).filter(Boolean);
@@ -1991,7 +2012,7 @@ dash.calc('league', {
       const tr = document.createElement('tr'); tr.dataset.key = r.key;
       const cls = r.res === 1 ? 'W' : r.res === 0 ? 'L' : 'T';
       const td = (v, c) => { const x = document.createElement('td'); if (v instanceof Node) x.appendChild(v); else x.textContent = v; if (c) x.className = c; tr.appendChild(x); };
-      td(r.week); td(r.oppId ? withLogo(r.oppId, r.opp, 18, r.week) : '–');
+      td(r.week); tr.firstChild.title = weekDates(r.week); td(r.oppId ? withLogo(r.oppId, r.opp, 18, r.week) : '–');
       const pill = document.createElement('span'); pill.className = 'wx-res cat ' + cls; pill.textContent = r.cw == null ? '–' : score(r.cw, r.cl, r.ct);
       pill.title = r.res === 1 ? 'Sigur' : r.res === 0 ? 'Tap' : r.res === 0.5 ? 'Jafntefli' : ''; td(pill);
       td(`${r.apW}-${r.apL}-${r.apT}`); td(fDec1(r.catPts).replace(',0', ''), 'wx-xs-hide');
@@ -2125,7 +2146,7 @@ dash.calc('league', {
     const rows = dash.data('next_week').data;
     const box = root.querySelector('#wx-next-week'); box.replaceChildren();
     root.querySelector('#wx-next-week-empty').hidden = rows.length > 0;
-    root.querySelector('#wx-nw-h').textContent = rows.length ? `Framundan · leikir viku ${rows[0].week}` : 'Framundan';
+    root.querySelector('#wx-nw-h').textContent = rows.length ? `Framundan · vika ${rows[0].week}` + (weekDates(rows[0].week) ? ` · ${weekDates(rows[0].week)}` : '') : 'Framundan';
     for (const r of rows) {
       const d = document.createElement('div'); d.className = 'wx-mu' + (r.featured ? ' feat' : '');
       const a = withLogo(r.teamId, r.team, 22);
