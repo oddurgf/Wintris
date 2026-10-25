@@ -88,7 +88,24 @@ def probe(league, periods):
     ids(info, found); ids(fli, found)
     return found - {league}
 
+def round2():
+    for n in (1, 2):
+        live = fxpa(LEAGUE, "getLiveScoringStats", {"period": str(n), "newView": True, "playerViewType": "1", "sppId": "-1", "viewType": "2"})
+        print(f"\nperiod {n}: allEventsFinished = {short(live.get('allEventsFinished'))}, live2 = {short(live.get('live2'))}")
+        print("  matchups[0] =", short((live.get("matchups") or [None])[0]))
+        print("  standingsTable =", short(live.get("standingsTable"))[:300])
+    st = fxpa(LEAGUE, "getStandings", {"view": "SCHEDULE"})
+    tl = st.get("tableList") or []
+    print("\ngetStandings SCHEDULE tableList:", len(tl), "tables")
+    for t in tl[:2]:
+        print("  keys:", sorted(t.keys()) if isinstance(t, dict) else type(t).__name__)
+        print("  header =", short(t.get("header")))
+        print("  caption/subCaption =", short(t.get("caption")), short(t.get("subCaption")))
+        print("  rows[0] =", short((t.get("rows") or [None])[0]))
+
 if __name__ == "__main__":
+    round2()
+    sys.exit(0)
     others = probe(LEAGUE, {1, 2})
     print("\nother league ids mentioned:", sorted(others))
     for lg in sorted(others)[:3]:
