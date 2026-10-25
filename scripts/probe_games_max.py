@@ -33,11 +33,15 @@ def short(v):
     s = json.dumps(v, ensure_ascii=False)
     return s if len(s) <= 300 else s[:300] + " …"
 
+VAL = re.compile(r"games?\s*(played|limit|max|cap)|max\w*\s*games?|GP\s*(limit|max)", re.I)
+
 def walk(v, path, seen, limit=150):
+    if isinstance(v, str) and VAL.search(v) and len(seen) < limit:
+        seen.append(f"{path} (text) = {short(v)}")
     if isinstance(v, dict):
         for k, x in v.items():
             p = f"{path}.{k}"
-            if PAT.search(str(k)) and len(seen) < limit:
+            if PAT.search(str(k)) and "minorsEligible" not in k and "Height" not in k and len(seen) < limit:
                 seen.append(f"{p} = {short(x)}")
             walk(x, p, seen, limit)
     elif isinstance(v, list):
@@ -62,8 +66,15 @@ if __name__ == "__main__":
         print(tid, "team keys:", sorted(t.keys()), "ACTIVE keys:", sorted(a.keys()))
         print("   playerGameInfo =", short(a.get("playerGameInfo")))
     report(f"getLiveScoringStats period {week} (minus players)", {k: v for k, v in live.items() if k != "statsPerTeam"})
-    for method, data in [("getLeagueHomeInfo", {}), ("getStandings", {}), ("getFantasyLeagueInfo", {}),
-                         ("getMatchupScoringInfo", {"period": week}), ("getLeagueRules", {})]:
+    team = next(iter((live.get("statsPerTeam") or {}).get("statsMap") or {}), "")
+    fli = fxpa("getFantasyLeagueInfo", {})
+    fs = fli.get("fantasySettings") or {}
+    print("\n===== getFantasyLeagueInfo.fantasySettings keys =====")
+    print(sorted(fs.keys()) if isinstance(fs, dict) else short(fs))
+    print("live miscData keys:", sorted((live.get("miscData") or {}).keys()))
+    for method, data in [("getTeamRosterInfo", {"teamId": team, "period": week}),
+                         ("getTeamRosterInfo", {"teamId": team, "period": week, "view": "GAMES_PER_POS"}),
+                         ("getLeagueSettings", {}), ("getScoringSettings", {}), ("getMatchupStats", {"period": week})]:
         try:
             report(method, fxpa(method, data))
         except Exception as e:
