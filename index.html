@@ -138,8 +138,6 @@ body #dash-root .wx-fold[open] > summary::after { content: '−'; }
 body #dash-root .wx-fold-body { padding: 0 1.25rem 1.25rem; display: flex; flex-direction: column; gap: .5rem; min-width: 0; }
 body #dash-root .wx-btn { font: inherit; font-weight: 600; font-size: .95rem; min-height: 50px; border-radius: 999px; border: 1px solid var(--ice); background: var(--ice); color: #06101e; padding: 0 22px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; text-decoration: none; }
 body #dash-root .wx-btn.ghost { background: transparent; color: var(--ice); align-self: flex-start; }
-body #dash-root #wx-recap-btn { width: 100%; }
-@media (min-width: 760px) { body #dash-root #wx-recap-btn { width: auto; align-self: flex-start; } }
 body #dash-root .wx-teamhead { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding-top: 6px; }
 body #dash-root .wx-teampickrow { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1 1 16rem; }
 body #dash-root #wx-teamname { display: inline-flex; flex: none; }
@@ -459,6 +457,13 @@ body #dash-root .wx-t .wx-tn { line-height: 1.25; }
       <p class="wx-headline" id="wx-headline" data-source="team_week">—</p>
     </header>
 
+    <div class="wx-card wx-card-img" id="wx-recap-panel">
+      <h3 id="wx-recap-h">Vikuspjald</h3>
+      <p class="wx-note">Haltu fingri á myndinni (eða hægrismelltu) til að vista hana og senda í spjallið.</p>
+      <div id="wx-recap" data-source="awards season team_week"></div>
+      <a class="wx-btn ghost" id="wx-recap-dl" download="wintris-vikuspjald.png" href="#">Vista mynd</a>
+    </div>
+
     <div class="wx-card" id="results-card">
       <div class="wx-cardhead"><h3>Úrslit vikunnar</h3><button type="button" class="wx-q" aria-expanded="false" aria-label="Skýring"><span>?</span></button></div>
       <p class="wx-note">Ýttu á lið til að sjá leikinn flokk fyrir flokk.</p>
@@ -513,14 +518,6 @@ body #dash-root .wx-t .wx-tn { line-height: 1.25; }
         </div>
       </div>
     </details>
-
-    <button type="button" class="wx-btn" id="wx-recap-btn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Sækja vikuspjald fyrir Messenger</button>
-    <div class="wx-card wx-card-img" id="wx-recap-panel" hidden>
-      <h3 id="wx-recap-h">Vikuspjald</h3>
-      <p class="wx-note">Haltu fingri á myndinni (eða hægrismelltu) til að vista hana og senda í spjallið.</p>
-      <div id="wx-recap" data-source="awards season team_week"></div>
-      <a class="wx-btn ghost" id="wx-recap-dl" download="wintris-vikuspjald.png" href="#">Vista mynd</a>
-    </div>
 
     <div class="wx-card" id="next-card">
       <div class="wx-cardhead"><h3 id="wx-nw-h">Framundan</h3><button type="button" class="wx-q" aria-expanded="false" aria-label="Skýring"><span>?</span></button></div>
@@ -1432,7 +1429,7 @@ dash.calc('week_dates', {
   const seg = { lid: 'timabil', deildin: 'stada', sort: 'stada' };
   let weekList = [];
   let flipsAll = false;
-  let recapOpen = false;
+  let redrawQueued = false;
   let allCols = false;
   let pendingPush = false;
 
@@ -1922,13 +1919,6 @@ dash.calc('week_dates', {
     const dl = root.querySelector('#wx-recap-dl'); dl.href = img.src; dl.download = `wintris-vikuspjald-vika-${w}.png`;
     root.querySelector('#wx-recap-h').textContent = `Vikuspjald · vika ${w}`;
   }
-  root.querySelector('#wx-recap-btn').addEventListener('click', () => {
-    recapOpen = true;
-    root.querySelector('#wx-recap-panel').hidden = false;
-    draw();
-    requestAnimationFrame(() => root.querySelector('#wx-recap-panel').scrollIntoView({ behavior: 'smooth', block: 'start' }));
-  });
-
   // ---------- Team page ----------
   const pickTeam = (id, week) => { dash.setParams(week ? { team: id, week } : { team: id }); show('lid', true); };
 
@@ -2238,7 +2228,7 @@ dash.calc('week_dates', {
     ['#wx-awards', '#wx-luck', '#wx-cum', '#wx-matrix', '#wx-recap', '#wx-teamcats', '#wx-tiles', '#wx-heat', '#wx-oddshist', '#wx-swap', '#wx-records', '#wx-next-week'].forEach((s) => root.querySelector(s).classList.remove('dash-skeleton'));
     const stats = dash.data('stats').data, teamWeek = dash.data('team_week').data, season = dash.data('season').data;
     LOGOS = Object.fromEntries((dash.data('logos').data || []).map((r) => [r.teamId, r.logo]));
-    for (const [tid, src] of Object.entries(LOGOS)) if (!logoImgs[tid]) { const im = new Image(); im.onload = () => { if (recapOpen && active === 'vikan') draw(); }; im.src = src; logoImgs[tid] = im; }
+    for (const [tid, src] of Object.entries(LOGOS)) if (!logoImgs[tid]) { const im = new Image(); im.onload = () => { if (active === 'vikan' && !redrawQueued) { redrawQueued = true; requestAnimationFrame(() => { redrawQueued = false; draw(); }); } }; im.src = src; logoImgs[tid] = im; }
     const sample = stats.length > 0 && stats[0].sample;
     banner.hidden = !sample;
     const { w, weeks } = currentWeek(teamWeek);
@@ -2257,7 +2247,7 @@ dash.calc('week_dates', {
     drawCats(dash.data('cat_leaders').data, w);
     drawMatrix(dash.data('pairs').data, teamWeek, teams, w);
     drawNextWeek();
-    if (recapOpen && active === 'vikan') drawRecap(dash.data('awards').data, season, teamWeek, w, sample);
+    if (active === 'vikan') drawRecap(dash.data('awards').data, season, teamWeek, w, sample);
     // Liðið mitt
     drawTeam(teams, season, dash.data('odds').data, teamWeek, dash.data('team_cats').data, dash.data('upcoming').data, dash.data('coinflips').data, w);
     // Deildin (always the latest week: it has no week selector)
