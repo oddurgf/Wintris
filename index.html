@@ -37,6 +37,10 @@ body { margin: 0; overflow-x: clip; position: relative; background: var(--color-
 .site-brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); letter-spacing: .14em; font-size: .95rem; color: var(--color-fg); }
 .site-brand svg { width: 26px; height: 26px; }
 .site-season { font-size: .78rem; color: var(--color-fg-muted); border: 1px solid var(--color-border-line); border-radius: 999px; padding: 4px 12px; }
+.site-right { display: flex; align-items: center; gap: 10px; }
+.site-help { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--color-border-line); color: var(--ice); font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; text-decoration: none; }
+.site-help:hover, .site-help[aria-current="page"] { background: var(--ice); color: #06101e; border-color: var(--ice); }
+.site-help:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
 .site-foot { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--color-border-line); display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; color: var(--color-fg-muted); font-size: .8rem; }
 
 /* --- restyle of the dashboard for the site --- */
@@ -279,6 +283,19 @@ body #dash-root .wx-duo { display: flex; flex-direction: column; gap: 1rem; min-
   body #dash-root .wx-duo { display: grid; grid-template-columns: minmax(0, 26rem) minmax(0, 1fr); align-items: start; }
   body #dash-root .wx-duo .wx-awards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+/* --- Útskýringar (help page) --- */
+body #dash-root .wx-ex { width: 100%; max-width: 44rem; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
+body #dash-root .wx-ex .wx-card { gap: 10px; scroll-margin-top: 12px; }
+@media (min-width: 760px) { body #dash-root .wx-ex .wx-card { scroll-margin-top: 80px; } }
+body #dash-root .wx-ex p { margin: 0; line-height: 1.55; color: #c4d2e2; }
+body #dash-root .wx-ex p b { color: #fff; font-weight: 600; }
+body #dash-root .wx-ex a:has(> .wx-ex-img) { display: block; }
+body #dash-root .wx-ex-img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--color-border-line); background: var(--color-panel); }
+body #dash-root .wx-ex-toc { display: flex; flex-wrap: wrap; gap: 6px; }
+body #dash-root .wx-ex-toc button { font: inherit; font-size: .8rem; color: var(--color-fg-muted); background: rgba(255,255,255,.03); border: 1px solid var(--color-border-line); border-radius: 999px; padding: 0 12px; min-height: 44px; cursor: pointer; }
+body #dash-root .wx-ex-toc button:hover { color: var(--color-fg); border-color: var(--cds-border); }
+body #dash-root .wx-ex ul { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 6px; color: #c4d2e2; line-height: 1.5; }
+body #dash-root .wx-ex li b { color: #fff; font-weight: 600; }
 body #dash-root .wx-linkbtn.wx-inline { min-height: 0; font-size: inherit; display: inline; }
 body #dash-root .wx-rc-gp { text-align: center; font-size: .72rem; color: var(--color-fg-muted); padding: 0 4px 4px; }
 body #dash-root .wx-h2h-t tr.gp td { font-size: .8rem; }
@@ -307,7 +324,10 @@ body #dash-root .wx-xs-only-cab { margin: 4px 0 0 26px; }
 <div class="site">
   <div class="site-top">
     <div class="site-brand"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="29" fill="#f28a2e"/><path d="M3 32h58M32 3v58M12 11c10 8 10 34 0 42M52 11c-10 8-10 34 0 42" fill="none" stroke="#0a1220" stroke-width="3"/></svg>WINTRIS</div>
-    <div class="site-season">Tímabilið 2026–27</div>
+    <div class="site-right">
+      <div class="site-season">Tímabilið 2026–27</div>
+      <a class="site-help" id="site-help" href="#utskyringar" aria-label="Útskýringar" title="Útskýringar">?</a>
+    </div>
   </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="data.js"></script>
@@ -797,6 +817,132 @@ body #dash-root .wx-xs-only-cab { margin: 4px 0 0 26px; }
         <div class="wx-help" hidden><div>Árangur liðsins í línunni ef það hefði spilað leikjadagskrá liðsins í dálknum. Rammaði reiturinn er raunverulegur árangur. Grænt er betra en raunin, rautt verra.</div></div>
         <div class="wx-scroll"><div class="wx-swap" id="wx-swap" data-source="swap teams"></div></div>
       </div>
+    </div>
+  </section>
+
+  <!-- ================= Útskýringar ================= -->
+  <section class="wx-page" data-page="utskyringar" hidden>
+    <div class="wx-ex">
+      <header class="wx-lghead">
+        <h1 class="wx-lgtitle">Útskýringar</h1>
+        <p class="wx-take">Mælaborðið sýnir hvað gerðist í hverri viku og hvort úrslitin réðust á getu eða heppni. Tölurnar koma úr Fantrax og uppfærast á mánudags- og fimmtudagsmorgnum.</p>
+        <p class="wx-take">Síðurnar eru þrjár: <b>Vikan</b> (úrslit og verðlaun vikunnar), <b>Liðið mitt</b> (eitt lið í smáatriðum) og <b>Deildin</b> (staðan, heppni og met). Ýttu á nafn liðs hvar sem er til að opna það. Myndirnar hér eru úr sýnigögnum.</p>
+      </header>
+
+      <nav class="wx-ex-toc" aria-label="Efni">
+        <button type="button" data-jump="ex-ava">AvA</button>
+        <button type="button" data-jump="ex-flokkar">Flokkar af 99</button>
+        <button type="button" data-jump="ex-heppni">Heppni</button>
+        <button type="button" data-jump="ex-kraft">Kraftröðun</button>
+        <button type="button" data-jump="ex-likur">Líkur á úrslitakeppni</button>
+        <button type="button" data-jump="ex-hjarta">Tæpir flokkar</button>
+        <button type="button" data-jump="ex-studi">Mótherjinn í stuði</button>
+        <button type="button" data-jump="ex-jojo">Jójó</button>
+        <button type="button" data-jump="ex-spjald">Vikuspjaldið</button>
+        <button type="button" data-jump="ex-skapur">Verðlaunaskápurinn</button>
+        <button type="button" data-jump="ex-leikir">Leikir og hámark</button>
+        <button type="button" data-jump="ex-annad">Annað</button>
+      </nav>
+
+      <article class="wx-card" id="ex-ava">
+        <h3>Allir við alla (AvA)</h3>
+        <a href="img/utskyringar/ava.webp" target="_blank" rel="noopener" aria-label="Opna mynd í fullri stærð"><img class="wx-ex-img" src="img/utskyringar/ava.webp" width="800" height="407" loading="lazy" alt="Allir við alla taflan"></a>
+        <p>Hvert lið er borið saman við öll hin 11 liðin í hverri viku, eins og það hefði mætt þeim öllum. <b>AvA</b> er árangurinn úr þeim 11 leikjum (sigrar–töp–jafntefli, t.d. 8-2-1) og <b>AvA %</b> er hlutfallið, þar sem jafntefli telst hálft. Þetta segir hve gott liðið var í raun, óháð því hvern það mætti.</p>
+        <div class="wx-more"><button type="button" class="wx-linkbtn" data-goto="vikan">Vikan → Allir við alla</button></div>
+      </article>
+
+      <article class="wx-card" id="ex-flokkar">
+        <h3>Flokkar af 99</h3>
+        <a href="img/utskyringar/flokkar.webp" target="_blank" rel="noopener" aria-label="Opna mynd í fullri stærð"><img class="wx-ex-img" src="img/utskyringar/flokkar.webp" width="800" height="265" loading="lazy" alt="Vika fyrir viku taflan"></a>
+        <p>11 lið × 9 flokkar = 99 flokkar á viku. Talan segir hve marga þeirra liðið hefði unnið gegn öllum (jafn flokkur telst hálfur). Hún er fínni en AvA: 5–4 sigur og 9–0 sigur telja jafnt í AvA en ekki hér. <b>Flokkar %</b> í stöðunni er sama hlutfall yfir tímabilið.</p>
+        <div class="wx-more"><button type="button" class="wx-linkbtn" data-goto="lid" data-goseg="timabil">Liðið mitt → Vika fyrir viku</button></div>
+      </article>
+
+      <article class="wx-card" id="ex-heppni">
+        <h3>Heppni</h3>
+        <a href="img/utskyringar/heppni.webp" target="_blank" rel="noopener" aria-label="Opna mynd í fullri stærð"><img class="wx-ex-img" src="img/utskyringar/heppni.webp" width="716" height="918" loading="lazy" alt="Heppnisvísitalan"></a>
+        <p><b>Væntir sigrar</b> eru AvA % hverrar viku lögð saman: lið sem hefði unnið 8 af 11 fær 0,73 vænta sigra. <b>Heppni</b> er raunverulegir sigrar mínus væntir sigrar. Plús þýðir fleiri sigrar en frammistaðan gaf tilefni til, mínus þýðir óheppni.</p>
+        <p>Merkið <b>Óheppni</b> á úrslitum vikunnar þýðir að liðið tapaði þótt það hefði unnið fleiri lið en það tapaði fyrir í AvA.</p>
+        <div class="wx-more"><button type="button" class="wx-linkbtn" data-goto="deildin" data-goseg="heppni">Deildin → Heppni</button></div>
+      </article>
+
+      <article class="wx-card" id="ex-kraft">
+        <h3>Kraftröðun</h3>
+        <a href="img/utskyringar/kraft.webp" target="_blank" rel="noopener" aria-label="Opna mynd í fullri stærð"><img class="wx-ex-img" src="img/utskyringar/kraft.webp" width="716" height="1150" loading="lazy" alt="Kraftröðunin"></a>
+        <p>Röðun eftir getu en ekki sigrum: 50 % AvA % tímabilsins, 35 % AvA % síðustu 3 vikna og 15 % <b>jafnvægi</b> (hve marga af 9 flokkum liðið vinnur oftar en ekki gegn öllum). Örin sýnir breytingu frá vikunni á undan.</p>
+        <div class="wx-more"><button type="button" class="wx-linkbtn" data-goto="deildin" data-goseg="stada" data-gosort="kraft">Deildin → Staðan → Kraftröðun</button></div>
+      </article>
+
+      <article class="wx-card" id="ex-likur">
+        <h3>Líkur á úrslitakeppni</h3>
+        <a href="img/utskyringar/likur.webp" target="_blank" rel="noopener" aria-label="Opna mynd í fullri stærð"><img class="wx-ex-img" src="img/utskyringar/likur.webp" width="716" height="1150" loading="lazy" alt="Staðan með líkum á úrslitakeppni"></a>
+        <p>Restin af deildarkeppninni er hermd 4.000 sinnum. Styrkur liðs er AvA % þess, dregið að 50 % með tveggja vikna vægi svo fyrstu vikurnar ráði ekki öllu. Efstu 6 eftir 19. viku fara í úrslitakeppnina (strikið í töflunni), efstu 2 fá frí í 1. umferð og sæti 7–12 keppa um Forsetabikarinn. Sigurlíkur í leikjum framundan koma úr sama líkani.</p>
+        <div class="wx-more"><button type="button" class="wx-linkbtn" data-goto="deildin" data-goseg="stada">Deildin → Staðan</button></div>
+      </article>
+
+      <article class="wx-card" id="ex-hjarta">
+        <h3>Tæpir flokkar og hjartasár</h3>
+        <a href="img/utskyringar/hjartasar.webp" target="_blank" rel="noopener" aria-label="Opna mynd í fullri stærð"><img class="wx-ex-img" src="img/utskyringar/hjartasar.webp" width="716" height="1150" loading="lazy" alt="Hjartasárateljarinn"></a>
+        <p>Flokkur er tæpur ef hann réðst á þessum mun eða minna: PTS 10, REB 5, AST 3, ST 1, BLK 1, 3PTM 2, TO 2, FG% 0,5 og FT% 1 prósentustig. <b>Hjartasárateljarinn</b> telur tæpa flokka hvers liðs í raunverulegum leikjum allt tímabilið. Nettó er unnir mínus tapaðir.</p>
+        <p>Merkið <b>Réðst á …</b> á úrslitum þýðir að einn tæpur flokkur réð leiknum.</p>
+        <div class="wx-more"><button type="button" class="wx-linkbtn" data-goto="deildin" data-goseg="hjartasar">Deildin → Hjartasár</button></div>
+      </article>
+
+      <article class="wx-card" id="ex-studi">
+        <h3>Mótherjinn í stuði</h3>
+        <a href="img/utskyringar/studi.webp" target="_blank" rel="noopener" aria-label="Opna mynd í fullri stærð"><img class="wx-ex-img" src="img/utskyringar/studi.webp" width="716" height="1150" loading="lazy" alt="Mótherjinn í stuði taflan"></a>
+        <p>Spila mótherjarnir betur gegn þér en annars? Fyrir hvern leik er AvA % mótherjans þá vikuna borið saman við meðaltal hans í hinum vikunum. Plús í <b>Meðaltal</b> þýðir að mótherjar hafa verið í stuði gegn liðinu. <b>Í stuði</b> telur leiki þar sem mótherjinn var 15 prósentustigum eða meira yfir eigin meðaltali.</p>
+        <div class="wx-more"><button type="button" class="wx-linkbtn" data-goto="deildin" data-goseg="heppni">Deildin → Heppni</button></div>
+      </article>
+
+      <article class="wx-card" id="ex-jojo">
+        <h3>Jójó-vísitalan</h3>
+        <a href="img/utskyringar/jojo.webp" target="_blank" rel="noopener" aria-label="Opna mynd í fullri stærð"><img class="wx-ex-img" src="img/utskyringar/jojo.webp" width="716" height="1150" loading="lazy" alt="Jójó-vísitalan"></a>
+        <p>Hve mikið AvA % liðsins sveiflast milli vikna (staðalfrávik). Efst eru jójó-liðin sem eru ýmist frábær eða léleg, neðst þau stöðugustu. Línan sýnir hverja viku.</p>
+        <div class="wx-more"><button type="button" class="wx-linkbtn" data-goto="deildin" data-goseg="met">Deildin → Met</button></div>
+      </article>
+
+      <article class="wx-card" id="ex-spjald">
+        <h3>Vikuspjaldið</h3>
+        <a href="img/utskyringar/spjald.webp" target="_blank" rel="noopener" aria-label="Opna mynd í fullri stærð"><img class="wx-ex-img" src="img/utskyringar/spjald.webp" width="716" height="1150" loading="lazy" alt="Vikuspjaldið"></a>
+        <p>Mynd vikunnar til að senda í spjallið: haltu fingri á henni (eða hægrismelltu) til að vista. Á henni eru fimm verðlaun vikunnar:</p>
+        <ul>
+          <li><b>Burst vikunnar</b>: stærsti sigurinn.</li>
+          <li><b>Hefði átt að mæta öllum</b>: besta AvA vikunnar.</li>
+          <li><b>Heppnasti sigurinn</b>: sigur þrátt fyrir fæst lið unnin í AvA.</li>
+          <li><b>Óheppnasta tapið</b>: tap þrátt fyrir flest lið unnin í AvA.</li>
+          <li><b>Hjartasár vikunnar</b>: flestir tapaðir tæpir flokkar.</li>
+        </ul>
+        <div class="wx-more"><button type="button" class="wx-linkbtn" data-goto="vikan">Vikan</button></div>
+      </article>
+
+      <article class="wx-card" id="ex-skapur">
+        <h3>Verðlaunaskápurinn</h3>
+        <a href="img/utskyringar/skapur.webp" target="_blank" rel="noopener" aria-label="Opna mynd í fullri stærð"><img class="wx-ex-img" src="img/utskyringar/skapur.webp" width="716" height="1150" loading="lazy" alt="Verðlaunaskápurinn"></a>
+        <p>Öll vikuverðlaun hvers liðs yfir tímabilið. Fyrstu þrjú verðlaunin hér að ofan eru <b>bikarar</b>, hin tvö eru <b>sárabætur</b>.</p>
+        <div class="wx-more"><button type="button" class="wx-linkbtn" data-goto="deildin" data-goseg="met">Deildin → Met</button></div>
+      </article>
+
+      <article class="wx-card" id="ex-leikir">
+        <h3>Leikir og leikjahámark</h3>
+        <a href="img/utskyringar/leikir.webp" target="_blank" rel="noopener" aria-label="Opna mynd í fullri stærð"><img class="wx-ex-img" src="img/utskyringar/leikir.webp" width="716" height="1360" loading="lazy" alt="Leikur liðsins flokk fyrir flokk með leikjum"></a>
+        <p>Hver vika hefur hámark og lágmark leikja (GP) úr Fantrax, oftast 28 en færri í styttri vikum eins og 1. viku og stjörnuleikjavikunni. Lið sem er komið í hámarkið í byrjun dags fær engar tölur fyrir vikuna og tapar henni. Lið undir lágmarkinu í lok viku tapar meðaltalsflokkunum.</p>
+        <p>Leikir hvers liðs sjást á úrslitum vikunnar og í leiknum á Liðið mitt (myndin), og hámark allra vikna undir Liðið mitt → Framundan.</p>
+        <div class="wx-more"><button type="button" class="wx-linkbtn" data-goto="lid" data-goseg="framundan">Liðið mitt → Framundan</button></div>
+      </article>
+
+      <article class="wx-card" id="ex-annad">
+        <h3>Annað og „?“ hnapparnir</h3>
+        <a href="img/utskyringar/spurning.webp" target="_blank" rel="noopener" aria-label="Opna mynd í fullri stærð"><img class="wx-ex-img" src="img/utskyringar/spurning.webp" width="716" height="860" loading="lazy" alt="Spjald með opinni skýringu"></a>
+        <p>Flest spjöld eru með <b>?</b> efst til hægri. Ýttu á hann til að sjá hvernig talan er reiknuð. Þessi síða opnast með <b>?</b> efst á síðunni.</p>
+        <ul>
+          <li><b>Hvað vantaði?</b>: minnsta breyting sem hefði snúið hverju tapi eða jafntefli.</li>
+          <li><b>Sæti í flokkum</b>: sæti liðsins (1–12) í hverjum flokki hverja viku. Lið sem er oft í neðstu 3 sætunum í flokki virðist vera að punta hann.</li>
+          <li><b>Styrkur mótherja</b>: meðal AvA % þeirra liða sem liðið hefur mætt. Yfir 50 % er erfið dagskrá.</li>
+          <li><b>Leikjadagskrárskipti</b>: árangur liðs ef það hefði spilað leikjadagskrá annars liðs.</li>
+          <li><b>Metabókin</b>: bestu og verstu frammistöður tímabilsins.</li>
+        </ul>
+      </article>
     </div>
   </section>
 </div>
@@ -1519,7 +1665,7 @@ dash.calc('week_dates', {
   const narrowNow = () => window.innerWidth < 640;
   const tabs = [...root.querySelectorAll('.wx-tab')];
   const pages = [...root.querySelectorAll('.wx-page')];
-  const PAGES = ['vikan', 'lid', 'deildin'];
+  const PAGES = ['vikan', 'lid', 'deildin', 'utskyringar'];
   const SEGS = { lid: ['timabil', 'flokkar', 'framundan'], deildin: ['stada', 'heppni', 'hjartasar', 'met'], sort: ['stada', 'kraft'] };
   // links people may still have from the old 8-tab site
   const OLD = { yfirlit: ['vikan'], spjald: ['vikan'], heppni: ['deildin', 'heppni'], hjartasar: ['deildin', 'hjartasar'], urslit: ['deildin', 'stada'] };
@@ -1531,16 +1677,25 @@ dash.calc('week_dates', {
   let allCols = false;
   let pendingPush = false;
 
+  const helpLink = document.getElementById('site-help');
   const show = (name, link) => {
     if (!PAGES.includes(name)) name = 'vikan';
     const changed = name !== active;
     active = name;
     tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.tab === name)));
     pages.forEach((p) => { p.hidden = p.dataset.page !== name; });
+    if (helpLink) { if (name === 'utskyringar') helpLink.setAttribute('aria-current', 'page'); else helpLink.removeAttribute('aria-current'); }
     if (link) { pendingPush = changed; if (changed) window.scrollTo(0, 0); }
     draw();
   };
   tabs.forEach((t) => t.addEventListener('click', () => show(t.dataset.tab, true)));
+  // the "?" in the site header opens Útskýringar (it sits outside the dashboard root)
+  if (helpLink) helpLink.addEventListener('click', (ev) => { ev.preventDefault(); show('utskyringar', true); });
+  // the topic buttons at the top of Útskýringar
+  root.addEventListener('click', (ev) => {
+    const b = ev.target.closest('[data-jump]'); if (!b) return;
+    const el = root.querySelector('#' + b.dataset.jump); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 
   // segmented controls (Liðið mitt views, Deildin views, standings sort)
   const setSeg = (group, v) => { if (SEGS[group].includes(v)) seg[group] = v; };
@@ -1563,7 +1718,7 @@ dash.calc('week_dates', {
     q.setAttribute('aria-expanded', String(!help.hidden));
   });
 
-  // shareable links: #vikan/3, #lid/<teamId>/3, #deildin/heppni
+  // shareable links: #vikan/3, #lid/<teamId>/3, #deildin/heppni, #utskyringar
   const parseRoute = (hash) => {
     const parts = decodeURIComponent(hash.replace(/^#/, '')).split('/').filter(Boolean);
     let [page, a, b] = parts;
@@ -1587,7 +1742,7 @@ dash.calc('week_dates', {
   };
   function syncRoute(w, teamId) {
     if (routing) return;
-    const h = active === 'vikan' ? `#vikan/${w}` : active === 'lid' ? `#lid/${teamId}/${w}` : `#deildin/${seg.deildin}`;
+    const h = active === 'vikan' ? `#vikan/${w}` : active === 'lid' ? `#lid/${teamId}/${w}` : active === 'utskyringar' ? '#utskyringar' : `#deildin/${seg.deildin}`;
     if (location.hash !== h) {
       try { history[pendingPush ? 'pushState' : 'replaceState'](null, '', h); } catch (e) { /* file:// or sandbox */ }
     }
@@ -1623,6 +1778,7 @@ dash.calc('week_dates', {
     const g = ev.target.closest('[data-goto]'); if (!g) return;
     ev.preventDefault();
     if (g.dataset.goseg) setSeg(g.dataset.goto, g.dataset.goseg);
+    if (g.dataset.gosort) setSeg('sort', g.dataset.gosort);
     show(g.dataset.goto, true);
   });
 

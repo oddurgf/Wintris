@@ -18,7 +18,11 @@ link on their phone) and has three pages, a bottom tab bar on phones and top tab
   "Sýna alla dálka" toggle), *Heppni* (incl. *Mótherjinn í stuði*), *Hjartasár* and *Met* (incl.
   *Verðlaunaskápurinn*, the season's weekly awards per team).
 
-Shareable links: `#vikan/3`, `#lid/<teamId>/3`, `#deildin/heppni`. Old links (`#yfirlit`,
+- **Útskýringar** (`#utskyringar`, no tab): the help page, opened from the "?" in the site header.
+  A short Icelandic explanation and a screenshot (`img/utskyringar/*.webp`, taken from the demo
+  data) for each metric. When a metric, award or limit changes, update its text here too.
+
+Shareable links: `#vikan/3`, `#lid/<teamId>/3`, `#deildin/heppni`, `#utskyringar`. Old links (`#yfirlit`,
 `#hjartasar` …) still land on the right view. Any team name opens Liðið mitt for that team. Long
 method notes sit behind a "?" button on each card, with a one-line subtitle visible.
 
