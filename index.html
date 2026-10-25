@@ -64,10 +64,11 @@ body #dash-root .wx-tab[aria-selected="true"] { background: var(--ice); color: #
 body #dash-root .wx-card, body #dash-root .wx-award, body #dash-root .wx-tile { background: linear-gradient(180deg, #13203a 0%, var(--color-panel) 100%); border-color: var(--color-border-line); }
 body #dash-root .wx-card h3 { font-family: var(--font-display); font-weight: 500; text-transform: uppercase; letter-spacing: .06em; font-size: 1.05rem; }
 body #dash-root .wx-award { border-top: 3px solid var(--ice); }
-body #dash-root .wx-award:nth-child(2) { border-top-color: var(--color-bad); }
-body #dash-root .wx-award:nth-child(3) { border-top-color: var(--orange); }
-body #dash-root .wx-award:nth-child(4) { border-top-color: var(--lilac); }
-body #dash-root .wx-award:nth-child(5) { border-top-color: var(--color-warn); }
+body #dash-root .wx-award[data-award="ohoppni"], body #dash-root .wx-award[data-award="studi"] { border-top-color: var(--color-bad); }
+body #dash-root .wx-award[data-award="burst"], body #dash-root .wx-award[data-award="ovaent"] { border-top-color: var(--orange); }
+body #dash-root .wx-award[data-award="allir"] { border-top-color: var(--lilac); }
+body #dash-root .wx-award[data-award="hjarta"], body #dash-root .wx-award[data-award="hvar"] { border-top-color: var(--color-warn); }
+body #dash-root .wx-award[data-award="upprisa"] { border-top-color: var(--color-ok); }
 body #dash-root .wx-award-t { font-size: 1.3rem; }
 body #dash-root .wx-tile-v { color: #fff; }
 body #dash-root .wx-teamname { font-family: var(--font-display); text-transform: uppercase; font-weight: 700; font-size: clamp(1.8rem, 5vw, 2.6rem); color: #fff; }
@@ -184,6 +185,7 @@ body #dash-root .wx-g2 > .wx-span { grid-column: 1 / -1; }
 @media (max-width: 639px) {
   body #dash-root .wx-awards { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
   body #dash-root .wx-award { padding: 10px; }
+  body #dash-root .wx-award:last-child:nth-child(odd) { grid-column: 1 / -1; }
   body #dash-root .wx-award-k { font-size: .64rem; }
   body #dash-root .wx-award-t { font-size: .98rem; line-height: 1.2; }
   body #dash-root .wx-award-t .wx-tn { align-items: flex-start; }
@@ -282,6 +284,7 @@ body #dash-root .wx-duo { display: flex; flex-direction: column; gap: 1rem; min-
 @media (min-width: 900px) {
   body #dash-root .wx-duo { display: grid; grid-template-columns: minmax(0, 26rem) minmax(0, 1fr); align-items: start; }
   body #dash-root .wx-duo .wx-awards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  body #dash-root .wx-duo .wx-award:last-child:nth-child(odd) { grid-column: 1 / -1; }
 }
 /* --- Útskýringar (help page) --- */
 body #dash-root .wx-ex { width: 100%; max-width: 44rem; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
@@ -787,7 +790,7 @@ body #dash-root .wx-xs-only-cab { margin: 4px 0 0 26px; }
       <div class="wx-card" id="trophy-card">
         <div class="wx-cardhead"><h3>Verðlaunaskápurinn</h3><button type="button" class="wx-q" aria-expanded="false" aria-label="Skýring"><span>?</span></button></div>
         <p class="wx-note">Vikuverðlaun hvers liðs á tímabilinu.</p>
-        <div class="wx-help" hidden><div><b>Bikarar</b>: burst vikunnar, hefði átt að mæta öllum og heppnasti sigurinn. <b>Sárabætur</b>: óheppnasta tapið og hjartasár vikunnar. Sömu verðlaun og á vikuspjaldinu, ein af hverri tegund á viku.</div></div>
+        <div class="wx-help" hidden><div><b>Bikarar</b>: burst vikunnar, hefði átt að mæta öllum, heppnasti sigurinn, upprisan og Davíð gegn Golíat. <b>Sárabætur</b>: óheppnasta tapið, hjartasár vikunnar, lenti í liði í stuði og hvar var liðið mitt? Sömu verðlaun og á vikuspjaldinu, ein af hverri tegund á viku.</div></div>
         <div class="wx-scroll">
           <table class="wx-t wx-t1 wx-click" id="wx-trophies" data-source="trophies" data-row-key="teamId">
             <thead><tr><th data-field="team">Lið</th><th data-field="cups">Bikarar</th><th data-field="sores">Sárabætur</th><th class="wx-xs-hide" data-field="counts">Í skápnum</th></tr></thead>
@@ -905,21 +908,26 @@ body #dash-root .wx-xs-only-cab { margin: 4px 0 0 26px; }
       <article class="wx-card" id="ex-spjald">
         <h3>Vikuspjaldið</h3>
         <a href="img/utskyringar/spjald.webp" target="_blank" rel="noopener" aria-label="Opna mynd í fullri stærð"><img class="wx-ex-img" src="img/utskyringar/spjald.webp" width="716" height="1150" loading="lazy" alt="Vikuspjaldið"></a>
-        <p>Mynd vikunnar til að senda í spjallið: haltu fingri á henni (eða hægrismelltu) til að vista. Á henni eru fimm verðlaun vikunnar:</p>
+        <p>Mynd vikunnar til að senda í spjallið: haltu fingri á henni (eða hægrismelltu) til að vista. Á henni eru verðlaun vikunnar, þau sömu og á Vikunni:</p>
         <ul>
-          <li><b>Burst vikunnar</b>: stærsti sigurinn.</li>
-          <li><b>Hefði átt að mæta öllum</b>: besta AvA vikunnar.</li>
           <li><b>Heppnasti sigurinn</b>: sigur þrátt fyrir fæst lið unnin í AvA.</li>
           <li><b>Óheppnasta tapið</b>: tap þrátt fyrir flest lið unnin í AvA.</li>
+          <li><b>Burst vikunnar</b>: stærsti sigurinn.</li>
+          <li><b>Hefði átt að mæta öllum</b>: besta AvA vikunnar.</li>
           <li><b>Hjartasár vikunnar</b>: flestir tapaðir tæpir flokkar.</li>
+          <li><b>Lenti í liði í stuði</b>: tapið þar sem mótherjinn spilaði mest yfir eigin meðaltali (AvA vikunnar miðað við meðaltal hans í hinum vikunum, sjá Mótherjinn í stuði).</li>
+          <li><b>Hvar var liðið mitt?</b>: liðið sem spilaði mest undir eigin meðaltali í AvA, hvort sem það vann eða tapaði.</li>
+          <li><b>Upprisan</b>: mesta stökk upp í AvA frá vikunni á undan.</li>
+          <li><b>Davíð gegn Golíat</b>: óvæntasti sigurinn. Fyrir vikuna er borið saman sæti liðanna í töflunni og formið (AvA % síðustu 3 vikna), og sigurinn þar sem sigurvegarinn var samanlagt flestum sætum neðar fær verðlaunin.</li>
         </ul>
+        <p>Í <b>Lenti í liði í stuði</b> og <b>Hvar var liðið mitt?</b> er meðaltalið úr öllum hinum vikunum, líka þeim sem koma seinna, svo verðlaunin geta færst milli liða þegar líður á tímabilið. Þau, Upprisan og Davíð gegn Golíat byrja í 2. viku.</p>
         <div class="wx-more"><button type="button" class="wx-linkbtn" data-goto="vikan">Vikan</button></div>
       </article>
 
       <article class="wx-card" id="ex-skapur">
         <h3>Verðlaunaskápurinn</h3>
         <a href="img/utskyringar/skapur.webp" target="_blank" rel="noopener" aria-label="Opna mynd í fullri stærð"><img class="wx-ex-img" src="img/utskyringar/skapur.webp" width="716" height="1150" loading="lazy" alt="Verðlaunaskápurinn"></a>
-        <p>Öll vikuverðlaun hvers liðs yfir tímabilið. Fyrstu þrjú verðlaunin hér að ofan eru <b>bikarar</b>, hin tvö eru <b>sárabætur</b>.</p>
+        <p>Öll vikuverðlaun hvers liðs yfir tímabilið. <b>Bikarar</b> eru heppnasti sigurinn, burst vikunnar, hefði átt að mæta öllum, upprisan og Davíð gegn Golíat. <b>Sárabætur</b> eru óheppnasta tapið, hjartasár vikunnar, lenti í liði í stuði og hvar var liðið mitt?</p>
         <div class="wx-more"><button type="button" class="wx-linkbtn" data-goto="deildin" data-goseg="met">Deildin → Met</button></div>
       </article>
 
@@ -1127,11 +1135,13 @@ dash.calc('cat_leaders', {
 
 dash.calc('awards', {
   title: 'Verðlaun vikunnar',
-  description: 'Heppnasti sigurinn, óheppnasta tapið, burst vikunnar, besta allir-við-alla vikan og flestir tapaðir tæpir flokkar.',
+  description: 'Heppnasti sigurinn, óheppnasta tapið, burst vikunnar, besta allir-við-alla vikan, flestir tapaðir tæpir flokkar, tap gegn mótherja í stuði, mest undir eigin meðaltali, mesta stökk milli vikna og óvæntasti sigurinn.',
   inputs: ['team_week', 'coinflips'],
   fn: (team_week, coinflips) => {
     const sc = (r) => r.cw + '–' + r.cl + (r.ct ? '–' + r.ct : '');
     const resWord = (r) => (r.res === 1 ? 'sigur' : r.res === 0 ? 'tap' : 'jafntefli');
+    const f11 = (pct) => (pct * 11).toFixed(1).replace('.', ',');
+    const pc = (pct) => Math.round(pct * 100) + ' %';
     const out = [];
     for (const w of [...new Set(team_week.map((r) => r.week))]) {
       const rows = team_week.filter((r) => r.week === w && r.res !== null);
@@ -1144,12 +1154,44 @@ dash.calc('awards', {
       const blow = [...wins].sort((a, b) => b.cw - b.cl - (a.cw - a.cl))[0];
       add('burst', 'Burst vikunnar', blow, blow && `Vann ${blow.opp} ${sc(blow)}.`);
       const best = [...rows].sort((a, b) => b.apPct - a.apPct || b.catPts - a.catPts)[0];
-      add('allir', 'Hefði átt að mæta öllum', best, best && `${best.apW}-${best.apL}-${best.apT} gegn öllum og ${best.catPts} af ${best.catMax} flokkum. Raunin: ${resWord(best)} gegn ${best.opp}.`);
+      add('allir', 'Hefði átt að mæta öllum', best, best && `${best.apW}-${best.apL}-${best.apT} gegn öllum og ${String(best.catPts).replace('.', ',')} af ${best.catMax} flokkum. Raunin: ${resWord(best)} gegn ${best.opp}.`);
       const lostFlips = {};
       for (const f of coinflips.filter((f) => f.week === w && f.outcome === 'L')) (lostFlips[f.teamId] ??= []).push(f.label);
       const hb = Object.entries(lostFlips).sort((a, b) => b[1].length - a[1].length)[0];
       const hbRow = hb && rows.find((r) => r.teamId === hb[0]);
       add('hjarta', 'Hjartasár vikunnar', hbRow, hb && `Tapaði ${hb[1].length} tæpum ${hb[1].length > 1 ? 'flokkum' : 'flokki'}: ${hb[1].join(', ')}.`);
+      // the team's AvA this week against its average in every other week (none until there are two weeks)
+      const own = rows.map((r) => {
+        const rest = team_week.filter((x) => x.teamId === r.teamId && x.week !== w);
+        return rest.length ? { r, base: rest.reduce((s, x) => s + x.apPct, 0) / rest.length } : null;
+      }).filter(Boolean);
+      const vsBase = Object.fromEntries(own.map((o) => [o.r.teamId, o]));
+      const hot = losses.map((r) => ({ r, o: vsBase[r.oppId] })).filter((x) => x.o && x.o.r.apPct > x.o.base)
+        .sort((a, b) => b.o.r.apPct - b.o.base - (a.o.r.apPct - a.o.base) || b.r.apW - a.r.apW)[0];
+      add('studi', 'Lenti í liði í stuði', hot?.r, hot && `Tapaði ${sc(hot.r)} fyrir ${hot.r.opp}, sem vann ${hot.o.r.apW} af 11 liðum í vikunni en vinnur annars ${f11(hot.o.base)} að meðaltali.`);
+      const off = own.filter((o) => o.r.apPct < o.base).sort((a, b) => a.r.apPct - a.base - (b.r.apPct - b.base))[0];
+      add('hvar', 'Hvar var liðið mitt?', off?.r, off && `Vann aðeins ${off.r.apW} af 11 liðum en vinnur annars ${f11(off.base)} að meðaltali. Raunin: ${resWord(off.r)} gegn ${off.r.opp}.`);
+      const prevRow = Object.fromEntries(team_week.filter((x) => x.week === w - 1).map((x) => [x.teamId, x]));
+      const rise = rows.filter((r) => prevRow[r.teamId] && r.apPct > prevRow[r.teamId].apPct)
+        .sort((a, b) => b.apPct - prevRow[b.teamId].apPct - (a.apPct - prevRow[a.teamId].apPct))[0];
+      add('upprisa', 'Upprisan', rise, rise && `Úr ${prevRow[rise.teamId].apW} í ${rise.apW} af 11 liðum milli vikna.`);
+      // upset: the winner's place in the table and in recent form (AvA of the last 3 weeks) before this week, against the loser's
+      const before = team_week.filter((x) => x.week < w && x.res !== null);
+      if (before.length) {
+        const st = {};
+        for (const x of before) {
+          const t = (st[x.teamId] ??= { teamId: x.teamId, g: 0, pts: 0, cats: 0, form: [] });
+          t.g++; t.pts += x.res; t.cats += x.cw + x.ct / 2; t.form.push([x.week, x.apPct]);
+        }
+        const ts = Object.values(st);
+        ts.forEach((t) => { const f = t.form.sort((a, b) => a[0] - b[0]).slice(-3); t.recent = f.reduce((s, x) => s + x[1], 0) / f.length; });
+        [...ts].sort((a, b) => b.pts / b.g - a.pts / a.g || b.cats - a.cats).forEach((t, i) => { t.rank = i + 1; });
+        [...ts].sort((a, b) => b.recent - a.recent).forEach((t, i) => { t.formRank = i + 1; });
+        const up = wins.map((r) => ({ r, me: st[r.teamId], op: st[r.oppId] })).filter((x) => x.me && x.op)
+          .map((x) => ({ ...x, gap: x.me.rank - x.op.rank + x.me.formRank - x.op.formRank }))
+          .filter((x) => x.gap > 0).sort((a, b) => b.gap - a.gap || a.r.apW - b.r.apW)[0];
+        add('ovaent', 'Davíð gegn Golíat', up?.r, up && `Vann ${up.r.opp} ${sc(up.r)}. Fyrir vikuna: ${up.me.rank}. sæti gegn ${up.op.rank}. og form ${pc(up.me.recent)} gegn ${pc(up.op.recent)}.`);
+      }
     }
     return out;
   },
@@ -1157,10 +1199,10 @@ dash.calc('awards', {
 
 dash.calc('trophies', {
   title: 'Verðlaunaskápurinn',
-  description: 'Hve oft hvert lið hefur fengið hver vikuverðlaun á tímabilinu. Bikarar: burst vikunnar, hefði átt að mæta öllum og heppnasti sigurinn. Sárabætur: óheppnasta tapið og hjartasár vikunnar.',
+  description: 'Hve oft hvert lið hefur fengið hver vikuverðlaun á tímabilinu. Bikarar: burst vikunnar, hefði átt að mæta öllum, heppnasti sigurinn, upprisan og Davíð gegn Golíat. Sárabætur: óheppnasta tapið, hjartasár vikunnar, lenti í liði í stuði og hvar var liðið mitt?',
   inputs: ['awards', 'teams'],
   fn: (awards, teams) => {
-    const KINDS = [['burst', 'Burst', 'bikar'], ['allir', 'Mætti öllum', 'bikar'], ['heppni', 'Heppnasti sigur', 'bikar'], ['ohoppni', 'Óheppnasta tap', 'sar'], ['hjarta', 'Hjartasár', 'sar']];
+    const KINDS = [['burst', 'Burst', 'bikar'], ['allir', 'Mætti öllum', 'bikar'], ['heppni', 'Heppnasti sigur', 'bikar'], ['upprisa', 'Upprisan', 'bikar'], ['ovaent', 'Davíð gegn Golíat', 'bikar'], ['ohoppni', 'Óheppnasta tap', 'sar'], ['hjarta', 'Hjartasár', 'sar'], ['studi', 'Lið í stuði', 'sar'], ['hvar', 'Hvar var liðið?', 'sar']];
     return teams.map((t) => {
       const mine = awards.filter((a) => a.teamId === t.teamId);
       const counts = KINDS.map(([k, label, kind]) => ({ award: k, label, kind, n: mine.filter((a) => a.award === k).length, weeks: mine.filter((a) => a.award === k).map((a) => a.week).sort((a, b) => a - b).join(',') }));
@@ -1917,7 +1959,7 @@ dash.calc('week_dates', {
     const rows = awards.filter((r) => r.week === w);
     if (!rows.length) { const p = document.createElement('p'); p.className = 'wx-empty'; p.textContent = 'Engin verðlaun fyrir þessa viku.'; box.appendChild(p); return; }
     for (const r of rows) {
-      const c = document.createElement('div'); c.className = 'wx-award';
+      const c = document.createElement('div'); c.className = 'wx-award'; c.dataset.award = r.award;
       const k = document.createElement('div'); k.className = 'wx-award-k'; k.textContent = r.title;
       const t = document.createElement('div'); t.className = 'wx-award-t'; t.dataset.source = 'awards'; t.dataset.field = 'team'; t.dataset.where = 'key=' + r.key; t.appendChild(withLogo(r.teamId, r.team, 28, w));
       const d = document.createElement('div'); d.className = 'wx-award-d'; d.dataset.source = 'awards'; d.dataset.field = 'text'; d.dataset.where = 'key=' + r.key; d.textContent = r.text;
@@ -2150,7 +2192,7 @@ dash.calc('week_dates', {
   // ---------- Recap card ----------
   function drawRecap(awards, season, teamWeek, w, sample) {
     const box = root.querySelector('#wx-recap');
-    const W = 1080, H = 2000, c = document.createElement('canvas'); c.width = W; c.height = H;
+    const W = 1080, H = 2800, c = document.createElement('canvas'); c.width = W; c.height = H;
     const x = c.getContext('2d');
     const css = getComputedStyle(root);
     const sans = css.getPropertyValue('--font-anthropic-sans').trim() || 'system-ui, sans-serif';
@@ -2164,15 +2206,16 @@ dash.calc('week_dates', {
     if (weekDates(w)) { x.fillStyle = '#9fb3c8'; x.font = `400 36px ${sans}`; x.fillText(weekDates(w), 72 + vw + 28, 206); }
     if (sample) { x.fillStyle = '#ffcc66'; x.font = `600 28px ${sans}`; x.fillText('SÝNIGÖGN – EKKI RAUNVERULEG ÚRSLIT', 72, 260); }
     const wrap = (text, maxW) => { const words = text.split(' '); const lines = []; let l = ''; for (const wd of words) { const tst = l ? l + ' ' + wd : wd; if (x.measureText(tst).width > maxW && l) { lines.push(l); l = wd; } else l = tst; } if (l) lines.push(l); return lines; };
-    let yy = 330;
+    let yy = 320;
     for (const a of awards.filter((r) => r.week === w)) {
-      x.fillStyle = '#7cc4ff'; x.font = `600 24px ${sans}`; x.fillText(a.title.toUpperCase(), 72, yy);
+      x.fillStyle = '#7cc4ff'; x.font = `600 22px ${sans}`; x.fillText(a.title.toUpperCase(), 72, yy);
       const li = logoImgs[a.teamId];
-      if (li && li.complete && li.naturalWidth) { x.save(); x.beginPath(); x.arc(72 + 22, yy + 38, 22, 0, Math.PI * 2); x.clip(); x.drawImage(li, 72, yy + 16, 44, 44); x.restore(); }
-      x.fillStyle = '#ffffff'; x.font = `400 44px ${serif}`; x.fillText(a.team, li && li.naturalWidth ? 128 : 72, yy + 52);
-      x.fillStyle = '#c7d3e0'; x.font = `400 26px ${sans}`;
-      wrap(a.text, W - 144).forEach((ln, i) => x.fillText(ln, 72, yy + 92 + i * 34));
-      yy += 92 + wrap(a.text, W - 144).length * 34 + 30;
+      if (li && li.complete && li.naturalWidth) { x.save(); x.beginPath(); x.arc(72 + 20, yy + 34, 20, 0, Math.PI * 2); x.clip(); x.drawImage(li, 72, yy + 14, 40, 40); x.restore(); }
+      x.fillStyle = '#ffffff'; x.font = `400 40px ${serif}`; x.fillText(a.team, li && li.naturalWidth ? 124 : 72, yy + 47);
+      x.fillStyle = '#c7d3e0'; x.font = `400 25px ${sans}`;
+      const lines = wrap(a.text, W - 144);
+      lines.forEach((ln, i) => x.fillText(ln, 72, yy + 82 + i * 30));
+      yy += 82 + lines.length * 30 + 16;
     }
     yy += 10;
     x.fillStyle = '#9fb3c8'; x.font = `600 24px ${sans}`; x.fillText('HEPPNI TÍMABILSINS', 72, yy);
