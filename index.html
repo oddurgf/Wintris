@@ -52,6 +52,11 @@ body { margin: 0; overflow-x: clip; position: relative; background: var(--color-
 .site-ticks.done { color: var(--color-ok); }
 @media (max-width: 640px) { .site-season, .site-status-when.long { display: none; } .site-status-when { padding-right: 0; border-right: 0; } }
 @media (min-width: 641px) { .site-status-when.short { display: none; } }
+.site-hero { padding: 6px 0 18px; }
+.site-hero-title { margin: 0; font-family: var(--font-display); font-weight: 700; line-height: 1; letter-spacing: .01em; font-size: clamp(2rem, 7vw, 3.6rem);
+  background: linear-gradient(90deg, #ffffff 0%, var(--ice) 55%, var(--lilac) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.site-hero-sub { margin: 6px 0 0; color: #c4d2e2; font-size: clamp(.9rem, 2.2vw, 1.1rem); max-width: 62ch; text-wrap: balance; }
+@media (max-width: 640px) { .site-hero { padding: 0 0 10px; } .site-hero-sub { margin-top: 4px; } }
 .site-foot { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--color-border-line); display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; color: var(--color-fg-muted); font-size: .8rem; }
 
 /* --- restyle of the dashboard for the site --- */
@@ -346,6 +351,10 @@ body #dash-root .wx-xs-only-cab { margin: 4px 0 0 26px; }
       <a class="site-help" id="site-help" href="#utskyringar" aria-label="Útskýringar" title="Útskýringar">?</a>
     </div>
   </div>
+  <header class="site-hero">
+    <p class="site-hero-title">Wintris vaktin</p>
+    <p class="site-hero-sub">Allt sem að þú vilt vita um Wintris en finnur ekki í Fantrax</p>
+  </header>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="data.js"></script>
 <script>
