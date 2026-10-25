@@ -23,6 +23,7 @@ bundle = {
     "logos": load("logos") if (DATA / "logos.json").exists() else [],
     "periods": load("periods") if (DATA / "periods.json").exists() else [],
     "gp_limits": load("gp_limits") if (DATA / "gp_limits.json").exists() else [],
+    "update_status": load("update_status") if (DATA / "update_status.json").exists() else {},
     "updated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
 }
 

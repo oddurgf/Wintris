@@ -4,7 +4,8 @@
 Usage: python3 -I fetch_weeks.py OUT.json [--include-current]
 Writes rows {week, teamId, PTS, REB, AST, ST, BLK, TPM, TO, FGP, FTP, GP} for every
 finished scoring period of the regular season (1-19), and each week's games-played
-limits {week, min, max} (all 19 weeks, future ones too) to gp_limits.json next to OUT. The Fantrax login cookie is
+limits {week, min, max} (all 19 weeks, future ones too) to gp_limits.json next to OUT, and the
+time of each successful run for the latest finished week to update_status.json. The Fantrax login cookie is
 read from the FANTRAX_COOKIE environment variable (a GitHub secret in the workflow).
 Exits non-zero if Fantrax says we are not logged in or a matchup check fails.
 """
@@ -45,6 +46,20 @@ def save_periods(info, path):
             for p in info["scoringPeriods"]]
     with open(path, "w", encoding="utf-8") as f:
         json.dump(rows, f, ensure_ascii=False, indent=0)
+
+def save_status(week, path):
+    """Note when this run fetched the latest finished week. The site shows one tick for a
+    run on Monday-Wednesday (preliminary) and two once a run on Thursday or later has
+    re-fetched it with Fantrax's corrections. A new week starts a new list of runs."""
+    try:
+        with open(path, encoding="utf-8") as f:
+            old = json.load(f)
+    except (OSError, ValueError):
+        old = {}
+    runs = old.get("runs", []) if old.get("week") == week else []
+    runs.append(datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"))
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump({"week": week, "runs": runs}, f, indent=0)
 
 def finished_weeks(include_current, periods_out=None):
     info = get(f"https://www.fantrax.com/fxea/general/getLeagueInfo?leagueId={LEAGUE}")
@@ -175,3 +190,5 @@ if __name__ == "__main__":
     if problems:
         print("MATCHUP CHECK MISMATCHES:\n" + "\n".join(problems))
         sys.exit(2)
+    if weeks and "--include-current" not in sys.argv:
+        save_status(max(weeks), os.path.join(data_dir, "update_status.json"))

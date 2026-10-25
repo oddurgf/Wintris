@@ -41,6 +41,17 @@ body { margin: 0; overflow-x: clip; position: relative; background: var(--color-
 .site-help { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--color-border-line); color: var(--ice); font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; text-decoration: none; }
 .site-help:hover, .site-help[aria-current="page"] { background: var(--ice); color: #06101e; border-color: var(--ice); }
 .site-help:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+.site-status { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; box-sizing: border-box; padding: 0 12px; border-radius: 999px; border: 1px solid var(--color-border-line); color: var(--color-fg-muted); font-size: .78rem; text-decoration: none; white-space: nowrap; }
+.site-status:hover { border-color: var(--cds-border); color: var(--color-fg); }
+.site-status:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+.site-status-when { padding-right: 8px; border-right: 1px solid var(--color-border-line); }
+.site-status-when:last-child { padding-right: 0; border-right: 0; }
+.site-status-week { color: var(--color-fg); }
+.site-ticks { display: inline-flex; font-weight: 700; font-size: .95rem; line-height: 1; letter-spacing: -.4em; padding-right: .4em; color: var(--ice); }
+.site-ticks .off { opacity: .25; }
+.site-ticks.done { color: var(--color-ok); }
+@media (max-width: 640px) { .site-season, .site-status-when.long { display: none; } .site-status-when { padding-right: 0; border-right: 0; } }
+@media (min-width: 641px) { .site-status-when.short { display: none; } }
 .site-foot { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--color-border-line); display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; color: var(--color-fg-muted); font-size: .8rem; }
 
 /* --- restyle of the dashboard for the site --- */
@@ -331,6 +342,7 @@ body #dash-root .wx-xs-only-cab { margin: 4px 0 0 26px; }
     <div class="site-brand"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="29" fill="#f28a2e"/><path d="M3 32h58M32 3v58M12 11c10 8 10 34 0 42M52 11c-10 8-10 34 0 42" fill="none" stroke="#0a1220" stroke-width="3"/></svg>WINTRIS</div>
     <div class="site-right">
       <div class="site-season">Tímabilið 2026–27</div>
+      <a class="site-status" id="site-status" href="#utskyringar" title="Uppfærist mánudaga og fimmtudaga kl. 10"><span class="site-status-when long">Uppfærist mán. og fim. kl. 10</span><span class="site-status-when short">Mán. og fim.</span></a>
       <a class="site-help" id="site-help" href="#utskyringar" aria-label="Útskýringar" title="Útskýringar">?</a>
     </div>
   </div>
@@ -846,6 +858,7 @@ body #dash-root .wx-xs-only-cab { margin: 4px 0 0 26px; }
         <button type="button" data-jump="ex-spjald">Vikuspjaldið</button>
         <button type="button" data-jump="ex-skapur">Verðlaunaskápurinn</button>
         <button type="button" data-jump="ex-leikir">Leikir og hámark</button>
+        <button type="button" data-jump="ex-uppfaersla">Uppfærslur</button>
         <button type="button" data-jump="ex-annad">Annað</button>
       </nav>
 
@@ -939,6 +952,12 @@ body #dash-root .wx-xs-only-cab { margin: 4px 0 0 26px; }
         <p>Hver vika hefur hámark og lágmark leikja (GP) úr Fantrax, oftast 28 en færri í styttri vikum eins og 1. viku og stjörnuleikjavikunni. Lið sem er komið í hámarkið í byrjun dags fær engar tölur fyrir vikuna og tapar henni. Lið undir lágmarkinu í lok viku tapar meðaltalsflokkunum.</p>
         <p>Leikir hvers liðs sjást á úrslitum vikunnar og í leiknum á Liðið mitt (myndin), og hámark allra vikna undir Liðið mitt → Framundan.</p>
         <div class="wx-more"><button type="button" class="wx-linkbtn" data-goto="lid" data-goseg="framundan">Liðið mitt → Framundan</button></div>
+      </article>
+
+      <article class="wx-card" id="ex-uppfaersla">
+        <h3>Uppfærslur ✓✓</h3>
+        <p>Tölurnar eru sóttar til Fantrax á <b>mánudögum</b> og <b>fimmtudögum</b> kl. 10. Efst til hægri sést nýjasta vikan og staða hennar: <b>✓</b> þýðir að mánudagsuppfærslan er komin og tölurnar eru bráðabirgðatölur, <b>✓✓</b> að fimmtudagsuppfærslan hefur sótt vikuna aftur með leiðréttingum Fantrax og tölurnar eru endanlegar. Farðu yfir merkið (eða ýttu á það) til að sjá hvenær var uppfært.</p>
+        <p id="ex-uppfaersla-nu" hidden></p>
       </article>
 
       <article class="wx-card" id="ex-annad">
@@ -1744,6 +1763,12 @@ dash.calc('week_dates', {
   tabs.forEach((t) => t.addEventListener('click', () => show(t.dataset.tab, true)));
   // the "?" in the site header opens Útskýringar (it sits outside the dashboard root)
   if (helpLink) helpLink.addEventListener('click', (ev) => { ev.preventDefault(); show('utskyringar', true); });
+  // the update status next to it opens Útskýringar at the card that explains the ticks
+  const statusLink = document.getElementById('site-status');
+  if (statusLink) statusLink.addEventListener('click', (ev) => {
+    ev.preventDefault(); show('utskyringar', true);
+    const el = root.querySelector('#ex-uppfaersla'); if (el) el.scrollIntoView({ block: 'start' });
+  });
   // the topic buttons at the top of Útskýringar
   root.addEventListener('click', (ev) => {
     const b = ev.target.closest('[data-jump]'); if (!b) return;
@@ -2715,6 +2740,30 @@ dash.calc('week_dates', {
 (function () {
   var u = (window.WINTRIS_DATA || {}).updated, el = document.getElementById('wx-updated');
   if (el && u) { var p = u.split('-'); el.textContent = Number(p[2]) + '.' + Number(p[1]) + '.' + p[0]; }
+})();
+(function () {
+  // Header update status: the latest finished week with one tick after a Monday-Wednesday
+  // run (preliminary) and two once a Thursday-or-later run has re-fetched it (final).
+  var D = window.WINTRIS_DATA || {}, st = D.update_status || {}, a = document.getElementById('site-status');
+  var runs = (st.runs || []).map(function (r) { return new Date(r); }).filter(function (d) { return !isNaN(d); });
+  if (!a || !st.week || !runs.length || !(D.weekly_stats || []).length) return;
+  var DAYS = ['sun.', 'mán.', 'þri.', 'mið.', 'fim.', 'fös.', 'lau.'];
+  var fmt = function (d) { return DAYS[d.getUTCDay()] + ' ' + d.getUTCDate() + '.' + (d.getUTCMonth() + 1) + '. kl. ' + d.getUTCHours() + ':' + String(d.getUTCMinutes()).padStart(2, '0'); };
+  var fin = runs.filter(function (d) { return d.getUTCDay() >= 4 || d.getUTCDay() === 0; });
+  var done = fin.length > 0, first = runs[0], last = runs[runs.length - 1];
+  var tip = 'Vika ' + st.week + ': ' + (done
+    ? 'endanlegar tölur, staðfestar af Fantrax ' + fmt(fin[0]) + '.'
+    : 'bráðabirgðatölur frá ' + fmt(first) + '. Endanlegar tölur koma á fimmtudag.') +
+    ' Síðast uppfært ' + fmt(last) + '. Uppfærist mánudaga og fimmtudaga kl. 10.';
+  a.querySelector('.site-status-when.short').remove();
+  var w = document.createElement('span');
+  w.className = 'site-status-week';
+  w.innerHTML = 'Vika ' + st.week + ' <span class="site-ticks' + (done ? ' done' : '') + '" aria-hidden="true"><span>✓</span><span' + (done ? '' : ' class="off"') + '>✓</span></span>';
+  a.appendChild(w);
+  a.title = tip;
+  var now = document.getElementById('ex-uppfaersla-nu');
+  if (now) { now.textContent = 'Núna: ' + tip; now.hidden = false; }
+  a.setAttribute('aria-label', tip);
 })();
 </script>
 </body>
