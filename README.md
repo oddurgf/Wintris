@@ -4,7 +4,7 @@ League site for the Wintris fantasy basketball league (12 teams, H2H 9-cat on Fa
 It shows all-play records, a luck index, power rankings, close categories, playoff odds, team pages,
 a record book, schedule swaps and a weekly recap card, with each team's Fantrax logo.
 
-The site updates itself every week just after Fantrax closes the week, at 00:17 Iceland time on the night between Monday and Tuesday.
+The site updates itself every Monday at 10:00 Iceland time, after the week's last games on Sunday night, and again on Thursday at 10:00 to pick up Fantrax's stat corrections.
 
 ## How it works
 
@@ -16,7 +16,7 @@ The site updates itself every week just after Fantrax closes the week, at 00:17 
 | `scripts/fetch_weeks.py` | Pulls finished weeks from Fantrax using your login cookie |
 | `scripts/fetch_logos.py` | Downloads the team logos from Fantrax into `data/logos.json` (skipped without failing the update if it breaks) |
 | `scripts/build_data.py` | Combines `data/` into `data.js` |
-| `.github/workflows/update.yml` | Runs the update Tuesday at 00:17 and 07:37 (Iceland time) and publishes the site |
+| `.github/workflows/update.yml` | Runs the update Monday and Thursday at 10:00 (Iceland time) and publishes the site |
 
 Until the first week has finished, the site shows made-up sample numbers with a yellow banner.
 The banner disappears by itself once real weeks arrive.

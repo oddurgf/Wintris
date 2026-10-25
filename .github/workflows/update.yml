@@ -3,8 +3,8 @@ name: Update league data
 on:
   schedule:
     # Times are UTC, which is the same as Iceland time.
-    - cron: "17 0 * * 2"   # Just after Fantrax closes the week (Monday 18:59 US Eastern = 22:59/23:59 UTC)
-    - cron: "37 7 * * 2"   # Tuesday catch-up for late stat corrections
+    - cron: "0 10 * * 1"   # Monday 10:00, after the week's last games on Sunday night
+    - cron: "0 10 * * 4"   # Thursday 10:00, picks up Fantrax's stat corrections
   workflow_dispatch:        # "Run workflow" button for a manual update
   push:
     branches: [main]        # republish when you change the site yourself

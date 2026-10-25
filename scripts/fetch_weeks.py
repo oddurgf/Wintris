@@ -8,7 +8,7 @@ read from the FANTRAX_COOKIE environment variable (a GitHub secret in the workfl
 Exits non-zero if Fantrax says we are not logged in or a matchup check fails.
 """
 import json, os, sys, urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 LEAGUE = "f29oe0zdmv5gs7rl"
 UA = {"User-Agent": "Mozilla/5.0 (Wintris dashboard)"}
@@ -18,6 +18,9 @@ if _cookie.lower().startswith("cookie:"):
 if _cookie:
     UA["Cookie"] = _cookie
 REG_WEEKS = 19
+# The Monday run counts last week as finished even if Fantrax's stored end time is
+# still a few hours away; Thursday's run then picks up any stat corrections.
+END_GRACE = timedelta(hours=14)
 CAT = {"3010#1390#-1": "PTS", "3010#1400#-1": "REB", "3010#1250#-1": "AST", "3010#1410#-1": "ST",
        "3010#1260#-1": "BLK", "3010#1435#-1": "TPM", "3010#1460#-1": "TO", "3010#1520#-1": "FGP", "3010#1550#-1": "FTP"}
 
@@ -43,7 +46,7 @@ def finished_weeks(include_current):
         n = p["number"]
         end = datetime.strptime(p["endDate"].replace(".0", ""), "%Y-%m-%dT%H:%M:%S%z")
         start = datetime.strptime(p["startDate"].replace(".0", ""), "%Y-%m-%dT%H:%M:%S%z")
-        if n <= REG_WEEKS and (end < now or (include_current and start < now)):
+        if n <= REG_WEEKS and (end < now + END_GRACE or (include_current and start < now)):
             out.append(n)
     return out
 
