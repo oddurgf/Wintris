@@ -3,7 +3,8 @@
 
 Usage: python3 -I fetch_weeks.py OUT.json [--include-current]
 Writes rows {week, teamId, PTS, REB, AST, ST, BLK, TPM, TO, FGP, FTP, GP} for every
-finished scoring period of the regular season (1-19). The Fantrax login cookie is
+finished scoring period of the regular season (1-19), and each week's games-played
+limits {week, min, max} (all 19 weeks, future ones too) to gp_limits.json next to OUT. The Fantrax login cookie is
 read from the FANTRAX_COOKIE environment variable (a GitHub secret in the workflow).
 Exits non-zero if Fantrax says we are not logged in or a matchup check fails.
 """
@@ -59,6 +60,35 @@ def finished_weeks(include_current, periods_out=None):
             out.append(n)
     return out
 
+def gp_limits(team_id, path):
+    """Each week's games-played min/max, from the roster page's "games per position" view.
+
+    Fantrax shows the same limits for every team. A week Fantrax won't answer for keeps
+    the value from the last run, so a hiccup never wipes the limits."""
+    try:
+        with open(path, encoding="utf-8") as f:
+            old = {r["week"]: r for r in json.load(f)}
+    except (OSError, ValueError):
+        old = {}
+    num = lambda v: int(v) if str(v).strip().isdigit() else None
+    rows = []
+    for week in range(1, REG_WEEKS + 1):
+        row = old.get(week)
+        try:
+            d = fxpa("getTeamRosterInfo", {"teamId": team_id, "period": str(week), "view": "GAMES_PER_POS"})
+            gp = [x for x in (d.get("scMinMaxData") or {}).get("tableData", []) if "(GP)" in x.get("scoringCategory", "")]
+            if gp:
+                row = {"week": week, "min": num(gp[0].get("min")), "max": num(gp[0].get("max"))}
+        except SystemExit:
+            raise
+        except Exception as e:  # a missing week must not stop the stats update
+            print(f"Week {week}: no games limit ({type(e).__name__})")
+        if row:
+            rows.append(row)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(rows, f, indent=0)
+    print(f"games limits: {len(rows)} weeks")
+
 def week_rows(week):
     d = fxpa("getLiveScoringStats", {"period": str(week), "newView": True, "playerViewType": "1", "sppId": "-1", "viewType": "2"})
     rows, wlt = [], {}
@@ -72,7 +102,9 @@ def week_rows(week):
         missing = [c for c in CAT.values() if c not in r]
         if missing:
             sys.exit(f"Week {week} team {tid}: missing {missing}")
-        r["GP"] = a.get("playerGameInfo", [None])[0]
+        # playerGameInfo is [played, playing now, remaining, minutes played, minutes remaining]
+        gp = a.get("playerGameInfo", [None])[0]
+        r["GP"] = int(gp) if gp is not None else None
         rows.append(r)
         w = list((a.get("wltPerMchup") or {}).values())
         if w:
@@ -98,7 +130,10 @@ if __name__ == "__main__":
     out = sys.argv[1]
     if not _cookie:
         sys.exit("FANTRAX_COOKIE is empty: add your Fantrax login cookie as a GitHub secret (see README).")
-    weeks = finished_weeks("--include-current" in sys.argv, os.path.join(os.path.dirname(os.path.abspath(out)), "periods.json"))
+    data_dir = os.path.dirname(os.path.abspath(out))
+    weeks = finished_weeks("--include-current" in sys.argv, os.path.join(data_dir, "periods.json"))
+    with open(os.path.join(data_dir, "teams.json"), encoding="utf-8") as f:
+        gp_limits(json.load(f)[0]["teamId"], os.path.join(data_dir, "gp_limits.json"))
     allrows, problems = [], []
     for w in weeks:
         rows, wlt, mus = week_rows(w)
