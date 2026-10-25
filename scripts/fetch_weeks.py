@@ -60,6 +60,28 @@ def finished_weeks(include_current, periods_out=None):
             out.append(n)
     return out
 
+def roster_period_for_weeks():
+    """Map each scoring week to its first roster period (lineup day).
+
+    The roster page's `period` is a roster period, not a scoring week: Wintris sets lineups
+    daily, so roster period 7 is the first day of week 2. Uses Fantrax's own rosterPeriods
+    when they carry dates, else counts days from the season's first day."""
+    info = get(f"https://www.fantrax.com/fxea/general/getLeagueInfo?leagueId={LEAGUE}")
+    day = lambda v: str(v)[:10]
+    starts = {p["number"]: day(p["startDate"]) for p in info["scoringPeriods"] if p["number"] <= REG_WEEKS}
+    rp = info.get("rosterPeriods")
+    rps = list(rp.values()) if isinstance(rp, dict) else rp if isinstance(rp, list) else []
+    dated = sorted((day(r["startDate"]), int(r["number"])) for r in rps if isinstance(r, dict) and "startDate" in r and "number" in r)
+    if dated:
+        out = {w: next((n for d, n in dated if d >= s0), None) for w, s0 in starts.items()}
+        how = "rosterPeriods"
+    else:
+        first = datetime.strptime(starts[1], "%Y-%m-%d")
+        out = {w: (datetime.strptime(s0, "%Y-%m-%d") - first).days + 1 for w, s0 in starts.items()}
+        how = "day count"
+    print(f"roster periods ({how}): " + ", ".join(f"w{w}->{n}" for w, n in sorted(out.items())))
+    return out
+
 def gp_limits(team_id, path):
     """Each week's games-played min/max, from the roster page's "games per position" view.
 
@@ -71,11 +93,18 @@ def gp_limits(team_id, path):
     except (OSError, ValueError):
         old = {}
     num = lambda v: int(v) if str(v).strip().isdigit() else None
+    try:
+        first_day = roster_period_for_weeks()
+    except Exception as e:  # keep last run's limits rather than block the stats update
+        print(f"No roster periods ({type(e).__name__}); keeping the old games limits")
+        return
     rows = []
     for week in range(1, REG_WEEKS + 1):
         row = old.get(week)
         try:
-            d = fxpa("getTeamRosterInfo", {"teamId": team_id, "period": str(week), "view": "GAMES_PER_POS"})
+            if first_day.get(week) is None:
+                raise LookupError("no roster period")
+            d = fxpa("getTeamRosterInfo", {"teamId": team_id, "period": str(first_day[week]), "view": "GAMES_PER_POS"})
             gp = [x for x in (d.get("scMinMaxData") or {}).get("tableData", []) if "(GP)" in x.get("scoringCategory", "")]
             if gp:
                 row = {"week": week, "min": num(gp[0].get("min")), "max": num(gp[0].get("max"))}
@@ -87,7 +116,7 @@ def gp_limits(team_id, path):
             rows.append(row)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(rows, f, indent=0)
-    print(f"games limits: {len(rows)} weeks")
+    print("games limits: " + ", ".join(f"w{r['week']} {r['min']}-{r['max']}" for r in rows))
 
 def week_rows(week):
     d = fxpa("getLiveScoringStats", {"period": str(week), "newView": True, "playerViewType": "1", "sppId": "-1", "viewType": "2"})
