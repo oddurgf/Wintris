@@ -47,19 +47,23 @@ def save_periods(info, path):
     with open(path, "w", encoding="utf-8") as f:
         json.dump(rows, f, ensure_ascii=False, indent=0)
 
-def save_status(week, path):
+def save_status(week, path, finished, changed):
     """Note when this run fetched the latest finished week. The site shows one tick for a
     run on Monday-Wednesday (preliminary) and two once a run on Thursday or later has
-    re-fetched it with Fantrax's corrections. A new week starts a new list of runs."""
+    re-fetched it with Fantrax's corrections. A new week starts a new list of runs.
+    `log` keeps every run (all weeks): Fantrax's allEventsFinished for the week and whether
+    the week's numbers changed since the last run, to see when Fantrax stops correcting."""
     try:
         with open(path, encoding="utf-8") as f:
             old = json.load(f)
     except (OSError, ValueError):
         old = {}
     runs = old.get("runs", []) if old.get("week") == week else []
-    runs.append(datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"))
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    runs.append(now)
+    log = old.get("log", []) + [{"at": now, "week": week, "allEventsFinished": finished, "changed": changed}]
     with open(path, "w", encoding="utf-8") as f:
-        json.dump({"week": week, "runs": runs}, f, indent=0)
+        json.dump({"week": week, "runs": runs, "log": log[-80:]}, f, indent=0)
 
 def finished_weeks(include_current, periods_out=None):
     info = get(f"https://www.fantrax.com/fxea/general/getLeagueInfo?leagueId={LEAGUE}")
@@ -153,7 +157,7 @@ def week_rows(week):
         w = list((a.get("wltPerMchup") or {}).values())
         if w:
             wlt[tid] = w[0]
-    return rows, wlt, d.get("matchups", [])
+    return rows, wlt, d.get("matchups", []), d.get("allEventsFinished")
 
 def check(rows, wlt, matchups, week):
     """Recompute each real matchup and compare with Fantrax's own W-L-T."""
@@ -178,9 +182,14 @@ if __name__ == "__main__":
     weeks = finished_weeks("--include-current" in sys.argv, os.path.join(data_dir, "periods.json"))
     with open(os.path.join(data_dir, "teams.json"), encoding="utf-8") as f:
         gp_limits(json.load(f)[0]["teamId"], os.path.join(data_dir, "gp_limits.json"))
-    allrows, problems = [], []
+    try:
+        with open(out, encoding="utf-8") as f:
+            oldrows = json.load(f)
+    except (OSError, ValueError):
+        oldrows = []
+    allrows, problems, finished = [], [], {}
     for w in weeks:
-        rows, wlt, mus = week_rows(w)
+        rows, wlt, mus, finished[w] = week_rows(w)
         if len(rows) != 12:
             sys.exit(f"Week {w}: expected 12 teams, got {len(rows)}")
         problems += [f"week {w}: {p}" for p in check(rows, wlt, mus, w)]
@@ -191,4 +200,7 @@ if __name__ == "__main__":
         print("MATCHUP CHECK MISMATCHES:\n" + "\n".join(problems))
         sys.exit(2)
     if weeks and "--include-current" not in sys.argv:
-        save_status(max(weeks), os.path.join(data_dir, "update_status.json"))
+        last = max(weeks)
+        key = lambda rs: sorted((json.dumps(r, sort_keys=True) for r in rs if r.get("week") == last))
+        changed = key(allrows) != key(oldrows)
+        save_status(last, os.path.join(data_dir, "update_status.json"), finished[last], changed)
