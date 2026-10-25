@@ -1,0 +1,18 @@
+name: Probe period status (one-off)
+
+on:
+  push:
+    branches: [probe-period-status]   # runs on this branch only, never deploys
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Look for a final/processed flag in Fantrax responses
+        env:
+          FANTRAX_COOKIE: ${{ secrets.FANTRAX_COOKIE }}
+        run: python3 -I scripts/probe_period_status.py
