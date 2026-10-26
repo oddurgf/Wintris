@@ -979,7 +979,7 @@ body #dash-root .wx-teamtake { font-size: .95rem; margin: 2px 0 0; }
           <li><b>Upprisan</b>: mesta stökk upp í AvA frá vikunni á undan.</li>
           <li><b>Davíð gegn Golíat</b>: óvæntasti sigurinn. Fyrir vikuna er borið saman sæti liðanna í töflunni og formið (AvA % síðustu 3 vikna), og sigurinn þar sem sigurvegarinn var samanlagt flestum sætum neðar fær verðlaunin.</li>
         </ul>
-        <p>Nýju verðlaunin fjögur nota aðeins vikurnar á undan, svo þau breytast ekki eftir á. Upprisan byrjar í 2. viku, hin þrjú í 3. viku (þau þurfa tvær vikur að baki). Lið fær í mesta lagi ein af þessum fjórum á viku, og ekki ef það fékk Verstu vikuna; annars fær næsta lið í röðinni þau.</p>
+        <p>Nýju verðlaunin fjögur nota aðeins vikurnar á undan, svo þau breytast ekki eftir á. Upprisan byrjar í 2. viku, hin þrjú í 3. viku (þau þurfa tvær vikur að baki). Lið fær í mesta lagi ein af þessum fjórum á viku; annars fær næsta lið í röðinni þau.</p>
         <div class="wx-more"><button type="button" class="wx-linkbtn" data-goto="vikan">Vikan</button></div>
       </article>
 
@@ -1232,8 +1232,8 @@ dash.calc('awards', {
       const worst = [...rows].sort((a, b) => a.apPct - b.apPct || a.catPts - b.catPts)[0];
       add('versta', 'Versta vikan', worst, worst && `${worst.apW}-${worst.apL}-${worst.apT} gegn öllum og ${String(worst.catPts).replace('.', ',')} af ${worst.catMax} flokkum. Raunin: ${resWord(worst)} gegn ${worst.opp}.`);
       // the new awards need history (2 earlier weeks, except Upprisan), only use earlier weeks so they never change later,
-      // and go to a team at most once a week, counting Versta vikan (the next team in line gets the award instead)
-      const taken = new Set(worst ? [worst.teamId] : []);
+      // and go to a team at most once a week (the next team in line gets the award instead)
+      const taken = new Set();
       const pick = (list, idOf = (x) => x.r.teamId) => list.find((x) => !taken.has(idOf(x)));
       const addNew = (award, title, r, text) => { if (r) { taken.add(r.teamId); add(award, title, r, text); } };
       const own = rows.map((r) => {
