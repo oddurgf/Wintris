@@ -85,6 +85,7 @@ body #dash-root .wx-award[data-award="burst"], body #dash-root .wx-award[data-aw
 body #dash-root .wx-award[data-award="allir"] { border-top-color: var(--lilac); }
 body #dash-root .wx-award[data-award="hjarta"], body #dash-root .wx-award[data-award="hvar"] { border-top-color: var(--color-warn); }
 body #dash-root .wx-award[data-award="upprisa"] { border-top-color: var(--color-ok); }
+body #dash-root .wx-award[data-award="versta"] { border-top-color: #8796ab; }
 body #dash-root .wx-award.wx-award-pending { border-top-style: dashed; background: transparent; }
 body #dash-root .wx-award.wx-award-pending .wx-award-d { font-style: italic; }
 body #dash-root .wx-award-t { font-size: 1.3rem; }
@@ -846,7 +847,7 @@ body #dash-root .wx-teamtake { font-size: .95rem; margin: 2px 0 0; }
       <div class="wx-card" id="trophy-card">
         <div class="wx-cardhead"><h3>Verðlaunaskápurinn</h3><button type="button" class="wx-q" aria-expanded="false" aria-label="Skýring"><span>?</span></button></div>
         <p class="wx-note">Vikuverðlaun hvers liðs á tímabilinu.</p>
-        <div class="wx-help" hidden><div><b>Bikarar</b>: burst vikunnar, hefði átt að mæta öllum, heppnasti sigurinn, upprisan og Davíð gegn Golíat. <b>Sárabætur</b>: óheppnasta tapið, hjartasár vikunnar, lenti í liði í stuði og hvar var liðið mitt? Sömu verðlaun og á vikuspjaldinu, ein af hverri tegund á viku.</div></div>
+        <div class="wx-help" hidden><div><b>Bikarar</b>: burst vikunnar, hefði átt að mæta öllum, heppnasti sigurinn, upprisan og Davíð gegn Golíat. <b>Sárabætur</b>: óheppnasta tapið, hjartasár vikunnar, lenti í liði í stuði, hvar var liðið mitt? og versta vikan. Sömu verðlaun og á vikuspjaldinu, ein af hverri tegund á viku.</div></div>
         <div class="wx-scroll">
           <table class="wx-t wx-t1 wx-click" id="wx-trophies" data-source="trophies" data-row-key="teamId">
             <thead><tr><th data-field="team">Lið</th><th data-field="cups">Bikarar</th><th data-field="sores">Sárabætur</th><th class="wx-xs-hide" data-field="counts">Í skápnum</th></tr></thead>
@@ -972,19 +973,20 @@ body #dash-root .wx-teamtake { font-size: .95rem; margin: 2px 0 0; }
           <li><b>Burst vikunnar</b>: stærsti sigurinn.</li>
           <li><b>Hefði átt að mæta öllum</b>: besta AvA vikunnar.</li>
           <li><b>Hjartasár vikunnar</b>: flestir tapaðir tæpir flokkar.</li>
+          <li><b>Versta vikan</b>: versta AvA vikunnar.</li>
           <li><b>Lenti í liði í stuði</b>: tapið þar sem mótherjinn spilaði mest yfir eigin meðaltali (AvA vikunnar miðað við meðaltal hans í vikunum á undan).</li>
           <li><b>Hvar var liðið mitt?</b>: liðið sem spilaði mest undir eigin meðaltali í AvA, hvort sem það vann eða tapaði.</li>
           <li><b>Upprisan</b>: mesta stökk upp í AvA frá vikunni á undan.</li>
           <li><b>Davíð gegn Golíat</b>: óvæntasti sigurinn. Fyrir vikuna er borið saman sæti liðanna í töflunni og formið (AvA % síðustu 3 vikna), og sigurinn þar sem sigurvegarinn var samanlagt flestum sætum neðar fær verðlaunin.</li>
         </ul>
-        <p>Nýju verðlaunin fjögur nota aðeins vikurnar á undan, svo þau breytast ekki eftir á. Upprisan byrjar í 2. viku, hin þrjú í 3. viku (þau þurfa tvær vikur að baki). Lið fær í mesta lagi ein af þessum fjórum á viku; annars fær næsta lið í röðinni þau.</p>
+        <p>Nýju verðlaunin fjögur nota aðeins vikurnar á undan, svo þau breytast ekki eftir á. Upprisan byrjar í 2. viku, hin þrjú í 3. viku (þau þurfa tvær vikur að baki). Lið fær í mesta lagi ein af þessum fjórum á viku, og ekki ef það fékk Verstu vikuna; annars fær næsta lið í röðinni þau.</p>
         <div class="wx-more"><button type="button" class="wx-linkbtn" data-goto="vikan">Vikan</button></div>
       </article>
 
       <article class="wx-card" id="ex-skapur">
         <h3>Verðlaunaskápurinn</h3>
         <a href="img/utskyringar/skapur.webp" target="_blank" rel="noopener" aria-label="Opna mynd í fullri stærð"><img class="wx-ex-img" src="img/utskyringar/skapur.webp" width="716" height="1150" loading="lazy" alt="Verðlaunaskápurinn"></a>
-        <p>Öll vikuverðlaun hvers liðs yfir tímabilið. <b>Bikarar</b> eru heppnasti sigurinn, burst vikunnar, hefði átt að mæta öllum, upprisan og Davíð gegn Golíat. <b>Sárabætur</b> eru óheppnasta tapið, hjartasár vikunnar, lenti í liði í stuði og hvar var liðið mitt?</p>
+        <p>Öll vikuverðlaun hvers liðs yfir tímabilið. <b>Bikarar</b> eru heppnasti sigurinn, burst vikunnar, hefði átt að mæta öllum, upprisan og Davíð gegn Golíat. <b>Sárabætur</b> eru óheppnasta tapið, hjartasár vikunnar, lenti í liði í stuði, hvar var liðið mitt? og versta vikan.</p>
         <div class="wx-more"><button type="button" class="wx-linkbtn" data-goto="deildin" data-goseg="met">Deildin → Met</button></div>
       </article>
 
@@ -1202,7 +1204,7 @@ dash.calc('cat_leaders', {
 
 dash.calc('awards', {
   title: 'Verðlaun vikunnar',
-  description: 'Heppnasti sigurinn, óheppnasta tapið, burst vikunnar, besta allir-við-alla vikan, flestir tapaðir tæpir flokkar, tap gegn mótherja í stuði, mest undir eigin meðaltali, mesta stökk milli vikna og óvæntasti sigurinn.',
+  description: 'Heppnasti sigurinn, óheppnasta tapið, burst vikunnar, besta allir-við-alla vikan, flestir tapaðir tæpir flokkar, versta allir-við-alla vikan, tap gegn mótherja í stuði, mest undir eigin meðaltali, mesta stökk milli vikna og óvæntasti sigurinn.',
   inputs: ['team_week', 'coinflips'],
   fn: (team_week, coinflips) => {
     const sc = (r) => r.cw + '–' + r.cl + (r.ct ? '–' + r.ct : '');
@@ -1227,9 +1229,11 @@ dash.calc('awards', {
       const hb = Object.entries(lostFlips).sort((a, b) => b[1].length - a[1].length)[0];
       const hbRow = hb && rows.find((r) => r.teamId === hb[0]);
       add('hjarta', 'Hjartasár vikunnar', hbRow, hb && `Tapaði ${hb[1].length} tæpum ${hb[1].length > 1 ? 'flokkum' : 'flokki'}: ${hb[1].join(', ')}.`);
+      const worst = [...rows].sort((a, b) => a.apPct - b.apPct || a.catPts - b.catPts)[0];
+      add('versta', 'Versta vikan', worst, worst && `${worst.apW}-${worst.apL}-${worst.apT} gegn öllum og ${String(worst.catPts).replace('.', ',')} af ${worst.catMax} flokkum. Raunin: ${resWord(worst)} gegn ${worst.opp}.`);
       // the new awards need history (2 earlier weeks, except Upprisan), only use earlier weeks so they never change later,
-      // and go to a team at most once a week (the next team in line gets the award instead)
-      const taken = new Set();
+      // and go to a team at most once a week, counting Versta vikan (the next team in line gets the award instead)
+      const taken = new Set(worst ? [worst.teamId] : []);
       const pick = (list, idOf = (x) => x.r.teamId) => list.find((x) => !taken.has(idOf(x)));
       const addNew = (award, title, r, text) => { if (r) { taken.add(r.teamId); add(award, title, r, text); } };
       const own = rows.map((r) => {
@@ -1274,10 +1278,10 @@ dash.calc('awards', {
 
 dash.calc('trophies', {
   title: 'Verðlaunaskápurinn',
-  description: 'Hve oft hvert lið hefur fengið hver vikuverðlaun á tímabilinu. Bikarar: burst vikunnar, hefði átt að mæta öllum, heppnasti sigurinn, upprisan og Davíð gegn Golíat. Sárabætur: óheppnasta tapið, hjartasár vikunnar, lenti í liði í stuði og hvar var liðið mitt?',
+  description: 'Hve oft hvert lið hefur fengið hver vikuverðlaun á tímabilinu. Bikarar: burst vikunnar, hefði átt að mæta öllum, heppnasti sigurinn, upprisan og Davíð gegn Golíat. Sárabætur: óheppnasta tapið, hjartasár vikunnar, lenti í liði í stuði, hvar var liðið mitt? og versta vikan.',
   inputs: ['awards', 'teams'],
   fn: (awards, teams) => {
-    const KINDS = [['burst', 'Burst', 'bikar'], ['allir', 'Mætti öllum', 'bikar'], ['heppni', 'Heppnasti sigur', 'bikar'], ['upprisa', 'Upprisan', 'bikar'], ['ovaent', 'Davíð gegn Golíat', 'bikar'], ['ohoppni', 'Óheppnasta tap', 'sar'], ['hjarta', 'Hjartasár', 'sar'], ['studi', 'Lið í stuði', 'sar'], ['hvar', 'Hvar var liðið?', 'sar']];
+    const KINDS = [['burst', 'Burst', 'bikar'], ['allir', 'Mætti öllum', 'bikar'], ['heppni', 'Heppnasti sigur', 'bikar'], ['upprisa', 'Upprisan', 'bikar'], ['ovaent', 'Davíð gegn Golíat', 'bikar'], ['ohoppni', 'Óheppnasta tap', 'sar'], ['hjarta', 'Hjartasár', 'sar'], ['studi', 'Lið í stuði', 'sar'], ['hvar', 'Hvar var liðið?', 'sar'], ['versta', 'Versta vikan', 'sar']];
     return teams.map((t) => {
       const mine = awards.filter((a) => a.teamId === t.teamId);
       const counts = KINDS.map(([k, label, kind]) => ({ award: k, label, kind, n: mine.filter((a) => a.award === k).length, weeks: mine.filter((a) => a.award === k).map((a) => a.week).sort((a, b) => a - b).join(',') }));
