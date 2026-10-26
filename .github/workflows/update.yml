@@ -67,6 +67,9 @@ jobs:
         run: |
           mkdir _site
           cp index.html data.js _site/
+          # a new data.js address on every deploy, so no browser keeps showing old numbers
+          sed -i 's|src="data.js"|src="data.js?v=${{ github.run_id }}-${{ github.run_attempt }}"|' _site/index.html
+          grep -q 'data.js?v=' _site/index.html
           cp -r img _site/
           touch _site/.nojekyll
 
