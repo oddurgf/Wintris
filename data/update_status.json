@@ -1,10 +1,7 @@
 {
-"week": 1,
+"week": 2,
 "runs": [
-"2026-10-26T10:40:45Z",
-"2026-10-26T16:23:08Z",
-"2026-10-29T11:02:15Z",
-"2026-10-29T16:29:31Z"
+"2026-11-02T09:51:32Z"
 ],
 "log": [
 {
@@ -30,6 +27,12 @@
 "week": 1,
 "allEventsFinished": true,
 "changed": false
+},
+{
+"at": "2026-11-02T09:51:32Z",
+"week": 2,
+"allEventsFinished": true,
+"changed": true
 }
 ]
 }
