@@ -22,7 +22,7 @@ if _cookie:
 REG_WEEKS = 19
 # The Monday run counts last week as finished even if Fantrax's stored end time is
 # still a few hours away; Thursday's run then picks up any stat corrections.
-END_GRACE = timedelta(hours=14)
+END_GRACE = timedelta(hours=15)
 CAT = {"3010#1390#-1": "PTS", "3010#1400#-1": "REB", "3010#1250#-1": "AST", "3010#1410#-1": "ST",
        "3010#1260#-1": "BLK", "3010#1435#-1": "TPM", "3010#1460#-1": "TO", "3010#1520#-1": "FGP", "3010#1550#-1": "FTP"}
 
