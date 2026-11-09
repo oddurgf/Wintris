@@ -698,7 +698,7 @@ body #dash-root .wx-teamtake { font-size: .95rem; margin: 2px 0 0; }
         <div class="wx-card">
           <div class="wx-cardhead"><h3>Styrkleikar og veikleikar</h3><button type="button" class="wx-q" aria-expanded="false" aria-label="Skýring"><span>?</span></button></div>
           <p class="wx-note">Hlutfall unninna flokka gegn öllum, allar vikur.</p>
-          <div class="wx-help" hidden><div>Hver flokkur borinn saman við öll hin liðin hverja viku. Yfir 50 % er styrkleiki. Jafn flokkur telst hálfur.</div><div><b>Bera saman við</b> setur annað lið inn sem hvítt strik, t.d. næsta mótherja.</div></div>
+          <div class="wx-help" hidden><div>Hver flokkur borinn saman við öll hin liðin hverja viku. Yfir 50 % er styrkleiki. Jafn flokkur telst hálfur.</div><div><b>Bera saman við</b> ber liðið saman við annað lið, t.d. næsta mótherja: hver súla er munurinn á hlutföllunum í prósentustigum, græn ef þú ert betri og rauð ef hitt liðið er betra. Bæði hlutföllin standa til hægri.</div></div>
           <label class="wx-cmp"><span>Bera saman við</span><select class="wx-cmpsel" id="wx-cmpsel" aria-label="Bera saman við lið"></select></label>
           <div class="wx-chart" id="wx-teamcats" data-source="team_cats" style="min-height: 16rem;"></div>
         </div>
@@ -1012,7 +1012,7 @@ body #dash-root .wx-teamtake { font-size: .95rem; margin: 2px 0 0; }
           <li><b>Hvað vantaði?</b>: minnsta breyting sem hefði snúið hverju tapi eða jafntefli.</li>
           <li><b>Sæti í flokkum</b>: sæti liðsins (1–12) í hverjum flokki hverja viku, og meðalsætið yfir tímabilið.</li>
           <li><b>Punt-skynjarinn</b>: mælir hve langt undir meðaltali deildarinnar liðið er í hverjum flokki. <b>Punt</b> er 1,5 staðalfrávik eða meira undir (yfirleitt neðst), <b>Líklega punt</b> 1 staðalfrávik undir eða oft í neðstu 3 sætunum, <b>Veikt</b> hálft staðalfrávik undir. Byrjar í viku 3. <b>Hvað borgar puntið?</b> sýnir hve stóran hluta hinna flokkanna liðið vinnur; lið sem puntar einn flokk þarf 5 af hinum 8 til að vinna.</li>
-          <li><b>Bera saman við</b>: setur annað lið inn á myndina af styrkleikum og veikleikum.</li>
+          <li><b>Bera saman við</b>: ber styrkleika og veikleika liðsins saman við annað lið. Hver súla sýnir muninn í prósentustigum, græn þar sem liðið er betra og rauð þar sem hitt liðið er betra, og bæði hlutföllin standa til hægri.</li>
           <li><b>Næsti mótherji flokk fyrir flokk</b>: meðaltal beggja liða í hverjum flokki og hvort hefur forskot.</li>
           <li><b>Styrkur mótherja</b>: meðal AvA % þeirra liða sem liðið hefur mætt. Yfir 50 % er erfið dagskrá.</li>
           <li><b>Leikjadagskrárskipti</b>: árangur liðs ef það hefði spilað leikjadagskrá annars liðs.</li>
@@ -2638,6 +2638,8 @@ dash.calc('week_dates', {
   }
 
   function drawTeamCats(rows, id) {
+    // Alone: bars of the win rate against everyone. With "Bera saman við": one bar per category for the gap
+    // (this team's % minus the other team's), green when this team is ahead, both % on the right.
     const box = root.querySelector('#wx-teamcats');
     const cmp = cmpId && cmpId !== id ? dash.data('team_cats').data.filter((r) => r.teamId === cmpId) : [];
     const cmpName = cmp.length ? (dash.data('teams').data.find((t) => t.teamId === cmpId) || {}).name : '';
@@ -2645,27 +2647,54 @@ dash.calc('week_dates', {
     box.querySelectorAll('svg').forEach((n) => n.remove());
     const order = ['PTS', 'REB', 'AST', 'ST', 'BLK', 'TPM', 'TO', 'FGP', 'FTP'];
     rows = order.map((c) => rows.find((r) => r.cat === c)).filter(Boolean);
-    const rowH = 28, top = 6, left = 52, right = 52, H = top + rows.length * rowH + 24 + (cmp.length ? 20 : 0);
+    const cmpPct = (r) => (cmp.find((x) => x.cat === r.cat) || {}).pct;
+    const hasCmp = cmp.length > 0;
+    const diff = (r) => r.pct - cmpPct(r);
+    const n = rows.length ? rows[0].won + rows[0].lost + rows[0].tied : 0, nw = Math.round(n / 11);
+    const rowH = 30, top = 8 + (hasCmp ? 26 : 0), left = hasCmp ? 90 : 50, right = hasCmp ? 92 : 46;
+    const yb = top + rows.length * rowH, H = yb + 24 + 20;
     const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
-    const x = d3.scaleLinear([0, 1], [left, W - right]);
-    const y = d3.scaleBand(rows.map((r) => r.cat), [top, top + rows.length * rowH]).padding(0.28);
-    svg.append('g').selectAll('line').data([0, 0.25, 0.75, 1]).join('line').attr('x1', (d) => x(d)).attr('x2', (d) => x(d)).attr('y1', top).attr('y2', top + rows.length * rowH).attr('stroke', 'var(--cds-chart-grid)');
-    svg.append('g').attr('transform', `translate(0,${top + rows.length * rowH})`).call(d3.axisBottom(x).tickValues([0, 0.25, 0.5, 0.75, 1]).tickFormat(fPct)).attr('font-size', null).attr('font-family', null)
+    const y = d3.scaleBand(rows.map((r) => r.cat), [top, yb]).padding(0.3);
+    const cy = (r) => y(r.cat) + y.bandwidth() / 2;
+    svg.append('g').selectAll('text').data(rows).join('text').attr('x', 40).attr('y', cy).attr('dy', '0.35em').attr('text-anchor', 'end').attr('font-size', 12).attr('fill', 'var(--color-fg)').text((r) => r.label);
+    if (n) svg.append('text').attr('x', 4).attr('y', H - 6).attr('font-size', 10.5).attr('fill', 'var(--color-fg-muted)').text(`Hver flokkur: ${n} samanburðir (${nw} ${nw === 1 ? 'vika' : 'vikur'} × 11 lið). Jafnt telst hálft.`);
+    const axis = (x, ticks, fmt) => svg.append('g').attr('transform', `translate(0,${yb})`).call(d3.axisBottom(x).tickValues(ticks).tickFormat(fmt)).attr('font-size', null).attr('font-family', null)
       .call((g) => { g.select('.domain').remove(); g.selectAll('line').remove(); g.selectAll('text').attr('fill', 'var(--color-fg-muted)').attr('font-size', 11); });
     const g = svg.append('g').selectAll('g').data(rows).join('g');
-    g.append('text').attr('x', left - 10).attr('y', (r) => y(r.cat) + y.bandwidth() / 2).attr('dy', '0.35em').attr('text-anchor', 'end').attr('font-size', 12).attr('fill', 'var(--color-fg)').text((r) => r.label);
-    g.append('rect').attr('x', x(0)).attr('width', (r) => Math.max(2, x(r.pct) - x(0))).attr('y', (r) => y(r.cat)).attr('height', y.bandwidth()).attr('rx', 4)
-      .attr('fill', (r) => (r.pct >= 0.5 ? dash.colors[0] : 'var(--cds-chart-muted)'));
-    const cmpPct = (r) => (cmp.find((x) => x.cat === r.cat) || {}).pct;
-    g.append('text').attr('x', (r) => Math.max(x(r.pct), cmpPct(r) == null ? 0 : x(cmpPct(r))) + 6).attr('y', (r) => y(r.cat) + y.bandwidth() / 2).attr('dy', '0.35em').attr('font-size', 11).attr('fill', 'var(--color-fg-muted)').text((r) => fPct(r.pct));
-    if (cmp.length) {
-      g.filter((r) => cmpPct(r) != null).append('line').attr('x1', (r) => x(cmpPct(r))).attr('x2', (r) => x(cmpPct(r))).attr('y1', (r) => y(r.cat) - 3).attr('y2', (r) => y(r.cat) + y.bandwidth() + 3)
-        .attr('stroke', 'var(--color-fg)').attr('stroke-width', 2.5).attr('stroke-linecap', 'round');
-      svg.append('text').attr('x', W - 4).attr('y', H - 4).attr('text-anchor', 'end').attr('font-size', 11).attr('fill', 'var(--color-fg)').text(`│ ${cmpName}`);
+
+    if (hasCmp) {
+      const OK = 'var(--color-ok)', BAD = 'var(--color-bad)';
+      const lg = svg.append('g').attr('transform', 'translate(4,12)');
+      const item = (x, color, label) => {
+        lg.append('rect').attr('x', x).attr('y', -5).attr('width', 12).attr('height', 10).attr('rx', 2).attr('fill', color);
+        return lg.append('text').attr('x', x + 16).attr('dy', '0.35em').attr('font-size', 11.5).attr('fill', 'var(--color-fg)').text(label).node().getComputedTextLength() + x + 30;
+      };
+      item(item(0, OK, 'Þú betri'), BAD, `${cmpName.split(' ')[0]} betri`);
+      const m = Math.max(0.5, d3.max(rows, (r) => Math.abs(diff(r))));
+      const x = d3.scaleLinear([-m, m], [left, W - right]);
+      svg.insert('g', ':first-child').selectAll('line').data([-0.5, 0.5]).join('line').attr('x1', x).attr('x2', x).attr('y1', top).attr('y2', yb).attr('stroke', 'var(--cds-chart-grid)');
+      axis(x, [-0.5, 0, 0.5], (d) => (d === 0 ? 'Jafnt' : (d > 0 ? '+' : '−') + Math.round(Math.abs(d) * 100)));
+      g.append('rect').attr('x', (r) => x(Math.min(0, diff(r)))).attr('width', (r) => Math.max(2, Math.abs(x(diff(r)) - x(0)))).attr('y', (r) => y(r.cat)).attr('height', y.bandwidth()).attr('rx', 4)
+        .attr('fill', (r) => (diff(r) >= 0 ? OK : BAD)).attr('opacity', 0.85);
+      g.append('text').attr('x', (r) => x(diff(r)) + (diff(r) >= 0 ? 6 : -6)).attr('text-anchor', (r) => (diff(r) >= 0 ? 'start' : 'end')).attr('y', cy).attr('dy', '0.35em').attr('font-size', 12).attr('font-weight', 600).attr('fill', 'var(--color-fg)')
+        .text((r) => { const d = Math.round(diff(r) * 100); return d === 0 ? '0' : (d > 0 ? '+' : '−') + Math.abs(d); });
+      g.append('text').attr('x', W - 4).attr('text-anchor', 'end').attr('y', cy).attr('dy', '0.35em').attr('font-size', 11).attr('fill', 'var(--color-fg-muted)').text((r) => `${fPct(r.pct)} – ${fPct(cmpPct(r))}`);
+      svg.append('line').attr('x1', x(0)).attr('x2', x(0)).attr('y1', top - 2).attr('y2', yb).attr('stroke', 'var(--cds-chart-reference)');
+    } else {
+      const x = d3.scaleLinear([0, 1], [left, W - right]);
+      svg.insert('g', ':first-child').selectAll('line').data([0, 0.25, 0.75, 1]).join('line').attr('x1', x).attr('x2', x).attr('y1', top).attr('y2', yb).attr('stroke', 'var(--cds-chart-grid)');
+      axis(x, [0, 0.25, 0.5, 0.75, 1], fPct);
+      g.append('rect').attr('x', x(0)).attr('width', (r) => Math.max(2, x(r.pct) - x(0))).attr('y', (r) => y(r.cat)).attr('height', y.bandwidth()).attr('rx', 4)
+        .attr('fill', (r) => (r.pct >= 0.5 ? dash.colors[0] : 'var(--cds-chart-muted)'));
+      svg.append('line').attr('x1', x(0.5)).attr('x2', x(0.5)).attr('y1', top - 2).attr('y2', yb).attr('stroke', 'var(--cds-chart-reference)').attr('stroke-dasharray', '4 3');
+      // labels sit above the 50 % line, each on a small card-coloured patch so the dashes don't cut through the digits
+      const lab = svg.append('g').attr('pointer-events', 'none').selectAll('g').data(rows).join('g');
+      lab.append('rect').attr('fill', '#131f36').attr('rx', 3);
+      lab.append('text').attr('x', (r) => x(r.pct) + 6).attr('y', cy).attr('dy', '0.35em').attr('font-size', 11.5).attr('fill', 'var(--color-fg)').text((r) => fPct(r.pct))
+        .each(function () { const b = this.getBBox(); d3.select(this.previousSibling).attr('x', b.x - 2).attr('y', b.y).attr('width', b.width + 4).attr('height', b.height); });
     }
-    svg.append('line').attr('x1', x(0.5)).attr('x2', x(0.5)).attr('y1', top - 2).attr('y2', top + rows.length * rowH).attr('stroke', 'var(--cds-chart-reference)').attr('stroke-dasharray', '4 3');
     const t = tip(box);
-    g.on('mousemove', (ev, r) => { t.replaceChildren(); const a = document.createElement('span'); a.textContent = r.label; t.append(a, document.createElement('br'), `${r.won} unnir, ${r.lost} tapaðir, ${r.tied} jafnir`); if (cmpPct(r) != null) t.append(document.createElement('br'), `${cmpName}: ${fPct(cmpPct(r))}`); const [mx, my] = d3.pointer(ev, box); placeTip(box, t, mx, my); })
+    g.on('mousemove', (ev, r) => { t.replaceChildren(); const a = document.createElement('span'); a.textContent = r.label; t.append(a, document.createElement('br'), `${r.won} unnir, ${r.lost} tapaðir, ${r.tied} jafnir`); if (hasCmp) t.append(document.createElement('br'), `${cmpName}: ${fPct(cmpPct(r))}`); const [mx, my] = d3.pointer(ev, box); placeTip(box, t, mx, my); })
       .on('mouseleave', () => { t.hidden = true; });
   }
 
