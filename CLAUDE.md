@@ -52,7 +52,7 @@ Fantrax ──scripts/fetch_logos.py──▶ data/logos.json ──────
 | `data/sample_stats.json` | Made-up weeks 1–6, used only while `weekly_stats.json` has no real weeks (the site then shows a yellow "Sýnigögn" banner). |
 | `scripts/fetch_weeks.py` | Re-fetches **every** finished regular-season week from Fantrax's internal `fxpa/req` `getLiveScoringStats` (Period view) and checks each real matchup against Fantrax's own W-L-T. Exits non-zero on login failure or a mismatch. Needs a browser-like User-Agent (Fantrax 403s Python's default). |
 | `scripts/build_data.py` | Bundles `data/*.json` into `data.js`. |
-| `.github/workflows/update.yml` | Scheduled Monday and Thursday 10:00 UTC (and manual "Run workflow"): fetch → build → commit data → deploy Pages. On a push to `main` it skips the fetch and only redeploys. |
+| `.github/workflows/update.yml` | Scheduled Monday and Thursday 09:07 UTC with backups at 11:37 and 15:37 (GitHub cron runs hours late) (and manual "Run workflow"): fetch → build → commit data → deploy Pages. On a push to `main` it skips the fetch and only redeploys. |
 
 Scoring rules the calculations assume: TO is lower-wins; a tied category counts as half; a matchup
 can be a draw. A Fantrax week (scoring period) closes **Monday 18:59 US Eastern** (22:59 UTC in summer time,

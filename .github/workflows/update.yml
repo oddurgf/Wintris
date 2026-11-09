@@ -3,8 +3,14 @@ name: Update league data
 on:
   schedule:
     # Times are UTC, which is the same as Iceland time.
-    - cron: "0 10 * * 1"   # Monday 10:00, after the week's last games on Sunday night
-    - cron: "0 10 * * 4"   # Thursday 10:00, picks up Fantrax's stat corrections
+    # GitHub often starts scheduled runs hours late (and skips busy on-the-hour slots),
+    # so each day has an early run off the hour plus two backups. A run with nothing new is harmless.
+    - cron: "7 9 * * 1"     # Monday 09:07, after the week's last games on Sunday night (END_GRACE counts it finished from 09:00)
+    - cron: "37 11 * * 1"   # Monday backup
+    - cron: "37 15 * * 1"   # Monday second backup
+    - cron: "7 9 * * 4"     # Thursday 09:07, picks up Fantrax's stat corrections
+    - cron: "37 11 * * 4"   # Thursday backup
+    - cron: "37 15 * * 4"   # Thursday second backup
   workflow_dispatch:        # "Run workflow" button for a manual update
   push:
     branches: [main]        # republish when you change the site yourself
