@@ -56,7 +56,12 @@ body { margin: 0; overflow-x: clip; position: relative; background: var(--color-
 .site-hero-title { margin: 0; font-family: var(--font-display); font-weight: 700; line-height: 1; letter-spacing: .01em; font-size: clamp(2rem, 7vw, 3.6rem);
   background: linear-gradient(90deg, #ffffff 0%, var(--ice) 55%, var(--lilac) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .site-hero-sub { margin: 6px 0 0; color: #c4d2e2; font-size: clamp(.9rem, 2.2vw, 1.1rem); max-width: 62ch; text-wrap: balance; }
-@media (max-width: 640px) { .site-hero { padding: 0 0 10px; } .site-hero-sub { margin-top: 4px; } }
+@media (max-width: 640px) {
+  .site-top { padding: 10px 0; }
+  .site-hero { padding: 0 0 10px; } .site-hero-title { font-size: 1.9rem; } .site-hero-sub { margin-top: 4px; font-size: .85rem; }
+  body:not([data-page="vikan"]) .site-hero-title { font-size: 1.5rem; }
+  body:not([data-page="vikan"]) .site-hero-sub { display: none; }
+}
 .site-foot { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--color-border-line); display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; color: var(--color-fg-muted); font-size: .8rem; }
 
 /* --- restyle of the dashboard for the site --- */
@@ -134,18 +139,17 @@ body #dash-root .wx-stepsel { appearance: none; -webkit-appearance: none; font-f
 body #dash-root .wx-stepsel option { background: #111c2e; color: #e9eff7; }
 body #dash-root .wx-headline { margin: 0; font-size: clamp(1rem, 2.6vw, 1.2rem); color: #c4d2e2; line-height: 1.45; max-width: 62ch; }
 body #dash-root .wx-headline b { color: #fff; font-weight: 600; }
-body #dash-root .wx-results { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr)); gap: 10px; }
-body #dash-root .wx-rc { border: 1px solid var(--color-border-line); border-radius: 12px; background: rgba(255,255,255,.02); padding: 6px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-body #dash-root .wx-rc-row { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; gap: 4px; }
-body #dash-root .wx-rc-side { font: inherit; font-size: .86rem; line-height: 1.2; color: var(--color-fg-muted); background: transparent; border: 0; border-radius: 8px; min-height: 48px; padding: 4px 6px; display: flex; align-items: center; gap: 8px; text-align: left; cursor: pointer; min-width: 0; }
-body #dash-root .wx-rc-side.r { flex-direction: row-reverse; text-align: right; }
-body #dash-root .wx-rc-side.win { color: #fff; font-weight: 600; }
+body #dash-root .wx-results { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: 8px; }
+body #dash-root .wx-rc { border: 1px solid var(--color-border-line); border-radius: 12px; background: rgba(255,255,255,.02); padding: 6px 4px 8px; display: flex; flex-direction: column; min-width: 0; }
+body #dash-root .wx-rc-line { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; }
+body #dash-root .wx-rc-side { font: inherit; font-size: .9rem; line-height: 1.2; color: var(--color-fg-muted); background: transparent; border: 0; border-radius: 8px; min-height: 44px; padding: 0 8px; display: flex; align-items: center; gap: 10px; text-align: left; cursor: pointer; min-width: 0; }
+body #dash-root .wx-rc-line.win .wx-rc-side { color: #fff; font-weight: 600; }
 body #dash-root .wx-rc-side:hover { background: rgba(255,255,255,.05); }
-body #dash-root .wx-rc-name { min-width: 0; overflow-wrap: anywhere; }
-body #dash-root .wx-rc-score { display: flex; flex-direction: column; align-items: center; font-family: var(--font-display); font-size: 1.45rem; letter-spacing: .04em; color: #fff; padding: 0 4px; white-space: nowrap; line-height: 1.1; }
-body #dash-root .wx-rc-score small { font-family: var(--font-anthropic-sans); font-size: .66rem; letter-spacing: 0; color: var(--color-fg-muted); }
-body #dash-root .wx-rc-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; padding: 0 4px 4px; }
-body #dash-root .wx-rc-pills:empty { display: none; }
+body #dash-root .wx-rc-name { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+body #dash-root .wx-rc-n { font-family: var(--font-display); font-size: 1.5rem; line-height: 1; color: var(--color-fg-muted); padding: 0 12px; min-width: 1.2em; text-align: right; font-variant-numeric: tabular-nums; }
+body #dash-root .wx-rc-line.win .wx-rc-n { color: #fff; }
+body #dash-root .wx-rc-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 2px 8px 0; }
+body #dash-root .wx-rc-gp { font-size: .72rem; color: var(--color-fg-muted); }
 body #dash-root .wx-pill { font-size: .68rem; letter-spacing: .05em; text-transform: uppercase; border-radius: 999px; padding: 2px 9px; border: 1px solid currentColor; white-space: nowrap; }
 body #dash-root .wx-pill.sweep { color: var(--orange); }
 body #dash-root .wx-pill.unlucky { color: var(--color-bad); }
@@ -212,8 +216,6 @@ body #dash-root .wx-g2 > .wx-span { grid-column: 1 / -1; }
   body #dash-root .wx-fold > summary { padding: 0 1rem; }
   body #dash-root .wx-fold-body { padding: 0 1rem 1rem; }
   body #dash-root .wx-tiles4 .wx-tile { padding: 8px 7px; }
-  body #dash-root .wx-rc-side, body #dash-root .wx-rc-side.r { flex-direction: column; justify-content: flex-start; text-align: center; gap: 5px; padding: 8px 2px 6px; font-size: .8rem; }
-  body #dash-root .wx-rc-name { overflow-wrap: break-word; }
   body #dash-root .wx-mu { grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); }
   body #dash-root .wx-mu > .wx-tn, body #dash-root .wx-mu > .wx-tn.r { flex-direction: column; justify-content: center; text-align: center; gap: 4px; line-height: 1.2; overflow-wrap: break-word; }
   body #dash-root .wx-mu-bar { width: 24vw; }
@@ -319,7 +321,6 @@ body #dash-root .wx-ex-toc button:hover { color: var(--color-fg); border-color: 
 body #dash-root .wx-ex ul { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 6px; color: #c4d2e2; line-height: 1.5; }
 body #dash-root .wx-ex li b { color: #fff; font-weight: 600; }
 body #dash-root .wx-linkbtn.wx-inline { min-height: 0; font-size: inherit; display: inline; }
-body #dash-root .wx-rc-gp { text-align: center; font-size: .72rem; color: var(--color-fg-muted); padding: 0 4px 4px; }
 body #dash-root .wx-h2h-t tr.gp td { font-size: .8rem; }
 body #dash-root .wx-h2h-t td.c small.m { color: var(--color-fg-muted); }
 body #dash-root .wx-gpline { display: block; font-size: .68rem; color: var(--color-fg-muted); margin-top: 2px; white-space: nowrap; }
@@ -334,6 +335,14 @@ body #dash-root .wx-swap .wx-m.r, body #dash-root .wx-matrix .wx-m.r { position:
 body #dash-root .wx-wksub b { color: var(--color-fg); font-weight: 600; }
 @media (min-width: 640px) { body #dash-root .wx-xs-only-gp, body #dash-root .wx-xs-only-cab { display: none; } }
 body #dash-root .wx-xs-only-cab { margin: 4px 0 0 26px; }
+@media (max-width: 639px) {
+  body #dash-root #wx-flips { table-layout: fixed; width: 100%; font-size: .8rem; }
+  body #dash-root #wx-flips th, body #dash-root #wx-flips td { padding-inline: 4px; }
+  body #dash-root #wx-flips th:nth-child(1) { width: 22%; }
+  body #dash-root #wx-flips th:nth-child(4) { width: 16%; }
+  body #dash-root #wx-flips th:nth-child(4), body #dash-root #wx-flips td:nth-child(4) { text-align: right; }
+  body #dash-root #wx-flips .wx-logo, body #dash-root #wx-flips .wx-badge { display: none; }
+}
 @media (max-width: 379px) {
   body #dash-root .wx-t { font-size: .74rem; }
   body #dash-root .wx-t .wx-logo, body #dash-root .wx-t .wx-badge { display: none; }
@@ -1854,6 +1863,7 @@ dash.calc('week_dates', {
     active = name;
     tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.tab === name)));
     pages.forEach((p) => { p.hidden = p.dataset.page !== name; });
+    document.body.dataset.page = name;
     if (helpLink) { if (name === 'utskyringar') helpLink.setAttribute('aria-current', 'page'); else helpLink.removeAttribute('aria-current'); }
     if (link) { pendingPush = changed; if (changed) window.scrollTo(0, 0); }
     draw();
@@ -2061,20 +2071,19 @@ dash.calc('week_dates', {
     const rows = dash.data('results').data.filter((r) => r.week === w);
     if (!rows.length) { const p = document.createElement('p'); p.className = 'wx-empty'; p.textContent = 'Engin úrslit fyrir þessa viku.'; box.appendChild(p); return; }
     for (const r of rows) {
-      const card = document.createElement('div'); card.className = 'wx-rc';
-      const row = document.createElement('div'); row.className = 'wx-rc-row';
-      const side = (id, name, res, right) => {
-        const b = document.createElement('button'); b.type = 'button'; b.className = 'wx-rc-side' + (right ? ' r' : '') + (res === 1 ? ' win' : '');
+      const card = document.createElement('div'); card.className = 'wx-rc'; card.dataset.source = 'results'; card.dataset.where = 'key=' + r.key;
+      const line = (id, name, res, cats) => {
+        const l = document.createElement('div'); l.className = 'wx-rc-line' + (res === 1 ? ' win' : '');
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'wx-rc-side';
         b.dataset.team = id; b.dataset.week = w; b.setAttribute('aria-label', `${name}, vika ${w}`);
-        const n = document.createElement('span'); n.className = 'wx-rc-name'; n.textContent = name;
-        b.append(logoEl(id, name, 28), n); return b;
+        const n = document.createElement('span'); n.className = 'wx-rc-name'; n.textContent = name; n.title = name;
+        b.append(logoEl(id, name, 28), n);
+        const c = document.createElement('span'); c.className = 'wx-rc-n'; c.textContent = cats;
+        l.append(b, c); return l;
       };
-      const sc = document.createElement('div'); sc.className = 'wx-rc-score'; sc.dataset.source = 'results'; sc.dataset.where = 'key=' + r.key;
-      sc.append(`${r.awayCats}–${r.homeCats}`);
-      if (r.tiedCats) { const s = document.createElement('small'); s.textContent = `${r.tiedCats} ${r.tiedCats === 1 ? 'jafn' : 'jafnir'}`; sc.appendChild(s); }
-      row.append(side(r.awayId, r.away, r.awayRes, false), sc, side(r.homeId, r.home, r.homeRes, true));
-      const pills = document.createElement('div'); pills.className = 'wx-rc-pills';
-      const pill = (cls, text, title) => { const p = document.createElement('span'); p.className = 'wx-pill ' + cls; p.textContent = text; if (title) p.title = title; pills.appendChild(p); };
+      card.append(line(r.awayId, r.away, r.awayRes, r.awayCats), line(r.homeId, r.home, r.homeRes, r.homeCats));
+      const meta = document.createElement('div'); meta.className = 'wx-rc-meta';
+      const pill = (cls, text, title) => { const p = document.createElement('span'); p.className = 'wx-pill ' + cls; p.textContent = text; if (title) p.title = title; meta.appendChild(p); };
       if (!r.winnerId) pill('draw', 'Jafntefli');
       if (r.sweep) pill('sweep', 'Sóp');
       if (r.unluckyId) {
@@ -2082,13 +2091,11 @@ dash.calc('week_dates', {
         pill('unlucky', 'Óheppni', `${who[0]} tapaði en var ${who[1]} gegn öllum`);
       }
       if (r.decidedCat) pill('decided', `Réðst á ${r.decidedLabel} (${fMargin(r.decidedCat, r.decidedMargin)})`);
-      card.append(row, pills);
-      if (r.awayGp != null && r.homeGp != null) {
-        const g = document.createElement('div'); g.className = 'wx-rc-gp'; g.dataset.source = 'results'; g.dataset.where = 'key=' + r.key;
-        const l = gpLim(w);
-        g.textContent = `Leikir ${r.awayGp}–${r.homeGp}` + (l && l.max != null ? ` · hámark ${l.max}` : '');
-        card.appendChild(g);
-      }
+      const bits = [];
+      if (r.tiedCats) bits.push(`${r.tiedCats} ${r.tiedCats === 1 ? 'flokkur jafn' : 'flokkar jafnir'}`);
+      if (r.awayGp != null && r.homeGp != null) { const l = gpLim(w); bits.push(`Leikir ${r.awayGp}–${r.homeGp}` + (l && l.max != null ? ` · hámark ${l.max}` : '')); }
+      if (bits.length) { const g = document.createElement('span'); g.className = 'wx-rc-gp'; g.textContent = bits.join(' · '); meta.appendChild(g); }
+      if (meta.childNodes.length) card.appendChild(meta);
       box.appendChild(card);
     }
   }
