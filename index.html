@@ -280,10 +280,6 @@ body #dash-root .wx-t .wx-tn { line-height: 1.25; }
 @media (max-width: 639px) {
   body #dash-root .wx-xs-hide { display: none; }
   body #dash-root .wx-xs-only { display: block; font-size: .68rem; color: var(--color-fg-muted); }
-  body #dash-root .wx-recs { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
-  body #dash-root .wx-rec { padding: 10px; }
-  body #dash-root .wx-rec-v { font-size: 1.25rem; }
-  body #dash-root .wx-rec .wx-tn { font-size: .8rem; align-items: flex-start; }
   body #dash-root .wx-seg button { padding: 0 8px; font-size: .84rem; }
   body #dash-root .wx-league { font-size: .78rem; }
   body #dash-root .wx-league th, body #dash-root .wx-league td { padding: 6px 5px; }
@@ -339,6 +335,8 @@ body #dash-root .wx-cab span { font-size: .7rem; border: 1px solid var(--color-b
 body #dash-root .wx-cab span.sar { color: var(--color-bad); border-color: color-mix(in srgb, var(--color-bad) 40%, transparent); }
 body #dash-root #wx-trophies td:last-child, body #dash-root #wx-trophies th:last-child { text-align: left; }
 body #dash-root #wx-oppform td:last-child { white-space: normal; }
+body #dash-root #wx-oppform th { white-space: nowrap; }
+body #dash-root .wx-worst span { display: block; white-space: nowrap; }
 body #dash-root .wx-swap .wx-m.r, body #dash-root .wx-matrix .wx-m.r { position: sticky; left: 0; z-index: 1; background: #111c2e; }
 body #dash-root .wx-wksub b { color: var(--color-fg); font-weight: 600; }
 @media (min-width: 640px) { body #dash-root .wx-xs-only-gp, body #dash-root .wx-xs-only-cab { display: none; } }
@@ -518,11 +516,15 @@ body #dash-root .wx-teamtake { font-size: .95rem; margin: 2px 0 0; }
 #dash-root .wx-mu-mid { display: flex; flex-direction: column; align-items: center; gap: 2px; color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
 #dash-root .wx-mu.feat { background: color-mix(in srgb, var(--color-warn) 8%, transparent); border-radius: 8px; padding-inline: var(--cds-pad-sm); }
 #dash-root .wx-feat-tag { font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; color: var(--color-warn); }
-#dash-root .wx-recs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: var(--cds-gap-md); }
-#dash-root .wx-rec { border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md); display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-#dash-root .wx-rec-k { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
-#dash-root .wx-rec-v { font-family: var(--font-anthropic-serif); font-size: 1.5rem; }
-#dash-root .wx-rec-n { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+#dash-root .wx-recs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); column-gap: 32px; }
+#dash-root .wx-rec { border-bottom: 1px solid var(--color-border-line); padding: 8px 2px; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-width: 0; }
+#dash-root .wx-rec-l { min-width: 0; }
+#dash-root .wx-rec-who { display: flex; flex-wrap: wrap; align-items: center; gap: 0 6px; font-size: .76rem; color: var(--color-fg-muted); }
+#dash-root .wx-rec-who .wx-tn { font-size: .76rem; }
+#dash-root .wx-rec-who .wx-rec-n::before { content: '· '; }
+#dash-root .wx-rec-k { font-size: .88rem; color: var(--color-fg); }
+#dash-root .wx-rec-v { font-family: var(--font-anthropic-serif); font-size: 1.2rem; white-space: nowrap; }
+#dash-root .wx-rec-n { color: var(--color-fg-muted); }
 #dash-root .wx-swap { display: grid; gap: 2px; font-size: .72rem; min-width: 46rem; }
 #dash-root .wx-swap .wx-m { padding: 4px 1px; }
 #dash-root .wx-swap .wx-m.diag { outline: 2px solid var(--color-fg); outline-offset: -2px; font-weight: 600; }
@@ -2870,9 +2872,12 @@ dash.calc('week_dates', {
       const k = document.createElement('div'); k.className = 'wx-rec-k'; k.textContent = r.title;
       const v = document.createElement('div'); v.className = 'wx-rec-v'; v.dataset.source = 'records'; v.dataset.field = 'value'; v.dataset.where = 'key=' + r.key; v.textContent = r.value;
       const who = document.createElement('div');
-      if (r.key === 'ap|perfect') { who.className = 'wx-rec-list'; who.textContent = r.team; } else who.appendChild(withLogo(r.teamId, r.team, 20));
-      const n = document.createElement('div'); n.className = 'wx-rec-n'; n.textContent = [r.week != null ? 'Vika ' + r.week : '', r.note].filter(Boolean).join(' · ');
-      d.append(k, v, who, n); box.appendChild(d);
+      if (r.key === 'ap|perfect') { who.className = 'wx-rec-list'; who.textContent = r.team; } else who.appendChild(withLogo(r.teamId, r.team, 16));
+      who.classList.add('wx-rec-who');
+      const extra = [r.week != null ? 'Vika ' + r.week : '', r.note].filter(Boolean).join(' · ');
+      if (extra) { const n = document.createElement('span'); n.className = 'wx-rec-n'; n.textContent = extra; who.appendChild(n); }
+      const left = document.createElement('div'); left.className = 'wx-rec-l'; left.append(k, who);
+      d.append(left, v); box.appendChild(d);
     }
   }
 
@@ -2894,7 +2899,13 @@ dash.calc('week_dates', {
       const v = document.createElement('span'); const bar = document.createElement('span'); bar.className = 'wx-cellbar' + (i === 0 && r.oppForm > 0 ? ' on' : ''); bar.style.width = (Math.max(0, r.oppForm ?? 0) / mx) * 3 + 'rem';
       v.append(bar, fSignPct(r.oppForm)); td(v, r.oppForm > 0.03 ? 'wx-neg' : r.oppForm < -0.03 ? 'wx-pos' : '');
       td(`${r.hot} af ${r.games}`);
-      td(r.worst ? `V${r.worst.week}: ${narrowNow() ? (season.find((x) => x.teamId === r.worst.oppId)?.short ?? r.worst.opp) : r.worst.opp} ${fSignPct(r.worst.diff)}` : '–');
+      if (r.worst && narrowNow()) {
+        // two short lines on phones: "V3: URV" over "+65,9 pp"
+        const w2 = document.createElement('span'); w2.className = 'wx-worst';
+        const l1 = document.createElement('span'); l1.textContent = `V${r.worst.week}: ${season.find((x) => x.teamId === r.worst.oppId)?.short ?? r.worst.opp}`;
+        const l2 = document.createElement('span'); l2.textContent = fSignPct(r.worst.diff);
+        w2.append(l1, l2); td(w2);
+      } else td(r.worst ? `V${r.worst.week}: ${r.worst.opp} ${fSignPct(r.worst.diff)}` : '–');
       tb.appendChild(tr);
     });
   }
