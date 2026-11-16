@@ -193,6 +193,14 @@ body #dash-root .wx-h2h-t td.c { text-align: center; font-size: .78rem; letter-s
 body #dash-root .wx-h2h-t td.c small { display: block; font-size: .64rem; letter-spacing: 0; text-transform: none; color: var(--color-warn); }
 body #dash-root .wx-h2h-t td span { display: inline-block; padding: 2px 10px; border-radius: 999px; }
 body #dash-root .wx-h2h-t td.win span { color: #fff; font-weight: 600; background: color-mix(in srgb, var(--color-ok) 22%, transparent); }
+/* compact match box: team names beside logos, one-line category labels */
+body #dash-root .wx-h2h-team { flex-direction: row; gap: 8px; font-size: .84rem; }
+body #dash-root .wx-h2h-top > .wx-h2h-team:first-child { justify-content: flex-start; text-align: left; }
+body #dash-root .wx-h2h-top > .wx-h2h-team:last-child { flex-direction: row-reverse; justify-content: flex-start; text-align: right; }
+body #dash-root .wx-h2h-t td { padding: 3px 8px; }
+body #dash-root .wx-h2h-t td.c { font-size: .74rem; }
+body #dash-root .wx-h2h-t td.c small { display: inline; margin-left: 6px; font-size: .68rem; }
+body #dash-root .wx-h2h-t td span { padding: 1px 9px; }
 body #dash-root .wx-h2h-sum { margin: 4px 0 0; font-size: .86rem; color: var(--color-fg-muted); }
 body #dash-root .wx-h2h-sum b { color: #fff; font-weight: 600; }
 body #dash-root .wx-lghead { display: flex; flex-direction: column; gap: 8px; padding-top: 6px; }
@@ -335,7 +343,11 @@ body #dash-root .wx-swap .wx-m.r, body #dash-root .wx-matrix .wx-m.r { position:
 body #dash-root .wx-wksub b { color: var(--color-fg); font-weight: 600; }
 @media (min-width: 640px) { body #dash-root .wx-xs-only-gp, body #dash-root .wx-xs-only-cab { display: none; } }
 body #dash-root .wx-xs-only-cab { margin: 4px 0 0 26px; }
+body #dash-root #wx-gplim tr.wx-far { display: none; }
+body #dash-root #wx-gplim.wx-all tr.wx-far { display: table-row; }
 @media (max-width: 639px) {
+  body #dash-root .wx-heat { min-width: 0; font-size: .74rem; }
+  body #dash-root .wx-heat .wx-m { padding: 3px 1px; }
   body #dash-root #wx-flips { table-layout: fixed; width: 100%; font-size: .8rem; }
   body #dash-root #wx-flips th, body #dash-root #wx-flips td { padding-inline: 4px; }
   body #dash-root #wx-flips th:nth-child(1) { width: 22%; }
@@ -761,6 +773,7 @@ body #dash-root .wx-teamtake { font-size: .95rem; margin: 2px 0 0; }
           </table>
         </div>
         <p class="wx-empty" id="wx-gplim-empty" hidden>Leikjahámörkin koma frá Fantrax við næstu uppfærslu.</p>
+        <div class="wx-more"><button type="button" class="wx-linkbtn" id="wx-gplim-all" hidden>Sýna allar vikur</button></div>
       </div>
     </div>
   </section>
@@ -1851,7 +1864,7 @@ dash.calc('week_dates', {
   let active = 'vikan';
   const seg = { lid: 'flokkar', deildin: 'stada', sort: 'stada' };
   let weekList = [];
-  let flipsAll = false;
+  let flipsAll = false, gpAll = false;
   let redrawQueued = false;
   let allCols = false;
   let pendingPush = false;
@@ -2260,6 +2273,7 @@ dash.calc('week_dates', {
   }
 
   root.querySelector('#wx-flips-all').addEventListener('click', () => { flipsAll = !flipsAll; draw(); });
+  root.querySelector('#wx-gplim-all').addEventListener('click', () => { gpAll = !gpAll; draw(); });
 
   // ---------- Heartbreak ----------
   function drawHeart(hb) {
@@ -2419,7 +2433,7 @@ dash.calc('week_dates', {
       const el = document.createElement(button ? 'button' : 'div'); el.className = 'wx-h2h-team' + (win ? ' win' : '');
       if (button) { el.type = 'button'; el.dataset.team = tid; el.dataset.week = w; el.setAttribute('aria-label', `Opna ${name}`); }
       const n = document.createElement('span'); n.textContent = name;
-      el.append(logoEl(tid, name, 40), n); return el;
+      el.append(logoEl(tid, name, 28), n); return el;
     };
     const mid = document.createElement('div'); mid.className = 'wx-h2h-score';
     const num = document.createElement('div'); num.className = 'wx-h2h-num'; num.dataset.source = 'team_week'; num.dataset.where = 'key=' + me.key; num.textContent = score(me.cw, me.cl, me.ct);
@@ -2561,8 +2575,13 @@ dash.calc('week_dates', {
         tr.lastChild.appendChild(flag);
       }
       if (l.week > done) tr.style.opacity = '.75';
+      if (l.week < done - 1 || l.week > done + 4) tr.classList.add('wx-far');
       lb.appendChild(tr);
     }
+    const gpBtn = root.querySelector('#wx-gplim-all'), farN = lb.querySelectorAll('.wx-far').length;
+    gpBtn.hidden = farN === 0;
+    gpBtn.textContent = gpAll ? 'Sýna bara næstu vikur' : `Sýna allar vikur (${lims.length})`;
+    root.querySelector('#wx-gplim').classList.toggle('wx-all', gpAll);
 
     const fb = root.querySelector('#wx-teamflips tbody'); fb.replaceChildren();
     const mine = flips.filter((r) => r.teamId === id).sort((a, b) => b.week - a.week || a.label.localeCompare(b.label));
@@ -2711,7 +2730,9 @@ dash.calc('week_dates', {
     const weeks = [...new Set(rows.map((r) => r.week))].sort((a, b) => a - b);
     const box = root.querySelector('#wx-heat'); box.replaceChildren();
     const order = [['PTS', 'PTS'], ['REB', 'REB'], ['AST', 'AST'], ['ST', 'ST'], ['BLK', 'BLK'], ['TPM', '3PTM'], ['TO', 'TO'], ['FGP', 'FG%'], ['FTP', 'FT%']];
-    box.style.gridTemplateColumns = `4rem 3.4rem repeat(${weeks.length}, minmax(2.2rem, 1fr))`;
+    const narrow = window.matchMedia('(max-width: 639px)').matches;
+    box.style.gridTemplateColumns = narrow ? `3.3rem 2.7rem repeat(${weeks.length}, minmax(1.9rem, 1fr))` : `4rem 3.4rem repeat(${weeks.length}, minmax(2.2rem, 1fr))`;
+    requestAnimationFrame(() => { const sc = box.parentElement; if (sc) sc.scrollLeft = sc.scrollWidth; });
     const cell = (cls, txt, title) => { const d = document.createElement('div'); d.className = 'wx-m ' + cls; d.textContent = txt; if (title) d.title = title; box.appendChild(d); return d; };
     const ok = getComputedStyle(root).getPropertyValue('--color-ok').trim() || '#5fd39a';
     const bad = getComputedStyle(root).getPropertyValue('--color-bad').trim() || '#ff7f7f';
