@@ -525,9 +525,57 @@ body #dash-root .wx-teamtake { font-size: .95rem; margin: 2px 0 0; }
 #dash-root .wx-rec-k { font-size: .88rem; color: var(--color-fg); }
 #dash-root .wx-rec-v { font-family: var(--font-anthropic-serif); font-size: 1.2rem; white-space: nowrap; }
 #dash-root .wx-rec-n { color: var(--color-fg-muted); }
-#dash-root .wx-swap { display: grid; gap: 2px; font-size: .72rem; min-width: 46rem; }
-#dash-root .wx-swap .wx-m { padding: 4px 1px; }
+#dash-root .wx-swap { display: grid; gap: 2px; font-size: .74rem; }
+#dash-root .wx-swap.met { min-width: 46rem; font-size: .72rem; }
+#dash-root .wx-swap .wx-m { padding: 6px 0; font-variant-numeric: tabular-nums; }
 #dash-root .wx-swap .wx-m.diag { outline: 2px solid var(--color-fg); outline-offset: -2px; font-weight: 600; }
+#dash-root .wx-swap .wx-m.h { display: flex; justify-content: center; align-items: flex-end; }
+#dash-root .wx-swap .wx-m.h.r { justify-content: flex-start; font-size: .66rem; }
+#dash-root .wx-swap .wx-m.foc { box-shadow: inset 0 0 0 999px rgba(124,196,255,.07); }
+#dash-root .wx-swap .wx-m.h.foc, #dash-root .wx-swap .wx-m.r.foc { color: var(--ice); font-weight: 600; }
+body #dash-root .wx-swap .wx-m.r.foc { background: #15253b; }
+#dash-root .wx-swap .wx-m.z { color: var(--color-fg-muted); }
+#dash-root .wx-swap .sx-avg { font-weight: 600; }
+#dash-root .sx-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 4px 0 12px; }
+#dash-root .sx-bar .wx-cmp { flex: 1 1 15rem; max-width: 22rem; }
+body #dash-root .sx-bar .wx-seg { flex: 0 1 auto; min-width: 0; align-self: auto; }
+body #dash-root .sx-bar .wx-seg button { flex: 0 0 auto; }
+#dash-root .sx-legend { display: flex; gap: 6px 14px; flex-wrap: wrap; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin-top: 10px; }
+#dash-root .sx-legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 5px; }
+#dash-root .sx-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+#dash-root .sx-tile { background: #0d1726; border: 1px solid var(--color-border-line); border-radius: 12px; padding: 10px 12px; }
+#dash-root .sx-tile .k { font-size: .72rem; color: var(--color-fg-muted); line-height: 1.25; }
+#dash-root .sx-tile .v { font-family: var(--font-display); font-weight: 700; font-size: 1.45rem; color: #fff; margin-top: 4px; }
+#dash-root .sx-tile .v.ok { color: var(--color-ok); }
+#dash-root .sx-tile .v.bad { color: var(--color-bad); }
+#dash-root .sx-cols { display: grid; gap: 22px; }
+@media (min-width: 900px) { #dash-root .sx-cols { grid-template-columns: 1fr 1fr; } }
+#dash-root .sx-colh { font-size: .9rem; font-weight: 600; color: var(--color-fg); margin: 0 0 2px; }
+#dash-root .sx-colsub { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: 0 0 8px; }
+#dash-root .sx-row { display: grid; grid-template-columns: minmax(0, 1fr) 3.6rem 2.8rem 5.5rem; align-items: center; gap: 8px; padding: 7px 0; border-top: 1px solid var(--color-border-line); font-size: .85rem; }
+#dash-root .sx-row .wx-tn { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#dash-root .sx-rec { text-align: right; color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+#dash-root .sx-d { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+#dash-root .sx-d.ok { color: var(--color-ok); }
+#dash-root .sx-d.bad { color: var(--color-bad); }
+#dash-root .sx-d.z { color: var(--color-fg-muted); font-weight: 400; }
+#dash-root .sx-bars { position: relative; height: 10px; }
+#dash-root .sx-bars::before { content: ''; position: absolute; left: 50%; top: -3px; bottom: -3px; border-left: 1px dashed var(--cds-chart-axis); }
+#dash-root .sx-bars b { position: absolute; top: 0; bottom: 0; border-radius: 3px; }
+#dash-root .sx-more { margin-top: 12px; border-top: 1px solid var(--color-border-line); padding-top: 4px; }
+#dash-root #wx-swapgridbox { margin-top: 6px; }
+body #dash-root .sx-phone { display: none; }
+@media (max-width: 899px) { body #dash-root .sx-phone { display: flex; } }
+@media (max-width: 639px) {
+  body #dash-root .sx-bar .wx-seg.sm button { padding: 0 10px; font-size: .8rem; }
+  #dash-root .sx-row { grid-template-columns: minmax(0, 1fr) 3.4rem 2.6rem 3.6rem; font-size: .82rem; }
+  #dash-root .sx-tile { padding: 8px 9px; }
+  #dash-root .sx-tile .v { font-size: 1.25rem; }
+  #dash-root .wx-swap { font-size: .66rem; gap: 1px; }
+  #dash-root .wx-swap .wx-m { padding: 5px 0; border-radius: 3px; }
+  #dash-root .wx-swap .wx-m.r { font-size: .64rem; }
+  #dash-root .wx-swap .wx-m.r .wx-tn { gap: 3px; }
+}
 #dash-root [data-dash-source-state=empty] { color: transparent; }
 #dash-root [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 </style>
@@ -897,9 +945,23 @@ body #dash-root .wx-teamtake { font-size: .95rem; margin: 2px 0 0; }
       </div>
       <div class="wx-card">
         <div class="wx-cardhead"><h3>Leikjadagskrárskipti</h3><button type="button" class="wx-q" aria-expanded="false" aria-label="Skýring"><span>?</span></button></div>
-        <p class="wx-note">Árangur liðs með leikjadagskrá annars liðs.</p>
-        <div class="wx-help" hidden><div>Árangur liðsins í línunni ef það hefði spilað leikjadagskrá liðsins í dálknum. Rammaði reiturinn er raunverulegur árangur. Grænt er betra en raunin, rautt verra.</div></div>
-        <div class="wx-scroll"><div class="wx-swap" id="wx-swap" data-source="swap teams"></div></div>
+        <p class="wx-note">Hvernig hefði gengið með dagskrá annarra, og hvernig hefðu aðrir staðið sig með þína?</p>
+        <div class="wx-help" hidden><div>Hvert lið er látið spila leikjadagskrá annars liðs: sömu vikur, sömu tölur, en mótherjar hins liðsins. Þegar dagskráin mætir liðinu sjálfu kemur eigandi dagskrárinnar í staðinn. <b>Með meðaldagskrá</b> er meðalfjöldi sigra liðsins með dagskrám hinna 11 liðanna (jafntefli telur hálfan). <b>Dagskrárheppni</b> er raunverulegir sigrar mínus það meðaltal: plús þýðir að dagskráin hefur hjálpað. <b>Aðrir með þína dagskrá</b> sýnir hve mörgum fleiri eða færri leikjum hin liðin hefðu unnið með þinni dagskrá. Í töflunni er hægt að snúa ásunum og sjá met í stað munar.</div></div>
+        <div class="sx-bar">
+          <label class="wx-cmp"><span>Liðið þitt</span><select class="wx-cmpsel" id="wx-swapsel" aria-label="Veldu lið"></select></label>
+          <div class="wx-seg sm sx-phone" id="wx-swapdir" role="group" aria-label="Sjónarhorn"><button type="button" data-sv="mitt">Þitt lið, aðrar dagskrár</button><button type="button" data-sv="adrir">Aðrir, þín dagskrá</button></div>
+        </div>
+        <div id="wx-swap" data-source="swap teams"></div>
+        <div class="sx-more"><button type="button" class="wx-linkbtn" id="wx-swapall" aria-expanded="false"></button></div>
+        <div id="wx-swapgridbox" hidden>
+          <div class="sx-bar">
+            <div class="wx-seg sm" id="wx-swapaxis" role="group" aria-label="Línur"><button type="button" data-sv="lid">Liðin</button><button type="button" data-sv="dagskra">Dagskrárnar</button></div>
+            <div class="wx-seg sm" id="wx-swapmode" role="group" aria-label="Sýna"><button type="button" data-sv="munur">Munur</button><button type="button" data-sv="met">Met</button></div>
+          </div>
+          <p class="wx-note" id="wx-swapgridnote"></p>
+          <div class="wx-scroll"><div class="wx-swap" id="wx-swapgrid" data-source="swap teams"></div></div>
+          <div class="sx-legend" id="wx-swaplegend"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -1039,7 +1101,7 @@ body #dash-root .wx-teamtake { font-size: .95rem; margin: 2px 0 0; }
           <li><b>Bera saman við</b>: ber styrkleika og veikleika liðsins saman við annað lið. Hver súla sýnir muninn í prósentustigum, græn þar sem liðið er betra og rauð þar sem hitt liðið er betra, og bæði hlutföllin standa til hægri.</li>
           <li><b>Næsti mótherji flokk fyrir flokk</b>: meðaltal beggja liða í hverjum flokki og hvort hefur forskot.</li>
           <li><b>Styrkur mótherja</b>: meðal AvA % þeirra liða sem liðið hefur mætt. Yfir 50 % er erfið dagskrá.</li>
-          <li><b>Leikjadagskrárskipti</b>: árangur liðs ef það hefði spilað leikjadagskrá annars liðs.</li>
+          <li><b>Leikjadagskrárskipti</b>: árangur liðs ef það hefði spilað leikjadagskrá annars liðs. Veldu lið og sjáðu raunverulegt met, sigra með meðaldagskrá og <b>dagskrárheppni</b> (raunverulegir sigrar mínus meðaltalið), hvernig liðinu hefði gengið með dagskrá hvers hinna liðanna og hvernig hin liðin hefðu staðið sig með þess dagskrá. <b>Sýna alla töfluna</b> opnar alla deildina sem töflu með muninum frá raunverulegum árangri; þar má snúa ásunum (línur eru liðin eða dagskrárnar) og sýna met í stað munar.</li>
           <li><b>Metabókin</b>: bestu og verstu frammistöður tímabilsins.</li>
         </ul>
       </article>
@@ -2002,6 +2064,12 @@ dash.calc('week_dates', {
   const teamSel = root.querySelector('#wx-teamsel');
   teamSel.addEventListener('change', () => { saveTeam(teamSel.value); dash.setParams({ team: teamSel.value }); });
   // "Bera saman við" on Flokkar: another team drawn on the strengths chart (not remembered)
+  // Leikjadagskrárskipti: picked team (starts as the Liðið mitt team), phone view, full-grid fold
+  let swapId = '', swapDir = 'mitt', swapAll = false, swapAxis = 'lid', swapMode = 'munur';
+  root.querySelector('#wx-swapsel').addEventListener('change', (ev) => { swapId = ev.target.value; draw(); });
+  root.querySelector('#wx-swapall').addEventListener('click', () => { swapAll = !swapAll; draw(); });
+  for (const [id, set] of [['#wx-swapdir', (v) => { swapDir = v; }], ['#wx-swapaxis', (v) => { swapAxis = v; }], ['#wx-swapmode', (v) => { swapMode = v; }]])
+    root.querySelector(id).addEventListener('click', (ev) => { const b = ev.target.closest('button[data-sv]'); if (!b) return; set(b.dataset.sv); draw(); });
   let cmpId = '';
   const cmpSel = root.querySelector('#wx-cmpsel');
   cmpSel.addEventListener('change', () => { cmpId = cmpSel.value; draw(); });
@@ -2844,25 +2912,106 @@ dash.calc('week_dates', {
   }
 
   // ---------- Deildin ----------
-  function drawSwap(teams) {
+  function drawSwap(teams, season) {
     const box = root.querySelector('#wx-swap'); box.replaceChildren();
     const sw = dash.data('swap').data;
     const by = Object.fromEntries(sw.map((r) => [r.teamId + '|' + r.schedOf, r]));
-    const order = [...teams].sort((a, b) => (by[b.teamId + '|' + b.teamId]?.pct ?? 0) - (by[a.teamId + '|' + a.teamId]?.pct ?? 0));
-    box.style.gridTemplateColumns = `minmax(${narrowNow() ? 4.5 : 9}rem, 1.6fr) repeat(${order.length}, minmax(2.9rem, 1fr))`;
-    const cell = (cls, txt, title) => { const d = document.createElement('div'); d.className = 'wx-m ' + cls; d.textContent = txt; if (title) d.title = title; box.appendChild(d); return d; };
-    cell('h', '');
-    order.forEach((t) => cell('h', t.short, 'Dagskrá ' + t.name));
-    for (const a of order) {
-      cell('r', '', a.name).appendChild(withLogo(a.teamId, narrowNow() ? a.short : a.name, 18));
-      const own = by[a.teamId + '|' + a.teamId];
-      for (const sOf of order) {
-        const r = by[a.teamId + '|' + sOf.teamId]; if (!r) { cell('', ''); continue; }
-        const diag = a.teamId === sOf.teamId;
-        const cls = diag ? 'diag' : r.pct > own.pct + 1e-9 ? 'W' : r.pct < own.pct - 1e-9 ? 'L' : '';
-        cell(cls, r.record, `${a.name} með dagskrá ${sOf.name}: ${r.record}`);
-      }
+    const own = (id) => by[id + '|' + id];
+    if (!teams.every((t) => own(t.teamId))) return;
+    const wins = (a, s) => { const r = by[a + '|' + s]; return r.W + r.T / 2; };
+    const diff = (a, s) => wins(a, s) - wins(a, a);
+    const mean = (xs) => (xs.length ? xs.reduce((t, x) => t + x, 0) / xs.length : 0);
+    const half = (v) => { const x = Math.abs(v), i = Math.floor(x + 1e-9), h = x - i > 0.25; return (i === 0 && h ? '' : String(i)) + (h ? '½' : ''); };
+    const fD = (v) => (Math.abs(v) < 1e-9 ? '0' : (v > 0 ? '+' : '−') + half(v));
+    const fAvg = (v) => (v > 0.05 ? '+' : v < -0.05 ? '−' : '') + fDec1(Math.abs(v));
+    const tone = (v) => (v > 0.05 ? 'ok' : v < -0.05 ? 'bad' : '');
+    const order = [...teams].sort((x, y) => own(y.teamId).pct - own(x.teamId).pct);
+    if (!order.some((t) => t.teamId === swapId)) swapId = currentTeam(teams, season);
+    const focus = swapId, ft = teams.find((t) => t.teamId === focus);
+    const others = (id) => order.filter((t) => t.teamId !== id);
+    const narrow = narrowNow();
+    const el = (tag, cls, txt) => { const d = document.createElement(tag); if (cls) d.className = cls; if (txt != null) d.textContent = txt; return d; };
+
+    // team picker + phone toggle
+    const sel = root.querySelector('#wx-swapsel');
+    if (sel.options.length !== order.length) sel.replaceChildren(...[...teams].sort((x, y) => x.name.localeCompare(y.name, 'is')).map((t) => { const o = el('option', '', t.name); o.value = t.teamId; return o; }));
+    sel.value = focus;
+    const setSel = (id, v) => root.querySelectorAll(id + ' button[data-sv]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.sv === v)));
+    setSel('#wx-swapdir', swapDir); setSel('#wx-swapaxis', swapAxis); setSel('#wx-swapmode', swapMode);
+
+    // tiles
+    const o = own(focus), ownW = o.W + o.T / 2;
+    const avgW = mean(others(focus).map((s) => wins(focus, s.teamId)));
+    const luck = ownW - avgW;
+    const tiles = el('div', 'sx-tiles');
+    for (const [k, v, c] of [['Raunverulegt met', o.record, ''], ['Með meðaldagskrá', fDec1(avgW) + ' sigrar', ''], ['Dagskrárheppni', fAvg(luck), tone(luck)]]) {
+      const t = el('div', 'sx-tile'); t.append(el('div', 'k', k), el('div', 'v ' + c, v)); tiles.appendChild(t);
     }
+    box.appendChild(tiles);
+
+    // the two lists: side by side on wide screens, one at a time (toggle) below 900px
+    const cols = el('div', 'sx-cols'); box.appendChild(cols);
+    const wide = window.innerWidth >= 900;
+    const list = (key, title, sub, rows) => {
+      const wrap = el('div'); if (!wide && key !== swapDir) wrap.hidden = true;
+      wrap.append(el('h4', 'sx-colh', title), el('p', 'sx-colsub', sub));
+      rows.sort((x, y) => y.d - x.d || x.t.name.localeCompare(y.t.name, 'is')).forEach((r) => {
+        const row = el('div', 'sx-row'); row.title = r.tip;
+        const bars = el('div', 'sx-bars');
+        if (Math.abs(r.d) > 1e-9) {
+          const b = el('b'); b.style.width = Math.min(1, Math.abs(r.d) / 3) * 50 + '%';
+          b.style.background = r.d > 0 ? 'var(--color-ok)' : 'var(--color-bad)';
+          if (r.d > 0) b.style.left = '50%'; else b.style.right = '50%';
+          bars.appendChild(b);
+        }
+        row.append(withLogo(r.t.teamId, r.t.name, 18), el('div', 'sx-rec', r.rec), el('div', 'sx-d ' + (tone(r.d) || 'z'), fD(r.d)), bars);
+        wrap.appendChild(row);
+      });
+      cols.appendChild(wrap);
+    };
+    const colAvg = mean(others(focus).map((a) => diff(a.teamId, focus)));
+    list('mitt', `${ft.short} með dagskrá annarra`, `Raunin: ${o.record}. Grænt: hefði unnið fleiri leiki.`,
+      others(focus).map((s) => ({ t: s, rec: by[focus + '|' + s.teamId].record, d: diff(focus, s.teamId), tip: `${ft.name} með dagskrá ${s.name}` })));
+    list('adrir', `Aðrir með dagskrá ${ft.short}`, `Að meðaltali ${fAvg(colAvg)} sigrar. Grænt: þín dagskrá hefði hjálpað þeim.`,
+      others(focus).map((a) => ({ t: a, rec: by[a.teamId + '|' + focus].record, d: diff(a.teamId, focus), tip: `${a.name} með dagskrá ${ft.name}` })));
+
+    // full league grid (folded)
+    const allBtn = root.querySelector('#wx-swapall');
+    allBtn.textContent = swapAll ? 'Fela töfluna ▴' : `Sýna alla töfluna (${teams.length} × ${teams.length}) ▾`;
+    allBtn.setAttribute('aria-expanded', String(swapAll));
+    const gbox = root.querySelector('#wx-swapgridbox'); gbox.hidden = !swapAll;
+    if (!swapAll) return;
+    const g = root.querySelector('#wx-swapgrid'); g.replaceChildren();
+    const met = swapMode === 'met', byTeam = swapAxis === 'lid';
+    g.classList.toggle('met', met);
+    root.querySelector('#wx-swapgridnote').textContent = byTeam
+      ? (met ? 'Met liðsins í línunni með leikjadagskrá liðsins í dálknum.' : 'Hve mörgum fleiri (eða færri) leikjum liðið í línunni hefði unnið með dagskrá liðsins í dálknum.')
+      : (met ? 'Met liðsins í dálknum með leikjadagskrá liðsins í línunni.' : 'Hve mörgum fleiri (eða færri) leikjum liðið í dálknum hefði unnið með dagskrá liðsins í línunni.');
+    const pair = (R, C) => (byTeam ? [R, C] : [C, R]); // -> [team, schedule owner]
+    const rowAvg = (R) => mean(others(R).map((t) => diff(...pair(R, t.teamId))));
+    const rows = [...order].sort((x, y) => rowAvg(y.teamId) - rowAvg(x.teamId));
+    const small = narrow && !met;
+    g.style.gridTemplateColumns = `${narrow ? '3.3rem' : '13rem'} repeat(${rows.length}, minmax(${small ? '1.2rem' : met ? '2.9rem' : '2.4rem'}, 1fr)) ${narrow ? '1.9rem' : '4rem'}`;
+    const cell = (cls, txt, title) => { const d = el('div', 'wx-m ' + cls, txt); if (title) d.title = title; g.appendChild(d); return d; };
+    cell('h r', byTeam ? (narrow ? 'Lið ↓' : 'Lið ↓  Dagskrá →') : (narrow ? 'Dagskrá ↓' : 'Dagskrá ↓  Lið →'));
+    rows.forEach((t) => { const h = cell('h' + (t.teamId === focus ? ' foc' : ''), small ? '' : t.short, (byTeam ? 'Dagskrá ' : '') + t.name); if (small) h.appendChild(logoEl(t.teamId, t.name, 16)); });
+    cell('h sx-avg', 'Meðal');
+    for (const R of rows) {
+      const fr = R.teamId === focus;
+      cell('r' + (fr ? ' foc' : ''), '', R.name).appendChild(withLogo(R.teamId, narrow ? R.short : R.name, narrow ? 14 : 18));
+      for (const C of rows) {
+        const [a, s] = pair(R.teamId, C.teamId), d = diff(a, s), dg = a === s, r = by[a + '|' + s];
+        const tA = teams.find((t) => t.teamId === a), tS = teams.find((t) => t.teamId === s);
+        const txt = met ? r.record : dg ? (small ? '' : r.record) : small ? fD(d).replace('+', '') : fD(d);
+        const c = cell((dg ? 'diag' : '') + (fr || C.teamId === focus ? ' foc' : '') + (!dg && Math.abs(d) < 1e-9 ? ' z' : ''), txt, `${tA.name} með dagskrá ${tS.name}: ${r.record}` + (dg ? ' (raunin)' : ` (${fD(d)})`));
+        if (!dg && Math.abs(d) > 1e-9) { const k = Math.min(1, Math.abs(d) / 3); c.style.background = `rgba(${d > 0 ? '95,211,154' : '255,127,127'},${(0.12 + 0.5 * k).toFixed(2)})`; }
+      }
+      const m = rowAvg(R.teamId);
+      const c = cell('sx-avg' + (fr ? ' foc' : ''), fAvg(m)); c.style.color = m > 0.05 ? 'var(--color-ok)' : m < -0.05 ? 'var(--color-bad)' : 'var(--color-fg-muted)';
+    }
+    root.querySelector('#wx-swaplegend').innerHTML = byTeam
+      ? '<span><i style="background:rgba(95,211,154,.45)"></i>Hefði unnið fleiri</span><span><i style="background:rgba(255,127,127,.45)"></i>Hefði unnið færri</span><span><i style="outline:2px solid #e9eff7;outline-offset:-2px"></i>Raunin</span><span>Efst: liðin sem hefðu grætt mest á annarri dagskrá</span>'
+      : '<span><i style="background:rgba(95,211,154,.45)"></i>Léttari en eigin dagskrá</span><span><i style="background:rgba(255,127,127,.45)"></i>Erfiðari</span><span><i style="outline:2px solid #e9eff7;outline-offset:-2px"></i>Raunin</span><span>Efst: léttasta dagskráin</span>';
   }
 
   function drawRecords() {
@@ -2994,7 +3143,7 @@ dash.calc('week_dates', {
     // Deildin (always the latest week: it has no week selector)
     drawLeague();
     drawHeart(dash.data('heartbreak').data);
-    drawSwap(teams);
+    drawSwap(teams, season);
     drawRecords();
     drawYoyo();
     drawOppForm(season);
