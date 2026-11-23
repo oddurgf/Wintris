@@ -1,7 +1,8 @@
 {
 "week": 5,
 "runs": [
-"2026-11-23T09:23:03Z"
+"2026-11-23T09:23:03Z",
+"2026-11-23T21:14:09Z"
 ],
 "log": [
 {
@@ -129,6 +130,12 @@
 "week": 5,
 "allEventsFinished": true,
 "changed": true
+},
+{
+"at": "2026-11-23T21:14:09Z",
+"week": 5,
+"allEventsFinished": true,
+"changed": false
 }
 ]
 }
